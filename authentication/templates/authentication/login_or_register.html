@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container d-flex flex-column justify-content-center vh-100">
+    <h1 class="mb-4">Welcome to Grantha LMS!</h1>
+    <p class="mb-4">
+        You can register/login as either a Librarian or a Member of the Library.
+        Please choose among one of the options given below.
+    </p>
+    <div>
+        <a
+            href="{% url 'authentication:register-librarian' %}"
+            role="button"
+            class="btn btn-dark me-3"
+            >Register as Librarian</a
+        >
+        <a
+            href="{% url 'authentication:register-member' %}"
+            role="button"
+            class="btn btn-dark me-3"
+            >Register as Member</a
+        >
+        <span class="me-3">Or</span>
+        <a
+            href="{% url 'authentication:login' %}"
+            role="button"
+            class="btn btn-secondary me-3"
+            >Login</a
+        >
+    </div>
+</div>
+{% endblock %}
