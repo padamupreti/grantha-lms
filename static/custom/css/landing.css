@@ -1,0 +1,8 @@
+body {
+    background: url('/static/custom/images/bookshelf.jpg') no-repeat
+        center/cover;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.6);
+}
