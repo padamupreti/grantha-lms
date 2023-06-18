@@ -12,6 +12,7 @@
         />
     </head>
     <body>
+        {% if user.is_authenticated %} {% include 'header.html' %} {% endif %}
         {% block content %}{% endblock %}
     </body>
 </html>
