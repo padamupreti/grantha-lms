@@ -8,4 +8,15 @@
     {% csrf_token %} {{ form|crispy }}
     <button type="submit" class="btn btn-success w-25 mx-auto">Login</button>
 </form>
+<p class="text-center">
+    No account? You can
+    <a href="{% url 'authentication:register-librarian' %}" class="link-dark"
+        >Register as Librarian</a
+    >
+    or
+    <a href="{% url 'authentication:register-member' %}" class="link-dark"
+        >Register as Member</a
+    >
+    of the library.
+</p>
 {% endblock %}
