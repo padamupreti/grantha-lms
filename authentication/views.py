@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
+from .decorators import redirect_authenticated
 from .forms import LMSUserCreationForm
 
 
+@redirect_authenticated
 def login_or_register(request):
     return render(request, 'authentication/login_or_register.html', {})
 
@@ -21,19 +23,21 @@ def register_user(request, is_librarian):
             new_user.is_librarian = is_librarian
             new_user.save()
             login(request, new_user)
-            # TODO to modify to redirect to dashboard
-            return redirect('authentication:login-or-register')
+            return redirect('dashboard:home')
     return render(request, 'authentication/register.html', context)
 
 
+@redirect_authenticated
 def register_librarian(request):
     return register_user(request, True)
 
 
+@redirect_authenticated
 def register_member(request):
     return register_user(request, False)
 
 
+@redirect_authenticated
 def login_user(request):
     form = AuthenticationForm(data=request.POST or None)
     if request.method == 'POST':
@@ -43,8 +47,7 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # TODO to modify to redirect to dashboard
-                return redirect('authentication:login-or-register')
+                return redirect('dashboard:home')
     return render(request, 'authentication/login.html', {'form': form})
 
 
