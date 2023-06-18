@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'dashboard.apps.DashboardConfig',
     'qrmanager.apps.QrmanagerConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,3 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
 AUTH_USER_MODEL = "authentication.LMSUser"
+
+# Django crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
