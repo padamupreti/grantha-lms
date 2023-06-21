@@ -1,0 +1,117 @@
+<nav
+    class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
+    data-bs-theme="dark"
+>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'dashboard:home' %}"
+            >Grantha LMS</a
+        >
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{% url 'dashboard:list-authors' %}"
+                        >Authors</a
+                    >
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Authors
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:list-authors' %}"
+                                >List Authors</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:create-author' %}"
+                                >Add Author</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Publishers
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:list-publishers' %}"
+                                >List Publishers</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:create-publisher' %}"
+                                >Add Publisher</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:list-categories' %}"
+                                >List Categories</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'dashboard:create-category' %}"
+                                >Add Category</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <span class="navbar-text"
+                >Logged in as {{ user }} |
+                <a href="{% url 'authentication:logout' %}">Logout</a></span
+            >
+        </div>
+    </div>
+</nav>

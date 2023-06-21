@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from authentication.models import LMSUser
 
@@ -13,6 +14,9 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('dashboard:list-authors')
+
 
 class Publisher(models.Model):
     name = models.CharField(max_length=50)
@@ -23,6 +27,9 @@ class Publisher(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('dashboard:list-publishers')
+
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
@@ -30,6 +37,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('dashboard:list-categories')
 
 
 class Book(models.Model):

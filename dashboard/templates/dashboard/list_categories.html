@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="m-3">Categories</h2>
+<div class="table-responsive mx-3 text-nowrap">
+    {% if object_list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID #</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in object_list %}
+            <tr>
+                <th scope="row">{{ category.id }}</th>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:update-category' category.id %}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        >Update</a
+                    >
+                    |
+                    <a
+                        href="{% url 'dashboard:delete-category' category.id %}"
+                        class="link-underline link-underline-opacity-0 link-danger"
+                        >Delete</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Sorry, no categories found.</p>
+    {% endif %}
+</div>
+<a
+    class="btn btn-success mx-3"
+    href="{% url 'dashboard:create-category' %}"
+    role="button"
+    >Add Category</a
+>
+{% endblock %}
