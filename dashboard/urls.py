@@ -4,6 +4,7 @@ from .views.general import home
 from .views.author import AuthorCreateView, AuthorListView, AuthorUpdateView, AuthorDeleteView
 from .views.publisher import PublisherCreateView, PublisherListView, PublisherUpdateView, PublisherDeleteView
 from .views.category import CategoryCreateView, CategoryListView, CategoryUpdateView, CategoryDeleteView
+from .views.book import create_book, list_books, update_book, BookDeleteView
 
 app_name = 'dashboard'
 urlpatterns = [
@@ -30,4 +31,9 @@ urlpatterns = [
          CategoryUpdateView.as_view(), name='update-category'),
     path('categories/<int:pk>/delete/',
          CategoryDeleteView.as_view(), name='delete-category'),
+    # Books
+    path('books/new/', create_book, name='create-book'),
+    path('books/', list_books, name='list-books'),
+    path('books/<int:pk>/update/', update_book, name='update-book'),
+    path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='delete-book')
 ]

@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="m-3">Books</h2>
+<div class="table-responsive mx-3 text-nowrap">
+    {% if books_info %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID #</th>
+                <th scope="col">Title</th>
+                <th scope="col">ISBN No</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Categories</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_info in books_info %}
+            <tr>
+                <th scope="row">{{ book_info.book.id }}</th>
+                <td>{{ book_info.book.title }}</td>
+                <td>{{ book_info.book.isbn }}</td>
+                <td>
+                    {% if book_info.authors %}
+                        {% for author in book_info.authors %}
+                            {{ author }}<br />
+                        {% endfor %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ book_info.book.publisher }}</td>
+                <td>
+                    {% if book_info.categories %}
+                        {% for category in book_info.categories %}
+                            {{ category }}<br />
+                        {% endfor %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:update-book' book_info.book.id %}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        >Update</a
+                    >
+                    |
+                    <a
+                        href="{% url 'dashboard:delete-book' book_info.book.id %}"
+                        class="link-underline link-underline-opacity-0 link-danger"
+                        >Delete</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Sorry, no books found.</p>
+    {% endif %}
+</div>
+<a
+    class="btn btn-success mx-3"
+    href="{% url 'dashboard:create-book' %}"
+    role="button"
+    >Add Book</a
+>
+{% endblock %}
