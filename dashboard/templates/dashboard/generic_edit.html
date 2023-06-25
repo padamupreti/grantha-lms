@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
-<h2 class="m-3">Add {{ item_type }}</h2>
+<h2 class="m-3">Add or Update {{ item_type }}</h2>
 <form method="post" class="mx-3 mb-3">
     {% csrf_token %} {{ form|crispy }}
     <button type="submit" class="btn btn-success mx-auto">
