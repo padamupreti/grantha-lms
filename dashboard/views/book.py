@@ -3,13 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from ..models import Book, BookAuthor, BookCategory
-from ..forms import BookEditForm
+from ..forms import BookCreateForm, BookUpdateForm
 from ..mixins import DeleteMixin
 
 
 @login_required
 def create_book(request):
-    form = BookEditForm(request.POST or None)
+    form = BookCreateForm(request.POST or None)
     context = {
         'form': form,
         'item_type': 'Book'
@@ -45,13 +45,16 @@ def update_book(request, pk):
         'author').filter(book=book)
     book_category_rels = BookCategory.objects.select_related(
         'category').filter(book=book)
-    form = BookEditForm(request.POST or None, initial={
-        'title': book.title,
-        'isbn': book.isbn,
-        'authors': [ba.author for ba in book_author_rels],
-        'publisher': book.publisher,
-        'categories': [bc.category for bc in book_category_rels]
-    })
+    form = BookUpdateForm(
+        request.POST or None, book=book,
+        book_author_rels=book_author_rels, book_category_rels=book_category_rels,
+        initial={
+            'title': book.title,
+            'isbn': book.isbn,
+            'authors': [ba.author for ba in book_author_rels],
+            'publisher': book.publisher,
+            'categories': [bc.category for bc in book_category_rels]
+        })
     context = {
         'form': form,
         'item_type': 'Book'
@@ -59,7 +62,7 @@ def update_book(request, pk):
     if request.method == 'POST':
         if form.is_valid():
             if form.has_changed():
-                form.update(book, book_author_rels, book_category_rels)
+                form.update()
             return redirect('dashboard:list-books')
     return render(request, 'dashboard/generic_edit.html', context)
 
