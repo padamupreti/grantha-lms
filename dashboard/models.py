@@ -73,7 +73,7 @@ class BookCopy(models.Model):
     is_available = models.BooleanField()
 
     def __str__(self):
-        return f"{self.book.title}#{self.id}"
+        return f"{self.book.title} - Copy ID #{self.id}"
 
 
 class Issue(models.Model):
