@@ -20,10 +20,8 @@ class IssueCreateForm(forms.Form):
         if copy is None:
             raise ValidationError(
                 'Selected book has no available copies to issue.')
-        BookCopy.objects.filter(
-            id__in=[copy.id]).update(is_available=False)
-        # copy.is_available = False TODO to test
-        # copy.save()
+        copy.is_available = False
+        copy.save()
         return copy
 
     def clean_due_date(self):
