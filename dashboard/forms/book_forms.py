@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Author, Publisher, Category, Book, BookAuthor, BookCategory, BookCopy
+from ..models import Author, Publisher, Category, Book, BookAuthor, BookCategory, BookCopy
 
 
 class BookCreateForm(forms.Form):

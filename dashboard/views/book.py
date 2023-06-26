@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from ..models import Book, BookAuthor, BookCategory
-from ..forms import BookCreateForm, BookUpdateForm
+from ..forms.book_forms import BookCreateForm, BookUpdateForm
 from ..mixins import DeleteMixin
 
 
