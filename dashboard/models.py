@@ -82,7 +82,7 @@ class Issue(models.Model):
     member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
     issue_date = models.DateField()
     due_date = models.DateField()
-    returned_date = models.DateField(null=True, default=None)
+    returned_date = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
         return f'{self.book_copy.book.title} #{self.book_copy.id} to {self.member.username} ({self.issue_date})'
