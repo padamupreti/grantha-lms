@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
-from ..models import Book, BookAuthor, BookCategory
+from ..models import Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
 from ..mixins import DeleteMixin
 
@@ -50,6 +50,7 @@ def update_book(request, pk):
         book_author_rels=book_author_rels, book_category_rels=book_category_rels,
         initial={
             'title': book.title,
+            'quantity': BookCopy.objects.filter(book=book).count(),
             'isbn': book.isbn,
             'authors': [ba.author for ba in book_author_rels],
             'publisher': book.publisher,
