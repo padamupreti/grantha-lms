@@ -20,9 +20,17 @@ class IssueCreateForm(forms.Form):
         if copy is None:
             raise ValidationError(
                 'Selected book has no available copies to issue.')
-        copy.is_available = False
-        copy.save()
         return copy
+
+    def clean_member(self):
+        member = self.cleaned_data['member']
+        member_issues = Issue.objects.filter(
+            member=member, returned_date=None)
+        for issue in member_issues:
+            if issue.due_date < date.today():
+                raise ValidationError(
+                    'Selected member has overdue books required to be returned.')
+        return member
 
     def clean_due_date(self):
         due_date = self.cleaned_data['due_date']
@@ -32,5 +40,8 @@ class IssueCreateForm(forms.Form):
 
     def create(self):
         data = self.cleaned_data
-        Issue.objects.create(book_copy=data['book'], member=data['member'],
+        copy = data['book']
+        copy.is_available = False
+        copy.save()
+        Issue.objects.create(book_copy=copy, member=data['member'],
                              issue_date=date.today(), due_date=data['due_date'])
