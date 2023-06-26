@@ -21,7 +21,7 @@ def issue_book(request):
         if form.is_valid():
             form.create()
             return redirect('dashboard:list-issues')
-    return render(request, 'dashboard/generic_edit.html', context)
+    return render(request, 'dashboard/create_issue.html', context)
 
 
 @login_required
@@ -47,7 +47,7 @@ def return_issued_book(request, pk):
             message = 'Book is due for submission today'
         else:
             fine_amount = due_days * PER_DAY_FINE
-            message = f'Book is late for submission by {due_days} days. Late fine amount: Rupees {fine_amount}'
+            message = f'Book is late for submission by {due_days} day(s). Late fine amount: Rupees {fine_amount}'
     context = {
         'book': issue.book_copy.book,
         'member': issue.member,
