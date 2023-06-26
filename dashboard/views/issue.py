@@ -23,11 +23,9 @@ def issue_book(request):
 
 @login_required
 def list_issues(request):
-    copies_to_return = list(BookCopy.objects.filter(is_available=False))
-    copies_returned = list(BookCopy.objects.filter(is_available=True))
     context = {
-        'issues_to_return': Issue.objects.filter(book_copy__in=copies_to_return),
-        'issues_returned': Issue.objects.filter(book_copy__in=copies_returned)
+        'issues_to_return': Issue.objects.filter(returned_date=None),
+        'issues_returned': Issue.objects.exclude(returned_date=None)
     }
     return render(request, 'dashboard/list_issues.html', context)
 
