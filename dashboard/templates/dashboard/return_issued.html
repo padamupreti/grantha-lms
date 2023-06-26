@@ -1,11 +1,17 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Return book to Library</h2>
-<p class="m-3">
-    Are you sure you want to return copy of "{{ book }}" issued to "{{ member}}"
-    back to Library?
-</p>
-<form method="post" class="mx-3 mb-3">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-dark mx-auto">Yes, Return book</button>
-</form>
+<div class="m-3">
+    <h2 class="mb-3">Return book to Library</h2>
+    <p class="mb-3"><strong>Due status:</strong> {{ message }}</p>
+    <p class="m-b-3">
+        Are you sure you want to return copy of "{{ book }}" issued to
+        "{{member}}" back to Library?
+    </p>
+    <form method="post" class="mb-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark mx-auto">
+            {% if due_days %} Clear late fine and Return book {% else %} Yes,
+            Return book {% endif %}
+        </button>
+    </form>
+</div>
 {% endblock %}
