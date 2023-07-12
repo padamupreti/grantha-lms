@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 
 from datetime import date
 
+from authentication.decorators import only_librarians
+
 from ..models import BookCopy, Issue, LateFine
 from ..forms.issue_forms import IssueCreateForm
 
@@ -11,6 +13,7 @@ PER_DAY_FINE = 1
 
 
 @login_required
+@only_librarians
 def issue_book(request):
     form = IssueCreateForm(request.POST or None)
     context = {
@@ -24,6 +27,7 @@ def issue_book(request):
 
 
 @login_required
+@only_librarians
 def list_issues(request):
     context = {
         'issues_to_return': Issue.objects.filter(returned_date=None),
@@ -33,6 +37,7 @@ def list_issues(request):
 
 
 @login_required
+@only_librarians
 def return_issued_book(request, pk):
     issue = get_object_or_404(Issue, id=pk)
     due_days = None

@@ -8,7 +8,9 @@
                 <th scope="col">ID #</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
+                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -17,6 +19,7 @@
                 <th scope="row">{{ category.id }}</th>
                 <td>{{ category.name }}</td>
                 <td>{{ category.description }}</td>
+                {% if request.user.is_librarian %}
                 <td>
                     <a
                         href="{% url 'dashboard:update-category' category.id %}"
@@ -30,6 +33,7 @@
                         >Delete</a
                     >
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -38,10 +42,11 @@
     <p>Sorry, no categories found.</p>
     {% endif %}
 </div>
+{% if request.user.is_librarian %}
 <a
     class="btn btn-success mx-3"
     href="{% url 'dashboard:create-category' %}"
     role="button"
     >Add Category</a
 >
-{% endblock %}
+{% endif %} {% endblock %}

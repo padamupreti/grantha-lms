@@ -11,7 +11,9 @@
                 <th scope="col">Authors</th>
                 <th scope="col">Publisher</th>
                 <th scope="col">Categories</th>
+                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -26,7 +28,7 @@
                             {{ author }}<br />
                         {% endfor %}
                     {% else %}
-                        N/A
+                        None
                     {% endif %}
                 </td>
                 <td>{{ book_info.book.publisher }}</td>
@@ -36,9 +38,10 @@
                             {{ category }}<br />
                         {% endfor %}
                     {% else %}
-                        N/A
+                        None
                     {% endif %}
                 </td>
+                {% if request.user.is_librarian %}
                 <td>
                     <a
                         href="{% url 'dashboard:update-book' book_info.book.id %}"
@@ -52,6 +55,7 @@
                         >Delete</a
                     >
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -60,10 +64,12 @@
     <p>Sorry, no books found.</p>
     {% endif %}
 </div>
+{% if request.user.is_librarian %}
 <a
     class="btn btn-success mx-3"
     href="{% url 'dashboard:create-book' %}"
     role="button"
     >Add Book</a
 >
+{% endif %}
 {% endblock %}
