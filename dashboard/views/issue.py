@@ -15,7 +15,6 @@ def issue_book(request):
     form = IssueCreateForm(request.POST or None)
     context = {
         'form': form,
-        'item_type': 'Issue'
     }
     if request.method == 'POST':
         if form.is_valid():

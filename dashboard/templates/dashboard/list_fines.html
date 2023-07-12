@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="m-3">Late Fines for Overdue Books</h2>
+<div class="table-responsive mx-3 text-nowrap">
+    {% if object_list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID #</th>
+                <th scope="col">Book</th>
+                <th scope="col">Book Copy ID</th>
+                <th scope="col">Member</th>
+                <th scope="col">Overdue Days</th>
+                <th scope="col">Fined Amount</th>
+                <th scope="col">Fined Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fine in object_list %}
+            <tr>
+                <th scope="row">{{ fine.id }}</th>
+                <td>{{ fine.book_copy.book }}</td>
+                <td>{{ fine.book_copy.id }}</td>
+                <td>{{ fine.member }}</td>
+                <td>{{ fine.late_days }}</td>
+                <td>Rupees {{ fine.amount }}</td>
+                <td>{{ fine.fined_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Sorry, no late fines found.</p>
+    {% endif %}
+</div>
+{% endblock %}
