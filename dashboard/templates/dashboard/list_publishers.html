@@ -27,15 +27,14 @@
                 <td>
                     <a
                         href="{% url 'dashboard:update-publisher' publisher.id %}"
-                        class="link-underline link-underline-opacity-0 link-primary"
-                        >Update</a
-                    >
-                    |
+                        class="link-underline link-underline-opacity-0 link-primary mx-1"
+                        ><i class="fa fa-pen-to-square fs-5"></i
+                    ></a>
                     <a
                         href="{% url 'dashboard:delete-publisher' publisher.id %}"
-                        class="link-underline link-underline-opacity-0 link-danger"
-                        >Delete</a
-                    >
+                        class="link-underline link-underline-opacity-0 link-danger mx-1"
+                        ><i class="fa fa-trash fs-5"></i
+                    ></a>
                 </td>
                 {% endif %}
             </tr>

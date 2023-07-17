@@ -23,28 +23,25 @@
                     {% if request.user.is_librarian %}
                     <a
                         href="{% url 'dashboard:book-detail' book.id %}"
-                        class="link-underline link-underline-opacity-0 link-primary"
-                        ><button type="button" class="btn btn-primary">
-                            <i class="fa fa-circle-info"></i></button
+                        class="link-underline link-underline-opacity-0 link-primary mx-1"
+                    >
+                        <i class="fa fa-circle-info fs-5"></i
                     ></a>
                     <a
                         href="{% url 'dashboard:update-book' book.id %}"
-                        class="link-underline link-underline-opacity-0 link-primary"
-                        ><button type="button" class="btn btn-success">
-                            <i class="fa fa-pen-to-square"></i></button
+                        class="link-underline link-underline-opacity-0 link-success mx-1"
+                        ><i class="fa fa-pen-to-square fs-5"></i
                     ></a>
                     <a
                         href="{% url 'dashboard:delete-book' book.id %}"
-                        class="link-underline link-underline-opacity-0 link-danger"
-                        ><button type="button" class="btn btn-danger">
-                            <i class="fa fa-trash"></i></button
+                        class="link-underline link-underline-opacity-0 link-danger mx-1"
+                        ><i class="fa fa-trash fs-5"></i
                     ></a>
                     {% else %}
                     <a
                         href="{% url 'dashboard:book-detail' book.id %}"
                         class="link-underline link-underline-opacity-0 link-primary"
-                        ><button type="button" class="btn btn-primary mx-2">
-                            <i class="fa fa-circle-info"></i></button
+                        ><i class="fa fa-circle-info fs-5"></i
                     ></a>
                     {% endif %}
                 </td>
