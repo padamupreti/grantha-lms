@@ -1,30 +1,40 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="m-3">Book Issues</h2>
 <div class="mx-3">
-    <h4>Issued books with Members</h4>
-    {% if issues_to_return %}
+    {% if issues %}
     <div class="table-responsive text-nowrap">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">ID #</th>
                     <th scope="col">Book Copy ID</th>
-                    <th scope="col">Title</th>
+                    <th scope="col">Book</th>
                     <th scope="col">Issued Member</th>
                     <th scope="col">Issue Date</th>
                     <th scope="col">Due Date</th>
+                    <th scope="col">Returned Date</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for issue in issues_to_return %}
+                {% for issue in issues %}
                 <tr>
                     <th scope="row">{{ issue.id }}</th>
+                    {% if issue.book_copy %}
                     <td>{{ issue.book_copy.id }}</td>
-                    <td>{{ issue.book_copy.book.title }}</td>
+                    <td>{{ issue.book_copy.book }}</td>
+                    {% else %}
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {% endif %}
                     <td>{{ issue.member }}</td>
                     <td>{{ issue.issue_date }}</td>
                     <td>{{ issue.due_date }}</td>
+                    {% if issue.returned_date %}
+                    <td>{{ issue.returned_date }}</td>
+                    <td>No actions possible</td>
+                    {% else %}
+                    <td>Not returned yet</td>
                     <td>
                         <a
                             href="{% url 'dashboard:return-issued' issue.id %}"
@@ -32,47 +42,14 @@
                             >Return to Library</a
                         >
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     {% else %}
-    <p>No issued books with members.</p>
-    {% endif %}
-    <p class="text-center my-2">...</p>
-    <h4>Issued books returned to Library</h4>
-    {% if issues_returned %}
-    <div class="table-responsive text-nowrap">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">ID #</th>
-                    <th scope="col">Book Copy ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Issued Member</th>
-                    <th scope="col">Issue Date</th>
-                    <th scope="col">Returned Date</th>
-                    <th scope="col">Due Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for issue in issues_returned %}
-                <tr>
-                    <th scope="row">{{ issue.id }}</th>
-                    <td>{{ issue.book_copy.id }}</td>
-                    <td>{{ issue.book_copy.book.title }}</td>
-                    <td>{{ issue.member }}</td>
-                    <td>{{ issue.issue_date }}</td>
-                    <td>{{ issue.returned_date }}</td>
-                    <td>{{ issue.due_date }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p>No returned books.</p>
+    <p>No issues made.</p>
     {% endif %}
     <a
         class="btn btn-success"

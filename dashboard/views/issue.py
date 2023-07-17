@@ -41,8 +41,7 @@ def issue_book(request):
 @only_librarians
 def list_issues(request):
     context = {
-        'issues_to_return': Issue.objects.filter(returned_date=None),
-        'issues_returned': Issue.objects.exclude(returned_date=None)
+        'issues': Issue.objects.all().order_by('returned_date')
     }
     return render(request, 'dashboard/list_issues.html', context)
 
