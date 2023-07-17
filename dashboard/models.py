@@ -83,7 +83,7 @@ class Request(models.Model):
     is_fulfilled = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'Request on {self.request_date}'
+        return f'Request#{self.id} on {self.request_date}'
 
 
 class Issue(models.Model):
@@ -97,7 +97,7 @@ class Issue(models.Model):
     returned_date = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
-        return f'Issue on {self.issue_date}'
+        return f'Issue#{self.id} on {self.issue_date}'
 
 
 class LateFine(models.Model):
@@ -109,4 +109,4 @@ class LateFine(models.Model):
     fined_date = models.DateField()
 
     def __str__(self):
-        return f'{self.member.username} on {self.fined_date}'
+        return f'LateFine#{self.id} for {self.member.username} on {self.fined_date}'
