@@ -38,8 +38,11 @@ def book_detail(request, pk):
         book=book).select_related('author')
     book_category_rels = BookCategory.objects.filter(
         book=book).select_related('category')
+    is_available = len(BookCopy.objects.filter(
+        book=book, is_available=True)) > 0
     context = {
         'book': book,
+        'is_available': is_available,
         'authors': [ba.author.name for ba in book_author_rels],
         'categories': [bc.category.name for bc in book_category_rels],
     }

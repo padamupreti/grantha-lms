@@ -5,7 +5,7 @@ from datetime import date
 
 from authentication.decorators import only_librarians
 
-from ..models import BookCopy, Issue, LateFine
+from ..models import BookCopy, Issue, LateFine, Request
 from ..forms.issue_forms import IssueCreateForm
 
 
@@ -15,15 +15,26 @@ PER_DAY_FINE = 1
 @login_required
 @only_librarians
 def issue_book(request):
-    form = IssueCreateForm(request.POST or None)
-    context = {
-        'form': form,
-    }
+    book_request = None
+    book_request_id = request.GET.get('rid', None)
+    if book_request_id:
+        book_request = Request.objects.get(id=book_request_id)
+    if request.method == 'GET':
+        form = IssueCreateForm(
+            initial={
+                'book': book_request.book,
+                'member': book_request.member
+            }
+        ) if book_request else IssueCreateForm()
     if request.method == 'POST':
+        form = IssueCreateForm(request.POST)
         if form.is_valid():
             form.create()
+            if book_request:
+                book_request.is_fulfilled = True
+                book_request.save()
             return redirect('dashboard:list-issues')
-    return render(request, 'dashboard/create_issue.html', context)
+    return render(request, 'dashboard/create_issue.html', {'form': form})
 
 
 @login_required

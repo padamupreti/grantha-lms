@@ -1,19 +1,33 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">{{ book.title }}</h2>
+<div class="d-flex align-items-center">
+    <h2 class="m-3">{{ book.title }}</h2>
+    {% if not request.user.is_librarian %} {% if is_available %}
+    <span class="badge rounded-pill text-bg-success">Available</span>
+    {% else %}
+    <span class="badge rounded-pill text-bg-danger">Not Available</span>
+    {% endif %} {% endif %}
+</div>
 <div class="mx-3">
     <p><span class="fw-bold">ISBN:</span> {{ book.isbn }}</p>
     <p><span class="fw-bold">Publisher:</span> {{ book.publisher }}</p>
     <p><span class="fw-bold">Authors:</span></p>
-    <ul class="list-group my-3">
+    <ul class="list-group m-3 row">
         {% for author in authors %}
-        <li class="list-group-item w-50">{{ author }}</li>
+        <li class="list-group-item col-md-4">{{ author }}</li>
         {% endfor %}
     </ul>
     <p><span class="fw-bold">Categories:</span></p>
-    <ul class="list-group my-3">
+    <ul class="list-group m-3 row">
         {% for category in categories %}
-        <li class="list-group-item w-50">{{ category }}</li>
+        <li class="list-group-item col-md-4">{{ category }}</li>
         {% endfor %}
     </ul>
+    {% if not request.user.is_librarian and is_available %}
+    <a
+        href="{% url 'dashboard:request-book' book.id %}"
+        class="btn btn-dark mt-2"
+        >Request book</a
+    >
+    {% endif %}
 </div>
 {% endblock %}

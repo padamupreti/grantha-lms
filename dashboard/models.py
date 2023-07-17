@@ -76,26 +76,28 @@ class BookCopy(models.Model):
         return f"{self.book.title} - Copy ID #{self.id}"
 
 
+class Request(models.Model):
+    book = models.ForeignKey(Book, null=True, on_delete=models.SET_NULL)
+    member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
+    request_date = models.DateField()
+    is_fulfilled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.book.title} request by {self.member.username} ({self.request_date})'
+
+
 class Issue(models.Model):
     book_copy = models.ForeignKey(
         BookCopy, null=True, on_delete=models.SET_NULL)
     member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
     issue_date = models.DateField()
+    request = models.OneToOneField(
+        Request, blank=True, null=True, on_delete=models.SET_NULL)
     due_date = models.DateField()
     returned_date = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
         return f'{self.book_copy.book.title} #{self.book_copy.id} to {self.member.username} ({self.issue_date})'
-
-
-class Request(models.Model):
-    book = models.ForeignKey(Book, null=True, on_delete=models.SET_NULL)
-    member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
-    request_date = models.DateField()
-    is_fulfilled = models.BooleanField()
-
-    def __str__(self):
-        return f'{self.book.title} request by {self.member.username} ({self.request_date})'
 
 
 class LateFine(models.Model):

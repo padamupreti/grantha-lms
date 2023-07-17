@@ -18,3 +18,12 @@ def only_librarians(func):
         return func(request, *args, **kwargs)
 
     return inner
+
+
+def only_members(func):
+    def inner(request, *args, **kwargs):
+        if request.user.is_librarian:
+            raise PermissionDenied
+        return func(request, *args, **kwargs)
+
+    return inner

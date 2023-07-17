@@ -7,6 +7,7 @@ from .views.category import CategoryCreateView, CategoryListView, CategoryUpdate
 from .views.book import create_book, list_books, book_detail, update_book, BookDeleteView
 from .views.issue import issue_book, list_issues, return_issued_book
 from .views.fine import FineListView
+from .views.book_request import request_book, BookRequestList
 
 app_name = 'dashboard'
 urlpatterns = [
@@ -45,4 +46,7 @@ urlpatterns = [
     path('issues/<int:pk>/return/', return_issued_book, name='return-issued'),
     # Fines
     path('fines/', FineListView.as_view(), name='list-fines'),
+    # Book Requests
+    path('books/requests/<int:pk>/', request_book, name='request-book'),
+    path('books/requests/', BookRequestList.as_view(), name='book-requests')
 ]

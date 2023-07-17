@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="m-3">Book Requests</h2>
+<div class="table-responsive mx-3 text-nowrap">
+    {% if object_list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID #</th>
+                <th scope="col">Book</th>
+                <th scope="col">Member</th>
+                <th scope="col">Requested On</th>
+                <th scope="col">Request Fulfilled</th>
+                <th class="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_request in object_list %}
+            <tr>
+                <th scope="row">{{ book_request.id }}</th>
+                <td>{{ book_request.book }}</td>
+                <td>{{ book_request.member }}</td>
+                <td>{{ book_request.request_date }}</td>
+                <td>
+                    {% if book_request.is_fulfilled %} Yes 
+                    {% else %} No {% endif %}
+                </td>
+                <td>
+                    {% if book_request.is_fulfilled %}
+                    No actions possible
+                    {% else %}
+                    <a
+                            href="{% url 'dashboard:create-issue' %}?rid={{ book_request.id }}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        >Fulfill request</a
+                    >
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Sorry, no book requests found.</p>
+    {% endif %}
+</div>
+{% endblock %}
