@@ -1,61 +1,53 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="m-3">Books</h2>
 <div class="table-responsive mx-3 text-nowrap">
-    {% if books_info %}
+    {% if books %}
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">ID #</th>
                 <th scope="col">Title</th>
-                <th scope="col">ISBN No</th>
-                <th scope="col">Authors</th>
+                <th scope="col">ISBN</th>
                 <th scope="col">Publisher</th>
-                <th scope="col">Categories</th>
-                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
-            {% for book_info in books_info %}
+            {% for book in books %}
             <tr>
-                <th scope="row">{{ book_info.book.id }}</th>
-                <td>{{ book_info.book.title }}</td>
-                <td>{{ book_info.book.isbn }}</td>
+                <th scope="row">{{ book.id }}</th>
+                <td>{{ book.title }}</td>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.publisher }}</td>
                 <td>
-                    {% if book_info.authors %}
-                        {% for author in book_info.authors %}
-                            {{ author }}<br />
-                        {% endfor %}
-                    {% else %}
-                        None
-                    {% endif %}
-                </td>
-                <td>{{ book_info.book.publisher }}</td>
-                <td>
-                    {% if book_info.categories %}
-                        {% for category in book_info.categories %}
-                            {{ category }}<br />
-                        {% endfor %}
-                    {% else %}
-                        None
-                    {% endif %}
-                </td>
-                {% if request.user.is_librarian %}
-                <td>
+                    {% if request.user.is_librarian %}
                     <a
-                        href="{% url 'dashboard:update-book' book_info.book.id %}"
+                        href="{% url 'dashboard:book-detail' book.id %}"
                         class="link-underline link-underline-opacity-0 link-primary"
-                        >Update</a
-                    >
-                    |
+                        ><button type="button" class="btn btn-primary">
+                            <i class="fa fa-circle-info"></i></button
+                    ></a>
                     <a
-                        href="{% url 'dashboard:delete-book' book_info.book.id %}"
+                        href="{% url 'dashboard:update-book' book.id %}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        ><button type="button" class="btn btn-success">
+                            <i class="fa fa-pen-to-square"></i></button
+                    ></a>
+                    <a
+                        href="{% url 'dashboard:delete-book' book.id %}"
                         class="link-underline link-underline-opacity-0 link-danger"
-                        >Delete</a
-                    >
+                        ><button type="button" class="btn btn-danger">
+                            <i class="fa fa-trash"></i></button
+                    ></a>
+                    {% else %}
+                    <a
+                        href="{% url 'dashboard:book-detail' book.id %}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        ><button type="button" class="btn btn-primary mx-2">
+                            <i class="fa fa-circle-info"></i></button
+                    ></a>
+                    {% endif %}
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -71,5 +63,4 @@
     role="button"
     >Add Book</a
 >
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}

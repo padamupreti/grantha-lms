@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="m-3">{{ book.title }}</h2>
+<div class="mx-3">
+    <p><span class="fw-bold">ISBN:</span> {{ book.isbn }}</p>
+    <p><span class="fw-bold">Publisher:</span> {{ book.publisher }}</p>
+    <p><span class="fw-bold">Authors:</span></p>
+    <ul class="list-group my-3">
+        {% for author in authors %}
+        <li class="list-group-item w-50">{{ author }}</li>
+        {% endfor %}
+    </ul>
+    <p><span class="fw-bold">Categories:</span></p>
+    <ul class="list-group my-3">
+        {% for category in categories %}
+        <li class="list-group-item w-50">{{ category }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

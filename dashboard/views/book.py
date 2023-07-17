@@ -28,18 +28,22 @@ def create_book(request):
 @login_required
 def list_books(request):
     books = Book.objects.all()
-    books_info = []
-    for book in books:
-        book_author_rels = BookAuthor.objects.select_related(
-            'author').filter(book=book)
-        book_category_rels = BookCategory.objects.select_related(
-            'category').filter(book=book)
-        books_info.append({
-            'book': book,
-            'authors': [ba.author.name for ba in book_author_rels],
-            'categories': [bc.category.name for bc in book_category_rels]
-        })
-    return render(request, 'dashboard/list_books.html', {'books_info': books_info})
+    return render(request, 'dashboard/list_books.html', {'books': books})
+
+
+@login_required
+def book_detail(request, pk):
+    book = get_object_or_404(Book, id=pk)
+    book_author_rels = BookAuthor.objects.filter(
+        book=book).select_related('author')
+    book_category_rels = BookCategory.objects.filter(
+        book=book).select_related('category')
+    context = {
+        'book': book,
+        'authors': [ba.author.name for ba in book_author_rels],
+        'categories': [bc.category.name for bc in book_category_rels],
+    }
+    return render(request, 'dashboard/book_detail.html', context)
 
 
 @login_required

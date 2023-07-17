@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'qrmanager.apps.QrmanagerConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'fontawesomefree',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
