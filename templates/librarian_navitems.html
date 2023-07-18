@@ -96,19 +96,9 @@
                 >Add Book</a
             >
         </li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-        Issues
-    </a>
-    <ul class="dropdown-menu">
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
         <li>
             <a class="dropdown-item" href="{% url 'dashboard:list-issues' %}"
                 >List Issues</a
@@ -119,13 +109,21 @@
                 >Make an Issue</a
             >
         </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li class="dropdown-item">
+            <a href="{% url 'dashboard:list-fines' %}" class="nav-link"
+                >Late Fines</a
+            >
+        </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li class="dropdown-item">
+            <a href="{% url 'dashboard:book-requests' %}" class="nav-link"
+                >Book Requests</a
+            >
+        </li>
     </ul>
-</li>
-<li class="nav-item">
-    <a href="{% url 'dashboard:list-fines' %}" class="nav-link">Late Fines</a>
-</li>
-<li class="nav-item">
-    <a href="{% url 'dashboard:book-requests' %}" class="nav-link"
-        >Book Requests</a
-    >
 </li>
