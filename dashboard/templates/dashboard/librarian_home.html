@@ -1,0 +1,147 @@
+<div class="container mb-3">
+    <div
+        class="row row-cols-1 row-cols-sm-3 row-cols-md-5 justify-content-center g-3"
+    >
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ books }}</h5>
+                    <div class="card-text fs-5">Books</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ issues }}</h5>
+                    <div class="card-text fs-5">Book Issues</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ book_requests }}</h5>
+                    <div class="card-text fs-5">Book Requests</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-authors' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-pen"></i> Authors
+                    </h5>
+                    <div class="card-text">
+                        Create new author or edit from list of existing authors
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-publishers' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-pen"></i> Publishers
+                    </h5>
+                    <div class="card-text">
+                        Create new publisher or edit from list of existing
+                        publishers
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-categories' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-pen"></i> Categories
+                    </h5>
+                    <div class="card-text">
+                        Create new category or edit from list of existing
+                        categories
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-books' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title"><i class="fa fa-pen"></i> Books</h5>
+                    <div class="card-text">
+                        Create new book or edit from list of existing books
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-issues' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-arrows-left-right"></i> Issues
+                    </h5>
+                    <div class="card-text">
+                        View past book issues and issue a book
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-fines' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Late Fines
+                    </h5>
+                    <div class="card-text">
+                        View late fines incurred for overdue issued books
+                        returned to library
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:book-requests' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Book Requests
+                    </h5>
+                    <div class="card-text">
+                        View and respond to requests made for books
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

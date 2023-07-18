@@ -1,0 +1,104 @@
+<div class="container mb-3">
+    <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-4 justify-content-center g-3"
+    >
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ authors }}</h5>
+                    <div class="card-text fs-5">Authors</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ publishers }}</h5>
+                    <div class="card-text fs-5">Publishers</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ categories }}</h5>
+                    <div class="card-text fs-5">Categories</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-dark h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fs-3 fw-bold">{{ books }}</h5>
+                    <div class="card-text fs-5">Books</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-authors' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Authors
+                    </h5>
+                    <div class="card-text">
+                        View authors information
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-publishers' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Publishers
+                    </h5>
+                    <div class="card-text">
+                        View publishers information
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-categories' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Categories
+                    </h5>
+                    <div class="card-text">
+                        View categories information
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-books' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title"><i class="fa fa-eye"></i> Books</h5>
+                    <div class="card-text">
+                        View books information and request a book
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
