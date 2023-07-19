@@ -6,8 +6,8 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">ID #</th>
-                    <th scope="col">Book Copy ID</th>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Copy #</th>
                     <th scope="col">Book</th>
                     <th scope="col">Issued Member</th>
                     <th scope="col">Issue Date</th>
@@ -19,7 +19,7 @@
             <tbody>
                 {% for issue in issues %}
                 <tr>
-                    <th scope="row">{{ issue.id }}</th>
+                    <th scope="row">{{ forloop.counter }}</th>
                     {% if issue.book_copy %}
                     <td>{{ issue.book_copy.id }}</td>
                     <td>{{ issue.book_copy.book }}</td>

@@ -5,7 +5,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">ID #</th>
+                <th scope="col">S.N.</th>
                 <th scope="col">Book</th>
                 <th scope="col">Book Copy ID</th>
                 <th scope="col">Member</th>
@@ -17,7 +17,7 @@
         <tbody>
             {% for fine in object_list %}
             <tr>
-                <th scope="row">{{ fine.id }}</th>
+                <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ fine.book_copy.book }}</td>
                 <td>{{ fine.book_copy.id }}</td>
                 <td>{{ fine.member }}</td>
