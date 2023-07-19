@@ -1,51 +1,62 @@
-{% extends 'base.html' %}
-
 {% load static %}
 
-{% block head %}
-<link rel="stylesheet" href="{% static 'custom/css/landing.css' %}" />
-{% endblock %}
-
-{% block content %}
-<div class="overlay text-white">
-    <div class="container d-flex flex-column justify-content-center vh-100">
-        <h1 class="mb-4 display-1 fw-bold">Welcome to Grantha LMS!</h1>
-        <p class="mb-4 fs-5">
-            You can register or login either as a Librarian or as a Member of the
-            Library.
-        </p>
-        <div class="d-flex flex-column align-items-md-baseline flex-md-row">
-            <a
-                href="{% url 'authentication:register-librarian' %}"
-                role="button"
-                class="btn btn-dark mb-3 my-md-0 me-md-3"
-                >Register as Librarian</a
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grantha LMS | Welcome</title>
+        <link
+            rel="stylesheet"
+            href="{% static 'bootstrap-5.3.0-dist/css/bootstrap.min.css' %}"
+        />
+        <link rel="stylesheet" href="{% static 'custom/css/landing.css' %}" />
+    </head>
+    <body>
+        <div class="overlay text-white">
+            <div
+                class="container d-flex flex-column justify-content-center vh-100"
             >
-            <a
-                href="{% url 'authentication:register-member' %}"
-                role="button"
-                class="btn btn-dark mb-3 my-md-0 me-md-3"
-                >Register as Member</a
-            >
-            <span class="text-center mb-3 my-md-0 me-md-3">Or</span>
-            <a
-                href="{% url 'authentication:login' %}"
-                role="button"
-                class="btn btn-secondary mb-3 my-md-0 me-md-3"
-                >Login</a
-            >
+                <h1 class="mb-4 display-1 fw-bold">Welcome to Grantha LMS!</h1>
+                <p class="mb-4 fs-5">
+                    You can register or login either as a Librarian or as a
+                    Member of the Library.
+                </p>
+                <div
+                    class="d-flex flex-column align-items-md-baseline flex-md-row"
+                >
+                    <a
+                        href="{% url 'authentication:register-librarian' %}"
+                        role="button"
+                        class="btn btn-dark mb-3 my-md-0 me-md-3"
+                        >Register as Librarian</a
+                    >
+                    <a
+                        href="{% url 'authentication:register-member' %}"
+                        role="button"
+                        class="btn btn-dark mb-3 my-md-0 me-md-3"
+                        >Register as Member</a
+                    >
+                    <span class="text-center mb-3 my-md-0 me-md-3">Or</span>
+                    <a
+                        href="{% url 'authentication:login' %}"
+                        role="button"
+                        class="btn btn-secondary mb-3 my-md-0 me-md-3"
+                        >Login</a
+                    >
+                </div>
+                <p class="my-4 fs-5">
+                    Alternatively, you can continue browsing anonymously.
+                </p>
+                <div class="d-flex flex-column flex-md-row">
+                    <a
+                        href="{% url 'dashboard:home' %}"
+                        role="button"
+                        class="btn btn-success my-md-0 me-md-3"
+                        >Continue browsing</a
+                    >
+                </div>
+            </div>
         </div>
-        <p class="my-4 fs-5">
-            Alternatively, you can continue browsing anonymously.
-        </p>
-        <div class="d-flex flex-column flex-md-row">
-            <a
-                href="{% url 'dashboard:home' %}"
-                role="button"
-                class="btn btn-success my-md-0 me-md-3"
-                >Continue browsing</a
-            >
-        </div>
-    </div>
-</div>
-{% endblock %}
+    </body>
+</html>
