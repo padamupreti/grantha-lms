@@ -12,6 +12,7 @@
                     <th scope="col">Issued Member</th>
                     <th scope="col">Issue Date</th>
                     <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Returned Date</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -31,10 +32,12 @@
                     <td>{{ issue.issue_date }}</td>
                     <td>{{ issue.due_date }}</td>
                     {% if issue.returned_date %}
+                    <td>Returned</td>
                     <td>{{ issue.returned_date }}</td>
-                    <td>No actions possible</td>
+                    <td>-</td>
                     {% else %}
-                    <td>Not returned yet</td>
+                    <td>Issued</td>
+                    <td>-</td>
                     <td>
                         <a
                             href="{% url 'dashboard:return-issued' issue.id %}"
