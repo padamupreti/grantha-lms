@@ -21,7 +21,7 @@ class Author(models.Model):
 class Publisher(models.Model):
     name = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=12, blank=True, null=True)
-    address = models.CharField(max_length=50, blank=True, null=True)
+    address = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
 
     def __str__(self):
