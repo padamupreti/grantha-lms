@@ -15,7 +15,7 @@ class CategoryCreateView(EditMixin, LibrarianView, CreateView):
         return super().get_context_data('Category', **kwargs)
 
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class CategoryListView(ListView):
     model = Category
     template_name = 'dashboard/list_categories.html'
 

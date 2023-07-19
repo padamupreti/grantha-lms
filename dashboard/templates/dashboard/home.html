@@ -1,10 +1,14 @@
-{% extends 'base.html' %} {% block content %}
-<div class="mx-3">
-    <h2 class="my-3">Welcome, {{ request.user }}!</h2>
-    {% if request.user.is_librarian %}
-        {% include 'dashboard/librarian_home.html' with books=books issues=issues book_requests=book_requests %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mx-auto container">
+    {% if user.is_authenticated %}
+    <h2 class="mt-3">Welcome, {{ user }}!</h2>
+    {% endif %}
+    {% if user.is_librarian %}
+        {% include 'dashboard/librarian_home.html' %}
     {% else %}
-        {% include 'dashboard/member_home.html' with books=books authors=authors publishers=publishers categories=categories %}
+        {% include 'dashboard/member_home.html' %}
     {% endif %}
 </div>
 {% endblock %}

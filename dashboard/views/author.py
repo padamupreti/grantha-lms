@@ -15,7 +15,7 @@ class AuthorCreateView(EditMixin, LibrarianView, CreateView):
         return super().get_context_data('Author', **kwargs)
 
 
-class AuthorListView(LoginRequiredMixin, ListView):
+class AuthorListView(ListView):
     model = Author
     template_name = 'dashboard/list_authors.html'
 

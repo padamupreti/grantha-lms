@@ -12,7 +12,7 @@ from .views.book_request import request_book, BookRequestList
 app_name = 'dashboard'
 urlpatterns = [
     # Dashboard home
-    path('', home, name='home'),
+    path('home/', home, name='home'),
     # Authors
     path('authors/new/', AuthorCreateView.as_view(), name='create-author'),
     path('authors/', AuthorListView.as_view(), name='list-authors'),

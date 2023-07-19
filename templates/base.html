@@ -21,7 +21,9 @@
         {% block head %}{% endblock %}
     </head>
     <body>
-        {% if user.is_authenticated %} {% include 'navbar.html' %} {% endif %}
+        {% if request.path != '/' and 'auth/' not in request.path %}
+            {% include 'navbar.html' %}
+        {% endif %}
         {% block content %}{% endblock %}
         <script src="{% static 'bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js' %}"></script>
     </body>

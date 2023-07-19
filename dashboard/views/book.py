@@ -25,13 +25,11 @@ def create_book(request):
     return render(request, 'dashboard/generic_edit.html', context)
 
 
-@login_required
 def list_books(request):
     books = Book.objects.all()
     return render(request, 'dashboard/list_books.html', {'books': books})
 
 
-@login_required
 def book_detail(request, pk):
     book = get_object_or_404(Book, id=pk)
     book_author_rels = BookAuthor.objects.filter(

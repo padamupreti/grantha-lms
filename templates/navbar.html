@@ -1,3 +1,4 @@
+{% if not request.path == '/' %}
 <nav
     class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
     data-bs-theme="dark"
@@ -25,12 +26,18 @@
                     {% include 'member_navitems.html' %}
                 {% endif %}
             </ul>
-            <span class="navbar-text text-white"
-                >Logged in as {{ user }} |
+            <span class="navbar-text text-white">
+                {% if user.is_authenticated %} Logged in as {{ user }} |
                 <a href="{% url 'authentication:logout' %}"
                     ><i class="fa fa-right-from-bracket"></i> Logout</a
-                ></span
-            >
+                >
+                {% else %}
+                <a href="{% url 'login-or-register' %}"
+                    ><i class="fa fa-right-to-bracket"></i> Login or Register</a
+                >
+                {% endif %}
+            </span>
         </div>
     </div>
 </nav>
+{% endif %}

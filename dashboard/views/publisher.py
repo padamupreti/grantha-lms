@@ -15,7 +15,7 @@ class PublisherCreateView(EditMixin, LibrarianView, CreateView):
         return super().get_context_data('Publisher', **kwargs)
 
 
-class PublisherListView(LoginRequiredMixin, ListView):
+class PublisherListView(ListView):
     model = Publisher
     template_name = 'dashboard/list_publishers.html'
 
