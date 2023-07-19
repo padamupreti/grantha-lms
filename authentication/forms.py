@@ -9,7 +9,7 @@ class LMSUserCreationForm(UserCreationForm):
         max_length=40, label='First Name')
     last_name = forms.CharField(
         max_length=40, label='Last Name')
-    email = forms.EmailField(required=False)
+    email = forms.EmailField(required=True)
 
     class Meta(UserCreationForm.Meta):
         model = LMSUser
