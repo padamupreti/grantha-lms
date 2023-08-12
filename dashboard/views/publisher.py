@@ -17,7 +17,11 @@ class PublisherCreateView(EditMixin, LibrarianView, CreateView):
 
 class PublisherListView(ListView):
     model = Publisher
-    template_name = 'dashboard/list_publishers.html'
+
+    def get_template_names(self):
+        if self.request.user.is_librarian:
+            return ['dashboard/list_publishers.html']
+        return ['dashboard/publisher_cards.html']
 
 
 class PublisherUpdateView(EditMixin, LibrarianView, UpdateView):

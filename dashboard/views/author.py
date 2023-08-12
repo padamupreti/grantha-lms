@@ -17,7 +17,11 @@ class AuthorCreateView(EditMixin, LibrarianView, CreateView):
 
 class AuthorListView(ListView):
     model = Author
-    template_name = 'dashboard/list_authors.html'
+
+    def get_template_names(self):
+        if self.request.user.is_librarian:
+            return ['dashboard/list_authors.html']
+        return ['dashboard/author_cards.html']
 
 
 class AuthorUpdateView(EditMixin, LibrarianView, UpdateView):

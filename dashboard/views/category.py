@@ -17,7 +17,11 @@ class CategoryCreateView(EditMixin, LibrarianView, CreateView):
 
 class CategoryListView(ListView):
     model = Category
-    template_name = 'dashboard/list_categories.html'
+
+    def get_template_names(self):
+        if self.request.user.is_librarian:
+            return ['dashboard/list_categories.html']
+        return ['dashboard/category_cards.html']
 
 
 class CategoryUpdateView(EditMixin, LibrarianView, UpdateView):
