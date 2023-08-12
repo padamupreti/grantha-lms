@@ -23,7 +23,7 @@
         {% if 'auth/' not in request.path %}
             {% include 'navbar.html' %}
         {% endif %}
-        <div class="container">
+        <div class="container mb-4">
             {% block content %}{% endblock %}
         </div>
         <script src="{% static 'bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js' %}"></script>
