@@ -7,6 +7,7 @@
             <tr>
                 <th scope="col">S.N.</th>
                 <th scope="col">Title</th>
+                <th scope="col">Author(s)</th>
                 <th scope="col">ISBN</th>
                 <th scope="col">Publisher</th>
                 <th scope="col">Actions</th>
@@ -17,7 +18,13 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ book.title }}</td>
-                <td>{{ book.isbn }}</td>
+                <td>
+                    {{ book.author }}
+                    {% if book.multi_authors %} et al. {% endif %}
+                </td>
+                <td>
+                    {% if book.isbn %} {{ book.isbn }} {% else %} 0 {% endif %}
+                </td>
                 <td>{{ book.publisher }}</td>
                 <td>
                     {% if request.user.is_librarian %}

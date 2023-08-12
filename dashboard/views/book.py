@@ -26,7 +26,14 @@ def create_book(request):
 
 
 def list_books(request):
-    books = Book.objects.all()
+    qs = Book.objects.all()
+    books = []
+    for book in qs:
+        book_author_rels = BookAuthor.objects.filter(
+            book=book).select_related('author')
+        book.author = book_author_rels.first().author
+        book.multi_authors = True if book_author_rels.count() > 1 else False
+        books.append(book)
     return render(request, 'dashboard/list_books.html', {'books': books})
 
 
