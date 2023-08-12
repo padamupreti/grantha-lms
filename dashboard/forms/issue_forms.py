@@ -11,7 +11,8 @@ class IssueCreateForm(forms.Form):
     book = forms.ModelChoiceField(queryset=Book.objects.all())
     member = forms.ModelChoiceField(
         queryset=LMSUser.objects.filter(is_superuser=False, is_librarian=False))
-    due_date = forms.DateField(initial=date.today() + timedelta(days=1))
+    issue_date = forms.DateField(initial=date.today(), disabled=True)
+    due_date = forms.DateField(initial=date.today() + timedelta(days=5))
 
     def clean_book(self):
         book = self.cleaned_data['book']
@@ -44,4 +45,4 @@ class IssueCreateForm(forms.Form):
         copy.is_available = False
         copy.save()
         Issue.objects.create(book_copy=copy, member=data['member'],
-                             issue_date=date.today(), due_date=data['due_date'])
+                             issue_date=data['issue_date'], due_date=data['due_date'])
