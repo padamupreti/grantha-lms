@@ -22,6 +22,8 @@ class IssueCreateForm(forms.Form):
         queryset=LMSUser.objects.filter(is_superuser=False, is_librarian=False))
     issue_date = forms.DateField(initial=date.today(), disabled=True)
     due_date = forms.DateField(initial=date.today() + timedelta(days=5))
+    late_fine_rate = forms.DecimalField(
+        initial=1.0, min_value=1.0, label='Late fine rate (Rupees per due day)')
 
     def clean_member(self):
         member = self.cleaned_data['member']
@@ -79,5 +81,6 @@ class IssueCreateForm(forms.Form):
         copy = data['book']
         copy.is_available = False
         copy.save()
-        Issue.objects.create(book_copy=copy, member=data['member'],
-                             issue_date=data['issue_date'], due_date=data['due_date'])
+        del data['book']
+        del data['author']
+        Issue.objects.create(book_copy=copy, **data)

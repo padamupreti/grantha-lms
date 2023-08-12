@@ -9,9 +9,6 @@ from ..models import BookCopy, Issue, LateFine, Request
 from ..forms.issue_forms import IssueCreateForm
 
 
-PER_DAY_FINE = 1
-
-
 @login_required
 @only_librarians
 def issue_book(request):
@@ -60,7 +57,7 @@ def return_issued_book(request, pk):
         if due_days == 0:
             message = 'Book is due for submission today'
         else:
-            fine_amount = due_days * PER_DAY_FINE
+            fine_amount = due_days * issue.late_fine_rate
             message = f'Book is late for submission by {due_days} day(s). Late fine amount: Rupees {fine_amount}'
     context = {
         'book': issue.book_copy.book,

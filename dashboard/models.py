@@ -94,6 +94,7 @@ class Issue(models.Model):
     request = models.OneToOneField(
         Request, blank=True, null=True, on_delete=models.SET_NULL)
     due_date = models.DateField()
+    late_fine_rate = models.DecimalField(max_digits=5, decimal_places=2)
     returned_date = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
