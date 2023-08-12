@@ -3,25 +3,25 @@ from django.core.exceptions import ValidationError
 
 from datetime import date, timedelta
 
-from ..models import Book, BookCopy, Issue
+from ..models import Book, Author, BookAuthor, BookCopy, Issue
 from authentication.models import LMSUser
 
 
+def get_unique_book_choices():
+    qs = Book.objects.values_list('title', flat=True)
+    unique_set = set(list(qs))
+    choice_tuples = [('', '---------')] + [tuple([i] * 2)
+                                           for i in list(unique_set)]
+    return choice_tuples
+
+
 class IssueCreateForm(forms.Form):
-    book = forms.ModelChoiceField(queryset=Book.objects.all())
+    book = forms.ChoiceField(choices=get_unique_book_choices())
+    author = forms.ModelChoiceField(queryset=Author.objects.all())
     member = forms.ModelChoiceField(
         queryset=LMSUser.objects.filter(is_superuser=False, is_librarian=False))
     issue_date = forms.DateField(initial=date.today(), disabled=True)
     due_date = forms.DateField(initial=date.today() + timedelta(days=5))
-
-    def clean_book(self):
-        book = self.cleaned_data['book']
-        copy = BookCopy.objects.filter(
-            book=book, is_available=True).first()
-        if copy is None:
-            raise ValidationError(
-                'Selected book has no available copies to issue.')
-        return copy
 
     def clean_member(self):
         member = self.cleaned_data['member']
@@ -38,6 +38,41 @@ class IssueCreateForm(forms.Form):
         if date.today() >= due_date:
             raise ValidationError('Due date must occur after today.')
         return due_date
+
+    def clean(self):
+        # Obtain cleaned data
+        cleaned_data = super().clean()
+
+        # Find book(s) from input book title
+        title = cleaned_data['book']
+        matching_books = Book.objects.filter(title__exact=title)
+        if len(matching_books) == 0:
+            raise ValidationError(
+                'Selected book was not found.')
+
+        # Make sure at least one book among matching books is written by input author
+        author = cleaned_data['author']
+        book_author_rel = None
+        for book in matching_books:
+            book_author_rel = BookAuthor.objects.filter(
+                book=book, author=author).first()
+            if book_author_rel:
+                break
+        if book_author_rel is None:
+            raise ValidationError(
+                f'No title {title} by {author} found in Library.')
+
+        # Make sure book to issue has available copies
+        book = book_author_rel.book
+        copy = BookCopy.objects.filter(
+            book=book, is_available=True).first()
+        if copy is None:
+            raise ValidationError(
+                'Selected book has no available copies to issue.')
+
+        # Update cleaned data with book copy (in place of title)
+        cleaned_data.update({'book': copy})
+        return cleaned_data
 
     def create(self):
         data = self.cleaned_data
