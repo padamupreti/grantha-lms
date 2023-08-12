@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from authentication.decorators import only_librarians
 
 from .general import LibrarianView
-from ..models import Book, BookAuthor, BookCategory, BookCopy
+from ..models import Author, Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
 from ..mixins import DeleteMixin
 
@@ -26,7 +26,28 @@ def create_book(request):
 
 
 def list_books(request):
+    # Get various search parameters as query parameters
+    query_params = request.GET
+    p_author = query_params.get('author')
+    p_publisher = query_params.get('publisher')
+    p_category = query_params.get('category')
+
+    # Filter results from queryset according to search parameters
     qs = Book.objects.all()
+    if p_publisher:
+        qs = qs.filter(publisher__name__icontains=p_publisher)
+    if p_author and len(qs) > 0:
+        book_author_rels = BookAuthor.objects.filter(
+            author__name__icontains=p_author)
+        titles = [ba.book.title for ba in book_author_rels]
+        qs = qs.filter(title__in=titles)
+    if p_category and len(qs) > 0:
+        book_category_rels = BookCategory.objects.filter(
+            category__name__icontains=p_category)
+        titles = [bc.book.title for bc in book_category_rels]
+        qs = qs.filter(title__in=titles)
+
+    # Add additional attributes to books in queryset
     books = []
     for book in qs:
         book_author_rels = BookAuthor.objects.filter(
@@ -34,6 +55,7 @@ def list_books(request):
         book.author = book_author_rels.first().author
         book.multi_authors = True if book_author_rels.count() > 1 else False
         books.append(book)
+
     return render(request, 'dashboard/list_books.html', {'books': books})
 
 
