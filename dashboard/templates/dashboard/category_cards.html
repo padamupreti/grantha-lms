@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Categories</h2>
 {% include 'dashboard/search_form.html' %}
-<div class="mx-3">
+<div class="mt-4">
     {% if object_list %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         {% for category in object_list %}

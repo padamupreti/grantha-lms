@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Books</h2>
-<form class="input-group mb-4">
+<form class="input-group mb-3">
     <select name="filter" class="form-select" style="max-width: 8rem;">
         <option selected value="title">Title</option>
         <option value="author">Author</option>
@@ -13,7 +13,7 @@
         <i class="fa fa-magnifying-glass"></i>
     </button>
 </form>
-<div class="table-responsive mx-3 text-nowrap">
+<div class="table-responsive text-nowrap">
     {% if books %}
     <table class="table table-striped">
         <thead>
@@ -75,7 +75,7 @@
 </div>
 {% if request.user.is_librarian %}
 <a
-    class="btn btn-success mx-3"
+    class="btn btn-success"
     href="{% url 'dashboard:create-book' %}"
     role="button"
     >Add Book</a

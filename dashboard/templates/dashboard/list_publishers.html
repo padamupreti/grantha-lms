@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Publishers</h2>
 {% include 'dashboard/search_form.html' %}
-<div class="table-responsive mx-3 text-nowrap">
+<div class="table-responsive text-nowrap">
     {% if object_list %}
     <table class="table table-striped">
         <thead>
@@ -43,7 +43,7 @@
     {% endif %}
 </div>
 <a
-    class="btn btn-success mx-3"
+    class="btn btn-success"
     href="{% url 'dashboard:create-publisher' %}"
     role="button"
     >Add Publisher</a
