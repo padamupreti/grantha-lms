@@ -24,8 +24,10 @@ def list_authors(request):
     if p_author_name:
         qs = qs.filter(name__icontains=p_author_name)
 
-    template_name = ('dashboard/list_authors.html' if request.user.is_librarian
-                     else 'dashboard/author_cards.html')
+    template_name = 'dashboard/author_cards.html'
+    if not request.user.is_anonymous and request.user.is_librarian:
+        template_name = 'dashboard/list_authors.html'
+
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by author name',

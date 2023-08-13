@@ -24,8 +24,10 @@ def list_categories(request):
     if p_category_name:
         qs = qs.filter(name__icontains=p_category_name)
 
-    template_name = ('dashboard/list_categories.html' if request.user.is_librarian
-                     else 'dashboard/category_cards.html')
+    template_name = 'dashboard/category_cards.html'
+    if not request.user.is_anonymous and request.user.is_librarian:
+        template_name = 'dashboard/list_categories.html'
+
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by category name',

@@ -24,8 +24,10 @@ def list_publishers(request):
     if p_publisher_name:
         qs = qs.filter(name__icontains=p_publisher_name)
 
-    template_name = ('dashboard/list_publishers.html' if request.user.is_librarian
-                     else 'dashboard/publisher_cards.html')
+    template_name = 'dashboard/publisher_cards.html'
+    if not request.user.is_anonymous and request.user.is_librarian:
+        template_name = 'dashboard/list_publishers.html'
+
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by publisher name',
