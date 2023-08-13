@@ -8,9 +8,7 @@
                 <th scope="col">S.N.</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -19,7 +17,6 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ category.name }}</td>
                 <td>{{ category.description }}</td>
-                {% if request.user.is_librarian %}
                 <td>
                     <a
                         href="{% url 'dashboard:update-category' category.id %}"
@@ -32,7 +29,6 @@
                         ><i class="fa fa-trash fs-5"></i
                     ></a>
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -41,11 +37,10 @@
     <p>Sorry, no categories found.</p>
     {% endif %}
 </div>
-{% if request.user.is_librarian %}
 <a
     class="btn btn-success mx-3"
     href="{% url 'dashboard:create-category' %}"
     role="button"
     >Add Category</a
 >
-{% endif %} {% endblock %}
+{% endblock %}

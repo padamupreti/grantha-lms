@@ -10,9 +10,7 @@
                 <th scope="col">Contact No</th>
                 <th scope="col">Address</th>
                 <th scope="col">Email</th>
-                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -23,7 +21,6 @@
                 <td>{{ publisher.contact_no }}</td>
                 <td>{{ publisher.address }}</td>
                 <td>{{ publisher.email }}</td>
-                {% if request.user.is_librarian %}
                 <td>
                     <a
                         href="{% url 'dashboard:update-publisher' publisher.id %}"
@@ -36,7 +33,6 @@
                         ><i class="fa fa-trash fs-5"></i
                     ></a>
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -45,11 +41,10 @@
     <p>Sorry, no publishers found.</p>
     {% endif %}
 </div>
-{% if request.user.is_librarian %}
 <a
     class="btn btn-success mx-3"
     href="{% url 'dashboard:create-publisher' %}"
     role="button"
     >Add Publisher</a
 >
-{% endif %} {% endblock %}
+{% endblock %}

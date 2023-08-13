@@ -11,9 +11,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Address</th>
                 <th scope="col">Date of birth</th>
-                {% if request.user.is_librarian %}
                 <th scope="col">Actions</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -25,7 +23,6 @@
                 <td>{{ author.email }}</td>
                 <td>{{ author.address }}</td>
                 <td>{{ author.date_of_birth }}</td>
-                {% if request.user.is_librarian %}
                 <td>
                     <a
                         href="{% url 'dashboard:update-author' author.id %}"
@@ -38,7 +35,6 @@
                         ><i class="fa fa-trash fs-5"></i
                     ></a>
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -47,11 +43,10 @@
     <p>Sorry, no authors found.</p>
     {% endif %}
 </div>
-{% if request.user.is_librarian %}
 <a
     class="btn btn-success mx-3"
     href="{% url 'dashboard:create-author' %}"
     role="button"
     >Add Author</a
 >
-{% endif %} {% endblock %}
+{% endblock %}
