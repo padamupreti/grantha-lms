@@ -1,5 +1,18 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Books</h2>
+<h2 class="my-3">Books</h2>
+<form class="input-group mb-4">
+    <select name="filter" class="form-select" style="max-width: 8rem;">
+        <option selected value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="publisher">Publisher</option>
+        <option value="category">Category</option>
+        <option value="isbn">ISBN</option>
+    </select>
+    <input type="text" name="query" class="form-control" />
+    <button type="submit" class="btn btn-dark">
+        <i class="fa fa-magnifying-glass"></i>
+    </button>
+</form>
 <div class="table-responsive mx-3 text-nowrap">
     {% if books %}
     <table class="table table-striped">

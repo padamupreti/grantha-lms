@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.shortcuts import render
 
 from .general import LibrarianView
 from ..mixins import EditMixin, DeleteMixin
@@ -15,13 +16,22 @@ class CategoryCreateView(EditMixin, LibrarianView, CreateView):
         return super().get_context_data('Category', **kwargs)
 
 
-class CategoryListView(ListView):
-    model = Category
+def list_categories(request):
+    query_params = request.GET
+    p_category_name = query_params.get('query')
 
-    def get_template_names(self):
-        if self.request.user.is_librarian:
-            return ['dashboard/list_categories.html']
-        return ['dashboard/category_cards.html']
+    qs = Category.objects.all()
+    if p_category_name:
+        qs = qs.filter(name__icontains=p_category_name)
+
+    template_name = ('dashboard/list_categories.html' if request.user.is_librarian
+                     else 'dashboard/category_cards.html')
+    context = {
+        'object_list': qs,
+        'search_placeholder': 'Search by category name',
+    }
+
+    return render(request, template_name, context)
 
 
 class CategoryUpdateView(EditMixin, LibrarianView, UpdateView):

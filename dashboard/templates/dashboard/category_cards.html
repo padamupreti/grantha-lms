@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Categories</h2>
+<h2 class="my-3">Categories</h2>
+{% include 'dashboard/search_form.html' %}
 <div class="mx-3">
     {% if object_list %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
@@ -7,7 +8,7 @@
         <div class="col">
             <div class="card text-center text-bg-dark h-100">
                 <a
-                    href="{% url 'dashboard:list-books' %}?category={{ category }}"
+                    href="{% url 'dashboard:list-books' %}?filter=category&query={{ category }}"
                     class="card-body link-underline link-underline-opacity-0"
                 >
                     <h1

@@ -28,24 +28,28 @@ def create_book(request):
 def list_books(request):
     # Get various search parameters as query parameters
     query_params = request.GET
-    p_author = query_params.get('author')
-    p_publisher = query_params.get('publisher')
-    p_category = query_params.get('category')
+    p_filter = query_params.get('filter')
+    p_query = query_params.get('query')
 
     # Filter results from queryset according to search parameters
     qs = Book.objects.all()
-    if p_publisher:
-        qs = qs.filter(publisher__name__icontains=p_publisher)
-    if p_author and len(qs) > 0:
-        book_author_rels = BookAuthor.objects.filter(
-            author__name__icontains=p_author)
-        titles = [ba.book.title for ba in book_author_rels]
-        qs = qs.filter(title__in=titles)
-    if p_category and len(qs) > 0:
-        book_category_rels = BookCategory.objects.filter(
-            category__name__icontains=p_category)
-        titles = [bc.book.title for bc in book_category_rels]
-        qs = qs.filter(title__in=titles)
+    if p_filter and p_query:
+        if p_filter == 'title':
+            qs = qs.filter(title__icontains=p_query)
+        if p_filter == 'publisher' and len(qs) > 0:
+            qs = qs.filter(publisher__name__icontains=p_query)
+        if p_filter == 'isbn' and len(qs) > 0:
+            qs = qs.filter(isbn__exact=p_query)
+        if p_filter == 'author' and len(qs) > 0:
+            book_author_rels = BookAuthor.objects.filter(
+                author__name__icontains=p_query)
+            titles = [ba.book.title for ba in book_author_rels]
+            qs = qs.filter(title__in=titles)
+        if p_filter == 'category' and len(qs) > 0:
+            book_category_rels = BookCategory.objects.filter(
+                category__name__icontains=p_query)
+            titles = [bc.book.title for bc in book_category_rels]
+            qs = qs.filter(title__in=titles)
 
     # Add additional attributes to books in queryset
     books = []

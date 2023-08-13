@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Publishers</h2>
+<h2 class="my-3">Publishers</h2>
+{% include 'dashboard/search_form.html' %}
 <div class="table-responsive mx-3 text-nowrap">
     {% if object_list %}
     <table class="table table-striped">
