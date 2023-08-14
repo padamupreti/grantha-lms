@@ -129,10 +129,10 @@
     {% endif %}
 
     <!-- Book Requests -->
+    {% if requests %}
     <div class="mt-4">
         <h3 class="mb-3">Pending book requests</h3>
         <div class="table-responsive text-nowrap">
-            {% if requests %}
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -151,17 +151,15 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {% else %}
-            <p>Sorry, no book requests found.</p>
-            {% endif %}
         </div>
     </div>
+    {% endif %}
 
     <!-- Late fines -->
+    {% if late_fines %}
     <div class="mt-4">
         <h3 class="mb-3">Late fines history</h3>
         <div class="table-responsive text-nowrap">
-            {% if late_fines %}
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -186,10 +184,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {% else %}
-            <p>Sorry, no late fines found.</p>
-            {% endif %}
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

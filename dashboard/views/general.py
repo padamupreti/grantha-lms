@@ -9,20 +9,24 @@ from ..models import Book, BookCopy, Issue, Request, LateFine
 
 def home(request):
     template_name = 'dashboard/member_home.html'
-    context = {}
+
+    books = Book.objects.all()
+    all_titles = books.count()
+    available_titles = 0
+    for book in books:
+        available_copies = BookCopy.objects.filter(
+            book=book, is_available=True).count()
+        if available_copies > 0:
+            available_titles += 1
+
+    context = {
+        'all_titles': all_titles,
+        'available_titles': available_titles
+    }
 
     if not request.user.is_anonymous and request.user.is_librarian:
         template_name = 'dashboard/librarian_home.html'
     elif not request.user.is_anonymous and not request.user.is_librarian:
-        books = Book.objects.all()
-        all_titles = books.count()
-        available_titles = 0
-        for book in books:
-            available_copies = BookCopy.objects.filter(
-                book=book, is_available=True).count()
-            if available_copies > 0:
-                available_titles += 1
-
         issues = Issue.objects.filter(
             member=request.user, returned_date=None).order_by('due_date')
         for issue in issues:
@@ -35,13 +39,11 @@ def home(request):
 
         late_fines = LateFine.objects.filter(member=request.user)
 
-        context = {
-            'all_titles': all_titles,
-            'available_titles': available_titles,
+        context.update({
             'issues': issues,
             'requests': requests,
             'late_fines': late_fines
-        }
+        })
 
     return render(request, template_name, context)
 
