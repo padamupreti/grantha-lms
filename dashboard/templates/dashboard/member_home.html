@@ -1,60 +1,195 @@
-<!-- Quick actions -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-2">
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-authors' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Authors</h5>
-                <div class="card-text">
-                    View authors
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
+{% extends 'base.html' %} {% block content %}
+<div class="mx-auto">
+    {% if user.is_authenticated %}
+    <h1 class="mt-3 display-6">Welcome, {{ user }}!</h1>
+    {% endif %}
+
+    <!-- Quick actions -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-2">
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-authors' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Authors
+                    </h5>
+                    <div class="card-text">
+                        View authors
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-publishers' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Publishers
+                    </h5>
+                    <div class="card-text">
+                        View publishers
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-categories' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-eye"></i> Categories
+                    </h5>
+                    <div class="card-text">
+                        View categories
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'dashboard:list-books' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title"><i class="fa fa-eye"></i> Books</h5>
+                    <div class="card-text">
+                        <span class="badge text-bg-secondary"
+                            >{{ all_titles }}</span
+                        >
+                        Titles |
+                        <span class="badge text-bg-success"
+                            >{{ available_titles }}</span
+                        >
+                        Currently Available
+                        <p class="mt-1 mb-0">
+                            View books and request a book
+                            <i class="fa fa-arrow-right"></i>
+                        </p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-publishers' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Publishers</h5>
-                <div class="card-text">
-                    View publishers
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
+
+    <!-- Taken books -->
+    {% if issues %}
+    <div class="mt-4">
+        <h3 class="mb-3">Books taken from Library</h3>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">S.N.</th>
+                        <th scope="col">Book</th>
+                        <th scope="col">Copy #</th>
+                        <th scope="col">Issue Date</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        {% if issue.book_copy %}
+                        <td>{{ issue.book_copy.book }}</td>
+                        <td>{{ issue.book_copy.id }}</td>
+                        {% else %}
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        {% endif %}
+                        <td>{{ issue.issue_date }}</td>
+                        <td>{{ issue.due_date }}</td>
+                        <td>
+                            {% if issue.is_due %}
+                            <span class="badge rounded-pill text-bg-danger"
+                                >Due for submission</span
+                            >
+                            {% else %}
+                            <span class="badge rounded-pill text-bg-success"
+                                >Not due</span
+                            >
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-categories' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Categories</h5>
-                <div class="card-text">
-                    View categories
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
+    {% endif %}
+
+    <!-- Book Requests -->
+    <div class="mt-4">
+        <h3 class="mb-3">Pending book requests</h3>
+        <div class="table-responsive text-nowrap">
+            {% if requests %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">S.N.</th>
+                        <th scope="col">Book</th>
+                        <th scope="col">Requested On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book_request in requests %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ book_request.book }}</td>
+                        <td>{{ book_request.request_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Sorry, no book requests found.</p>
+            {% endif %}
         </div>
     </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-books' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Books</h5>
-                <div class="card-text">
-                    View books and request a book
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
+
+    <!-- Late fines -->
+    <div class="mt-4">
+        <h3 class="mb-3">Late fines history</h3>
+        <div class="table-responsive text-nowrap">
+            {% if late_fines %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">S.N.</th>
+                        <th scope="col">Book</th>
+                        <th scope="col">Copy #</th>
+                        <th scope="col">Overdue Days</th>
+                        <th scope="col">Fined Amount</th>
+                        <th scope="col">Fined Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fine in late_fines %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ fine.book_copy.book }}</td>
+                        <td>{{ fine.book_copy.id }}</td>
+                        <td>{{ fine.late_days }}</td>
+                        <td>Rupees {{ fine.amount }}</td>
+                        <td>{{ fine.fined_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Sorry, no late fines found.</p>
+            {% endif %}
         </div>
     </div>
 </div>
-<!-- Issued books (book copies) -->
+{% endblock %}

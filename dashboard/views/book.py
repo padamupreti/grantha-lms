@@ -58,6 +58,8 @@ def list_books(request):
             book=book).select_related('author')
         book.author = book_author_rels.first().author
         book.multi_authors = True if book_author_rels.count() > 1 else False
+        book.is_available = len(BookCopy.objects.filter(
+            book=book, is_available=True)) > 0
         books.append(book)
 
     return render(request, 'dashboard/list_books.html', {'books': books})
