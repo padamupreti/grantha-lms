@@ -31,6 +31,7 @@ def list_publishers(request):
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by publisher name',
+        'query_text': p_publisher_name
     }
 
     return render(request, template_name, context)

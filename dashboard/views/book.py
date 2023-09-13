@@ -62,7 +62,13 @@ def list_books(request):
             book=book, is_available=True)) > 0
         books.append(book)
 
-    return render(request, 'dashboard/list_books.html', {'books': books})
+    context = {
+        'books': books,
+        'p_filter': p_filter,
+        'p_query': p_query,
+    }
+
+    return render(request, 'dashboard/list_books.html', context)
 
 
 def book_detail(request, pk):

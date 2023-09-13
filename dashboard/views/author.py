@@ -31,6 +31,7 @@ def list_authors(request):
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by author name',
+        'query_text': p_author_name
     }
 
     return render(request, template_name, context)

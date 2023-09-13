@@ -4,6 +4,7 @@
         name="query"
         placeholder="{{ search_placeholder }}"
         class="form-control"
+        value="{% if query_text %}{{ query_text }}{% endif %}"
     />
     <button type="submit" class="btn btn-dark">
         <i class="fa fa-magnifying-glass"></i> Search

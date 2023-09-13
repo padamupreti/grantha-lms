@@ -31,6 +31,7 @@ def list_categories(request):
     context = {
         'object_list': qs,
         'search_placeholder': 'Search by category name',
+        'query_text': p_category_name
     }
 
     return render(request, template_name, context)
