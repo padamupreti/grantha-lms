@@ -8,6 +8,7 @@ from .general import LibrarianView
 from ..models import Author, Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
 from ..mixins import DeleteMixin
+from ..utils import has_pending_requests
 
 
 @login_required
@@ -58,6 +59,7 @@ def list_books(request):
             book=book).select_related('author')
         book.author = book_author_rels.first().author
         book.multi_authors = True if book_author_rels.count() > 1 else False
+        book.is_requested = has_pending_requests(request.user, book)
         book.is_available = len(BookCopy.objects.filter(
             book=book, is_available=True)) > 0
         books.append(book)
@@ -77,10 +79,12 @@ def book_detail(request, pk):
         book=book).select_related('author')
     book_category_rels = BookCategory.objects.filter(
         book=book).select_related('category')
+    is_requested = has_pending_requests(request.user, book)
     is_available = len(BookCopy.objects.filter(
         book=book, is_available=True)) > 0
     context = {
         'book': book,
+        'is_requested': is_requested,
         'is_available': is_available,
         'authors': [ba.author.name for ba in book_author_rels],
         'categories': [bc.category.name for bc in book_category_rels],

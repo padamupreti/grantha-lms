@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="my-3">Books</h2>
+<h2 class="my-3">Books on Library</h2>
 <form class="input-group mb-3">
     <select name="filter" class="form-select" style="max-width: 8rem">
         <option {% if p_filter == '' or p_filter == 'title' %}selected{% endif %} value="title">Title</option>
@@ -41,7 +41,11 @@
                 </td>
                 <td>{{ book.publisher }}</td>
                 <td>
-                    {% if book.is_available %}
+                    {% if book.is_requested %}
+                    <span class="badge rounded-pill text-bg-warning"
+                        >Requested</span
+                    >
+                    {% elif book.is_available %}
                     <span class="badge rounded-pill text-bg-success"
                         >Available</span
                     >
