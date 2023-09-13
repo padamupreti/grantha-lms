@@ -26,6 +26,9 @@ def home(request):
 
     if not request.user.is_anonymous and request.user.is_librarian:
         template_name = 'dashboard/librarian_home.html'
+        pending_requests = Request.objects.filter(is_fulfilled=False).count()
+
+        context.update({'pending_requests': pending_requests})
     elif not request.user.is_anonymous and not request.user.is_librarian:
         issues = Issue.objects.filter(
             member=request.user, returned_date=None).order_by('due_date')
