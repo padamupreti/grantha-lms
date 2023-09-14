@@ -9,7 +9,7 @@
                 <th scope="col">Book</th>
                 <th scope="col">Member</th>
                 <th scope="col">Requested On</th>
-                <th scope="col">Request Fulfilled</th>
+                <th scope="col">Status</th>
                 <th class="col">Actions</th>
             </tr>
         </thead>
@@ -21,15 +21,20 @@
                 <td>{{ book_request.member }}</td>
                 <td>{{ book_request.request_date }}</td>
                 <td>
-                    {% if book_request.is_fulfilled %} Yes 
-                    {% else %} No {% endif %}
+                    {% if book_request.is_fulfilled %}
+                    <span class="badge rounded-pill text-bg-success"
+                        >Issued</span
+                    >
+                    {% else %}
+                    <span class="badge rounded-pill text-bg-warning"
+                        >Pending</span
+                    >
+                    {% endif %}
                 </td>
                 <td>
-                    {% if book_request.is_fulfilled %}
-                    No actions possible
-                    {% else %}
+                    {% if book_request.is_fulfilled %} --- {% else %}
                     <a
-                            href="{% url 'dashboard:create-issue' %}?rid={{ book_request.id }}"
+                        href="{% url 'dashboard:create-issue' %}?rid={{ book_request.id }}"
                         class="link-underline link-underline-opacity-0 link-primary"
                         >Fulfill request</a
                     >
@@ -40,7 +45,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>Sorry, no book requests found.</p>
+    <p>No book requests found.</p>
     {% endif %}
 </div>
 {% endblock %}

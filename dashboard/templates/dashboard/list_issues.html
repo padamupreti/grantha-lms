@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="my-3">Book Issues</h2>
+<h2 class="my-3">Issued Copies</h2>
 {% if issues %}
 <div class="table-responsive text-nowrap">
     <table class="table table-striped">
@@ -9,9 +9,9 @@
                 <th scope="col">Book</th>
                 <th scope="col">Copy #</th>
                 <th scope="col">Issued Member</th>
-                <th scope="col">Status</th>
                 <th scope="col">Issue Date</th>
                 <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
                 <th scope="col">Returned Date</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -28,19 +28,23 @@
                 <td>N/A</td>
                 {% endif %}
                 <td>{{ issue.member }}</td>
+                <td>{{ issue.issue_date }}</td>
+                <td>{{ issue.due_date }}</td>
                 <td>
                     {% if issue.returned_date %}
                     <span class="badge rounded-pill text-bg-success"
                         >Returned</span
                     >
+                    {% elif issue.is_due %}
+                    <span class="badge rounded-pill text-bg-danger"
+                        >Overdue</span
+                    >
                     {% else %}
-                    <span class="badge rounded-pill text-bg-warning"
+                    <span class="badge rounded-pill text-bg-primary"
                         >Issued</span
                     >
                     {% endif %}
                 </td>
-                <td>{{ issue.issue_date }}</td>
-                <td>{{ issue.due_date }}</td>
                 {% if issue.returned_date %}
                 <td>{{ issue.returned_date }}</td>
                 <td>---</td>

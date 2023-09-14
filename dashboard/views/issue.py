@@ -37,10 +37,14 @@ def issue_book(request):
 @login_required
 @only_librarians
 def list_issues(request):
-    context = {
-        'issues': Issue.objects.all().order_by('returned_date')
-    }
-    return render(request, 'dashboard/list_issues.html', context)
+    # TODO manage in module shared between member report and member home
+    issues = Issue.objects.order_by('returned_date')
+    for issue in issues:
+        issue.is_due = False
+        if issue.due_date <= date.today() and issue.returned_date is None:
+            issue.is_due = True
+
+    return render(request, 'dashboard/list_issues.html', {'issues': issues})
 
 
 @login_required

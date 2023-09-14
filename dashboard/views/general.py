@@ -30,17 +30,19 @@ def home(request):
 
         context.update({'pending_requests': pending_requests})
     elif not request.user.is_anonymous and not request.user.is_librarian:
+        # TODO shared between here and member report into a module or function
+
         issues = Issue.objects.filter(
-            member=request.user, returned_date=None).order_by('due_date')
+            member=request.user, returned_date=None).order_by('returned_date')
         for issue in issues:
             issue.is_due = False
-            if issue.due_date <= date.today():
+            if issue.due_date <= date.today() and issue.returned_date is None:
                 issue.is_due = True
 
         requests = Request.objects.filter(
             member=request.user, is_fulfilled=False)
-
-        late_fines = LateFine.objects.filter(member=request.user)
+        late_fines = LateFine.objects.filter(
+            member=request.user).order_by('-fined_date')
 
         context.update({
             'issues': issues,

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="my-3">Late Fines for Overdue Books</h2>
+<h2 class="my-3">Late Fines</h2>
 <div class="table-responsive text-nowrap">
     {% if object_list %}
     <table class="table table-striped">
@@ -7,7 +7,7 @@
             <tr>
                 <th scope="col">S.N.</th>
                 <th scope="col">Book</th>
-                <th scope="col">Book Copy ID</th>
+                <th scope="col">Copy #</th>
                 <th scope="col">Member</th>
                 <th scope="col">Overdue Days</th>
                 <th scope="col">Fined Amount</th>
@@ -29,7 +29,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>Sorry, no late fines found.</p>
+    <p>No late fines found.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -44,3 +44,7 @@ def request_book(request, pk):
 class BookRequestList(LoginRequiredMixin, LibrarianView, ListView):
     model = Request
     template_name = 'dashboard/list_book_requests.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Request.objects.order_by('is_fulfilled')
+        return qs
