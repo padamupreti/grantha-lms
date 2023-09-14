@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grantha LMS Report</title>
+    </head>
+    <style>
+        th,
+        td {
+            border: 1px solid black;
+            padding: 2px;
+        }
+    </style>
+    <body>
+        <h1>Library Member Report</h1>
+        <span style="display: block; margin: 3px"
+            ><i
+                >Generated {{ now }} by Grantha Library Management System</i
+            ></span
+        >
+        <img
+            src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+            alt="member-qr-code"
+        />
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Date Joined</th>
+                    <th>Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ member.username }} (#{{ member.id }})</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.date_joined }}</td>
+                    <td>{{ member.last_login }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Issued Copies ({{ issues|length }})</h3>
+        {% if issues %}
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Book</th>
+                    <th>Copy #</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Returned Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {% if issue.book_copy %}
+                    <td>{{ issue.book_copy.book }}</td>
+                    <td>{{ issue.book_copy.id }}</td>
+                    {% else %}
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {% endif %}
+                    <td>{{ issue.issue_date }}</td>
+                    <td>{{ issue.due_date }}</td>
+                    <td>
+                        {% if issue.returned_date %}
+                        <span>Returned</span>
+                        {% elif issue.is_due %}
+                        <span>Overdue</span>
+                        {% else %}
+                        <span>Issued</span>
+                        {% endif %}
+                    </td>
+                    {% if issue.returned_date %}
+                    <td>{{ issue.returned_date }}</td>
+                    {% else %}
+                    <td>---</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No issues made.</p>
+        {% endif %}
+
+        <h3>Book Requests ({{ requests|length }})</h3>
+        {% if requests %}
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Book</th>
+                    <th>Requested On</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book_request in requests %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ book_request.book }}</td>
+                    <td>{{ book_request.request_date }}</td>
+                    <td>
+                        {% if book_request.is_fulfilled %}
+                        <span>Issued</span>
+                        {% else %}
+                        <span>Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No book requests found.</p>
+        {% endif %}
+
+        <h3>Late Fines ({{ late_fines|length }})</h3>
+        {% if late_fines %}
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Book</th>
+                    <th>Copy #</th>
+                    <th>Overdue Days</th>
+                    <th>Fined Amount</th>
+                    <th>Fined Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fine in late_fines %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ fine.book_copy.book }}</td>
+                    <td>{{ fine.book_copy.id }}</td>
+                    <td>{{ fine.late_days }}</td>
+                    <td>Rupees {{ fine.amount }}</td>
+                    <td>{{ fine.fined_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No late fines found.</p>
+        {% endif %}
+    </body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="my-3">Members</h2>
+{% include 'dashboard/search_form.html' %}
+<div class="table-responsive text-nowrap">
+    {% if object_list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date Joined</th>
+                <th scope="col">Last Login</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in object_list %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ member.username }}</td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.date_joined }}</td>
+                <td>{{ member.last_login }}</td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:member-detail' member.id %}"
+                        class="btn btn-primary btn-sm"
+                        ><i class="fa fa-circle-info"></i> Info</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Sorry, no members found.</p>
+    {% endif %}
+</div>
+{% endblock %}

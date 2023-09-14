@@ -8,6 +8,7 @@ from .views.book import create_book, list_books, book_detail, update_book, BookD
 from .views.issue import issue_book, list_issues, return_issued_book
 from .views.fine import FineListView
 from .views.book_request import request_book, BookRequestList
+from .views.member import members_list, member_info, member_report
 
 app_name = 'dashboard'
 urlpatterns = [
@@ -48,5 +49,9 @@ urlpatterns = [
     path('fines/', FineListView.as_view(), name='list-fines'),
     # Book Requests
     path('books/requests/', BookRequestList.as_view(), name='book-requests'),
-    path('books/requests/<int:pk>/', request_book, name='request-book')
+    path('books/requests/<int:pk>/', request_book, name='request-book'),
+    # Member Information (Report)
+    path('members/', members_list, name='list-members'),
+    path('members/<int:pk>/', member_info, name='member-detail'),
+    path('members/<int:pk>/report/', member_report, name='member-report')
 ]

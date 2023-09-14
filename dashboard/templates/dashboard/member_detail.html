@@ -1,0 +1,231 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Heading and Report Generation -->
+<div class="my-3 d-flex">
+    <h2 class="me-3 mb-0">Member Details</h2>
+    <a
+        class="btn btn-dark align-self-center"
+        href="{% url 'dashboard:member-report' member.id %}"
+        target="_blank"
+        role="button"
+        ><i class="fa fa-gear"></i> Generate Report</a
+    >
+</div>
+
+<!-- General Information -->
+<div class="card">
+    <div class="card-body row g-0">
+        <div class="col-md-4 text-center">
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+                class="img-fluid rounded-start"
+                alt="member-qr-code"
+            />
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="fw-bold">Username</h6>
+                    <p class="text-secondary">
+                        {{ member.username }} (#{{ member.id }})
+                    </p>
+                </div>
+                <div class="col-6">
+                    <h6 class="fw-bold">Email</h6>
+                    <p class="text-secondary">{{ member.email }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="fw-bold">Date Joined</h6>
+                    <p class="text-secondary">{{ member.date_joined }}</p>
+                </div>
+                <div class="col-6">
+                    <h6 class="fw-bold">Last Login</h6>
+                    <p class="text-secondary">{{ member.last_login }}</p>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-3 mx-3 border border-dark rounded">
+                    <div class="text-center">
+                        <h5 class="fw-bold fs-4 mb-0 mt-2">
+                            {{ issues|length }}
+                        </h5>
+                        <p class="text-secondary">Issues</p>
+                    </div>
+                </div>
+                <div class="col-3 mx-3 border border-dark rounded">
+                    <div class="text-center">
+                        <h5 class="fw-bold fs-4 mb-0 mt-2">
+                            {{ requests|length }}
+                        </h5>
+                        <p class="text-secondary">Book Requests</p>
+                    </div>
+                </div>
+                <div class="col-3 mx-3 border border-dark rounded">
+                    <div class="text-center">
+                        <h5 class="fw-bold fs-4 mb-0 mt-2">
+                            {{ late_fines|length }}
+                        </h5>
+                        <p class="text-secondary">Late Fines</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Taken books -->
+<div class="mt-4">
+    <h3 class="mb-3">Issued Copies</h3>
+    {% if issues %}
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Book</th>
+                    <th scope="col">Copy #</th>
+                    <th scope="col">Issue Date</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Returned Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {% if issue.book_copy %}
+                    <td>{{ issue.book_copy.book }}</td>
+                    <td>{{ issue.book_copy.id }}</td>
+                    {% else %}
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {% endif %}
+                    <td>{{ issue.issue_date }}</td>
+                    <td>{{ issue.due_date }}</td>
+                    <td>
+                        {% if issue.returned_date %}
+                        <span class="badge rounded-pill text-bg-success"
+                            >Returned</span
+                        >
+                        {% elif issue.is_due %}
+                        <span class="badge rounded-pill text-bg-danger"
+                            >Overdue</span
+                        >
+                        {% else %}
+                        <span class="badge rounded-pill text-bg-primary"
+                            >Issued</span
+                        >
+                        {% endif %}
+                    </td>
+                    {% if issue.returned_date %}
+                    <td>{{ issue.returned_date }}</td>
+                    <td>---</td>
+                    {% else %}
+                    <td>---</td>
+                    <td>
+                        <a
+                            href="{% url 'dashboard:return-issued' issue.id %}"
+                            class="link-underline link-underline-opacity-0 link-primary"
+                            >Return to Library</a
+                        >
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No issues made.</p>
+    {% endif %}
+</div>
+
+<!-- Book Requests -->
+<div class="mt-4">
+    <h3 class="mb-3">Book Requests</h3>
+    {% if requests %}
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Book</th>
+                    <th scope="col">Requested On</th>
+                    <th scope="col">Status</th>
+                    <th class="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book_request in requests %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ book_request.book }}</td>
+                    <td>{{ book_request.request_date }}</td>
+                    <td>
+                        {% if book_request.is_fulfilled %}
+                        <span class="badge rounded-pill text-bg-success"
+                            >Issued</span
+                        >
+                        {% else %}
+                        <span class="badge rounded-pill text-bg-warning"
+                            >Pending</span
+                        >
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if book_request.is_fulfilled %} --- {% else %}
+                        <a
+                            href="{% url 'dashboard:create-issue' %}?rid={{ book_request.id }}"
+                            class="link-underline link-underline-opacity-0 link-primary"
+                            >Fulfill request</a
+                        >
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No book requests found.</p>
+    {% endif %}
+</div>
+
+<!-- Late fines -->
+<div class="mt-4">
+    <h3 class="mb-3">Late Fines</h3>
+    {% if late_fines %}
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Book</th>
+                    <th scope="col">Copy #</th>
+                    <th scope="col">Overdue Days</th>
+                    <th scope="col">Fined Amount</th>
+                    <th scope="col">Fined Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fine in late_fines %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ fine.book_copy.book }}</td>
+                    <td>{{ fine.book_copy.id }}</td>
+                    <td>{{ fine.late_days }}</td>
+                    <td>Rupees {{ fine.amount }}</td>
+                    <td>{{ fine.fined_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No late fines found.</p>
+    {% endif %}
+</div>
+{% endblock %}
