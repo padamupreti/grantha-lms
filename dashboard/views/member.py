@@ -10,6 +10,8 @@ from datetime import date, datetime
 from authentication.decorators import only_librarians
 from authentication.models import LMSUser
 
+from qrmanager import get_encoded_member_qr
+
 from ..models import Issue, Request, LateFine
 
 
@@ -37,6 +39,7 @@ def members_list(request):
 def member_info(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
+    encoded_qr = get_encoded_member_qr(request.get_host(), member)
 
     issues = Issue.objects.filter(
         member=member).order_by('returned_date')
@@ -49,6 +52,7 @@ def member_info(request, pk):
     late_fines = LateFine.objects.filter(member=member).order_by('-fined_date')
 
     context = {
+        'encoded_qr': encoded_qr,
         'member': member,
         'issues': issues,
         'requests': requests,
@@ -63,6 +67,7 @@ def member_info(request, pk):
 def member_report(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
+    encoded_qr = get_encoded_member_qr(request.get_host(), member)
 
     issues = Issue.objects.filter(
         member=member).order_by('returned_date')
@@ -77,6 +82,7 @@ def member_report(request, pk):
 
     context = {
         'now': datetime_now,
+        'encoded_qr': encoded_qr,
         'member': member,
         'issues': issues,
         'requests': requests,

@@ -14,3 +14,8 @@
 <li class="nav-item">
     <a class="nav-link" href="{% url 'dashboard:list-books' %}">Books</a>
 </li>
+{% if user.is_authenticated %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'qrmanager:download-qr' %}">QR Download</a>
+</li>
+{% endif %}

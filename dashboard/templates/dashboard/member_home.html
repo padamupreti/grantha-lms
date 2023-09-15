@@ -115,6 +115,24 @@
                 </a>
             </div>
         </div>
+        {% if user.is_authenticated %}
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
+                    href="{% url 'qrmanager:download-qr' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-download"></i> QR download
+                    </h5>
+                    <div class="card-text">
+                        Download unique QR as Library ID
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <!-- Taken books -->

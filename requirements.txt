@@ -5,6 +5,7 @@ Django==4.2.2
 django-crispy-forms==2.0
 django-environ==0.11.2
 fontawesomefree==6.4.0
+opencv-python==4.8.0.76
 pycodestyle==2.10.0
 pypng==0.20220715.0
 qrcode==7.4.2
