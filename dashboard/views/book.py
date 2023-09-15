@@ -59,7 +59,9 @@ def list_books(request):
             book=book).select_related('author')
         book.author = book_author_rels.first().author
         book.multi_authors = True if book_author_rels.count() > 1 else False
-        book.is_requested = has_pending_requests(request.user, book)
+        book.is_requested = False
+        if request.user.is_authenticated:
+            book.is_requested = has_pending_requests(request.user, book)
         book.is_available = len(BookCopy.objects.filter(
             book=book, is_available=True)) > 0
         books.append(book)
@@ -79,7 +81,9 @@ def book_detail(request, pk):
         book=book).select_related('author')
     book_category_rels = BookCategory.objects.filter(
         book=book).select_related('category')
-    is_requested = has_pending_requests(request.user, book)
+    is_requested = False
+    if request.user.is_authenticated:
+        is_requested = has_pending_requests(request.user, book)
     is_available = len(BookCopy.objects.filter(
         book=book, is_available=True)) > 0
     context = {
