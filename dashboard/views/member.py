@@ -85,7 +85,7 @@ def member_report(request, pk):
 
     response = HttpResponse(content_type='application/pdf')
     file_title = f'LMS_Report_{member.username}#{member.id}_{datetime_now.isoformat()}'
-    response['Content-Disposition'] = f'attachment; filename="{file_title}.pdf"'
+    response['Content-Disposition'] = f'inline; filename="{file_title}.pdf"'
 
     template = get_template('dashboard/member_report.html')
     html = template.render(context)
