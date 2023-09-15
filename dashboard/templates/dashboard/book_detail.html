@@ -24,7 +24,7 @@
         <li class="list-group-item col-md-4">{{ category }}</li>
         {% endfor %}
     </ul>
-    {% if not request.user.is_librarian and not is_requested and is_available %}
+    {% if not user.is_librarian and not is_requested and is_available %}
     <a
         href="{% url 'dashboard:request-book' book.id %}"
         class="btn btn-dark mt-2"

@@ -20,7 +20,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if request.user.is_librarian %} 
+                {% if user.is_librarian %} 
                     {% include 'librarian_navitems.html' %} 
                 {% else %}
                     {% include 'member_navitems.html' %}

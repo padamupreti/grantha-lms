@@ -56,7 +56,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if request.user.is_librarian %}
+                    {% if user.is_librarian %}
                     <a
                         href="{% url 'dashboard:book-detail' book.id %}"
                         class="link-underline link-underline-opacity-0 link-primary mx-1"
@@ -89,7 +89,7 @@
     <p>Sorry, no books found.</p>
     {% endif %}
 </div>
-{% if request.user.is_librarian %}
+{% if user.is_librarian %}
 <a
     class="btn btn-success"
     href="{% url 'dashboard:create-book' %}"
