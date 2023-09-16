@@ -56,8 +56,3 @@ def home(request):
 class LibrarianView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_librarian
-
-
-class MemberView(UserPassesTestMixin, View):
-    def test_func(self):
-        return not self.request.user.is_librarian
