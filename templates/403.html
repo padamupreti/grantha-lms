@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>403 Forbidden</title>
+        <link rel="stylesheet" href="{% static 'custom/css/errors.css' %}" />
+    </head>
+    <body>
+        <div class="client-error">
+            <h1>403 Forbidden</h1>
+            <p class="message-content">
+                This page is reserved for librarians and administrators of
+                Grantha LMS.
+            </p>
+            <a href="/" class="message-content">Go back home</a>
+        </div>
+    </body>
+</html>

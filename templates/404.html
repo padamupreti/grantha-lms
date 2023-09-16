@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>404 Page Not Found</title>
+        <link rel="stylesheet" href="{% static 'custom/css/errors.css' %}" />
+    </head>
+    <body>
+        <div class="client-error">
+            <h1>404 Page Not Found</h1>
+            <p class="message-content">
+                Sorry, the page you are looking for was not found on the server.
+            </p>
+            <a href="/" class="message-content">Go back home</a>
+        </div>
+    </body>
+</html>

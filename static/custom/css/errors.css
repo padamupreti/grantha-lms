@@ -1,0 +1,21 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    place-items: center;
+}
+
+.client-error {
+    transform: translateY(-30%);
+}
+
+.message-content {
+    color: #444;
+}
+
+/* .home-link {
+    text-decoration: underline;
+    color: #000;
+} */
