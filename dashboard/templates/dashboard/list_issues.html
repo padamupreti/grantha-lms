@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Issued Copies</h2>
-{% if issues %} {% include 'dashboard/search_form.html' %}
+{% include 'dashboard/search_form.html' %} {% if issues %}
 <div class="table-responsive text-nowrap">
     <table class="table table-striped">
         <thead>

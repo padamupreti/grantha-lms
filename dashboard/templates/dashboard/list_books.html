@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Books on Library</h2>
-{% if books %}
 <div class="row mb-3">
     <div class="col col-md-8">
         <form class="input-group">
@@ -18,7 +17,6 @@
         </form>
     </div>
 </div>
-{% endif %}
 <div class="table-responsive text-nowrap">
     {% if books %}
     <table class="table table-striped">
