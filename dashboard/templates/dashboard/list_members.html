@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Members</h2>
-{% include 'dashboard/search_form.html' %}
+{% if object_list %} {% include 'dashboard/search_form.html' %} {% endif %}
 <div class="table-responsive text-nowrap">
     {% if object_list %}
     <table class="table table-striped">

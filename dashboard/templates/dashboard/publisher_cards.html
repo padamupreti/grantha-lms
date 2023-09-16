@@ -1,35 +1,31 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Publishers</h2>
-{% include 'dashboard/search_form.html' %}
-<div class="mt-4">
-    {% if object_list %}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        {% for publisher in object_list %}
-        <div class="col">
-            <div class="card text-center text-bg-dark h-100">
-                <a
-                    href="{% url 'dashboard:list-books' %}?filter=publisher&query={{ publisher }}"
-                    class="card-body link-underline link-underline-opacity-0"
+{% if object_list %} {% include 'dashboard/search_form.html' %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-2">
+    {% for publisher in object_list %}
+    <div class="col">
+        <div class="card text-center text-bg-dark h-100">
+            <a
+                href="{% url 'dashboard:list-books' %}?filter=publisher&query={{ publisher }}"
+                class="card-body link-underline link-underline-opacity-0"
+            >
+                <h1
+                    class="card-title display-4 d-inline-block border border-light rounded pt-1 pb-2 px-4 mb-3"
                 >
-                    <h1
-                        class="card-title display-4 d-inline-block border border-light rounded pt-1 pb-2 px-4 mb-3"
-                    >
-                        <i class="fa fa-magnifying-glass"></i>
-                    </h1>
-                    <h5 class="card-title">
-                        <i class="fa fa-newspaper"></i> {{ publisher }}
-                    </h5>
-                    <div class="card-text">
-                        Published by {{ publisher }}
-                        <i class="fa fa-arrow-right"></i>
-                    </div>
-                </a>
-            </div>
+                    <i class="fa fa-magnifying-glass"></i>
+                </h1>
+                <h5 class="card-title">
+                    <i class="fa fa-newspaper"></i> {{ publisher }}
+                </h5>
+                <div class="card-text">
+                    Published by {{ publisher }}
+                    <i class="fa fa-arrow-right"></i>
+                </div>
+            </a>
         </div>
-        {% endfor %}
     </div>
-    {% else %}
-    <p>Sorry, no publishers found.</p>
-    {% endif %}
+    {% endfor %}
 </div>
-{% endblock %}
+{% else %}
+<p>Sorry, no publishers found.</p>
+{% endif %} {% endblock %}

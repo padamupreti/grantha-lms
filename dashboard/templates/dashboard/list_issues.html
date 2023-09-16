@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Issued Copies</h2>
-{% if issues %}
+{% if issues %} {% include 'dashboard/search_form.html' %}
 <div class="table-responsive text-nowrap">
     <table class="table table-striped">
         <thead>
@@ -64,7 +64,7 @@
     </table>
 </div>
 {% else %}
-<p>No issues made.</p>
+<p>Sorry, no issues made.</p>
 {% endif %}
 <a
     class="btn btn-success"
