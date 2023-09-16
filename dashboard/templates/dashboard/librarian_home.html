@@ -143,6 +143,22 @@
         <div class="col">
             <div class="card text-bg-dark h-100">
                 <a
+                    href="{% url 'dashboard:list-members' %}"
+                    class="card-body link-underline link-underline-opacity-0"
+                >
+                    <h5 class="card-title">
+                        <i class="fa fa-users"></i> Members
+                    </h5>
+                    <div class="card-text">
+                        View members with their transactions
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-dark h-100">
+                <a
                     href="{% url 'qrmanager:upload-qr' %}"
                     class="card-body link-underline link-underline-opacity-0"
                 >
