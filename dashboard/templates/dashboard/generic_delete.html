@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Delete {{ item_type }}</h2>
-<p class="m-3">
+<h2 class="my-3">Delete {{ item_type }}</h2>
+<p class="mb-3">
     Are you sure you want to delete {{ item_type }} "{{ object }}"?
 </p>
-<form method="post" class="mx-3 mb-3">
+<form method="post" class="mb-3">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger mx-auto">Yes, Delete</button>
 </form>

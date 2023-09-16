@@ -1,22 +1,32 @@
-{% extends 'authentication/credentials_form.html' %}
-
-{% load crispy_forms_tags %}
-
-{% block form_content %}
-<h2 class="my-4 text-center">User Login</h2>
-<form method="post" class="card p-4 mx-auto mb-4">
-    {% csrf_token %} {{ form|crispy }}
-    <button type="submit" class="btn btn-success mx-auto">Login</button>
-</form>
-<p class="text-center">
-    No account? You can
-    <a href="{% url 'authentication:register-librarian' %}" class="link-dark"
-        >Register as Librarian</a
-    >
-    or
-    <a href="{% url 'authentication:register-member' %}" class="link-dark"
-        >Register as Member</a
-    >
-    of the library.
-</p>
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="row my-5">
+    <div class="col col-md-8">
+        <div class="border border-dark rounded">
+            <h2 class="text-white bg-dark px-3 py-4 mb-3">User Login</h2>
+            <div class="px-4">
+                <form method="post" class="mb-3">
+                    {% csrf_token %} {{ form|crispy }}
+                    <button type="submit" class="btn btn-dark mx-auto">
+                        Login
+                    </button>
+                </form>
+                <p>
+                    No account? You can
+                    <a
+                        href="{% url 'authentication:register-librarian' %}"
+                        class="link-dark"
+                        >Register as Librarian</a
+                    >
+                    or
+                    <a
+                        href="{% url 'authentication:register-member' %}"
+                        class="link-dark"
+                        >Register as Member</a
+                    >
+                    of the library.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

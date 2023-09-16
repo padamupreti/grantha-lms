@@ -1,12 +1,16 @@
-<form class="input-group mb-3">
-    <input
-        type="text"
-        name="query"
-        placeholder="{{ search_placeholder }}"
-        class="form-control"
-        value="{% if query_text %}{{ query_text }}{% endif %}"
-    />
-    <button type="submit" class="btn btn-dark">
-        <i class="fa fa-magnifying-glass"></i> Search
-    </button>
-</form>
+<div class="row mb-3">
+    <div class="col col-md-8">
+        <form class="input-group">
+            <input
+                type="text"
+                name="query"
+                placeholder="{{ search_placeholder }}"
+                class="form-control"
+                value="{% if query_text %}{{ query_text }}{% endif %}"
+            />
+            <button type="submit" class="btn btn-dark">
+                <i class="fa fa-magnifying-glass"></i> Search
+            </button>
+        </form>
+    </div>
+</div>

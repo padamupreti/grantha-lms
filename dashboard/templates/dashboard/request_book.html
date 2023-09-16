@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="m-3">Request Book</h2>
-<div class="mx-3">
+<h2 class="my-3">Request Book</h2>
+<div>
     {% if is_available %}
     <p>Are you sure you want to request book "{{ book.title }}"?</p>
     <form method="post">

@@ -1,15 +1,25 @@
-{% extends 'authentication/credentials_form.html' %}
-
-{% load crispy_forms_tags %}
-
-{% block form_content %}
-<h2 class="my-4 text-center">{{ user_type }} Registration</h2>
-<form method="post" class="card p-4 mx-auto mb-4">
-    {% csrf_token %} {{ form|crispy }}
-    <button type="submit" class="btn btn-success mx-auto">Register</button>
-</form>
-<p class="text-center">
-    Already have an account? Proceed to
-    <a href="{% url 'authentication:login' %}" class="link-dark">Log In</a>
-</p>
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="row my-5">
+    <div class="col col-md-8">
+        <div class="border border-dark rounded">
+            <h2 class="text-white bg-dark px-3 py-4 mb-3">
+                {{ user_type }} Registration
+            </h2>
+            <div class="px-4">
+                <form method="post" class="mb-3">
+                    {% csrf_token %} {{ form|crispy }}
+                    <button type="submit" class="btn btn-dark mx-auto">
+                        Register
+                    </button>
+                </form>
+                <p>
+                    Already have an account? Proceed to
+                    <a href="{% url 'authentication:login' %}" class="link-dark"
+                        >Log In</a
+                    >
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

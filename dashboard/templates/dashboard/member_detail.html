@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Heading and Report Generation -->
-<div class="my-3 d-flex">
-    <h2 class="me-3 mb-0">Member Details</h2>
+<div class="my-3">
+    <h2>Member Details</h2>
     <a
-        class="btn btn-dark align-self-center"
+        class="btn btn-dark my-1"
         href="{% url 'dashboard:member-report' member.id %}"
         target="_blank"
         role="button"
@@ -44,8 +44,12 @@
                     <p class="text-secondary">{{ member.last_login }}</p>
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col-3 mx-3 border border-dark rounded">
+            <div
+                class="w-md-75 mx-auto mt-2 d-flex align-items-center justify-content-center flex-wrap"
+            >
+                <div
+                    class="border border-dark rounded px-1 px-md-2 px-lg-4 h-100 me-3"
+                >
                     <div class="text-center">
                         <h5 class="fw-bold fs-4 mb-0 mt-2">
                             {{ issues|length }}
@@ -53,7 +57,9 @@
                         <p class="text-secondary">Issues</p>
                     </div>
                 </div>
-                <div class="col-3 mx-3 border border-dark rounded">
+                <div
+                    class="border border-dark rounded px-1 px-md-2 px-lg-4 h-100"
+                >
                     <div class="text-center">
                         <h5 class="fw-bold fs-4 mb-0 mt-2">
                             {{ requests|length }}
@@ -61,7 +67,9 @@
                         <p class="text-secondary">Book Requests</p>
                     </div>
                 </div>
-                <div class="col-3 mx-3 border border-dark rounded">
+                <div
+                    class="border border-dark rounded px-1 px-md-2 px-lg-4 h-100 ms-3"
+                >
                     <div class="text-center">
                         <h5 class="fw-bold fs-4 mb-0 mt-2">
                             {{ late_fines|length }}
