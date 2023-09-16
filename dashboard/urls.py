@@ -4,7 +4,7 @@ from .views.general import home
 from .views.author import AuthorCreateView, list_authors, AuthorUpdateView, AuthorDeleteView
 from .views.publisher import PublisherCreateView, list_publishers, PublisherUpdateView, PublisherDeleteView
 from .views.category import CategoryCreateView, list_categories, CategoryUpdateView, CategoryDeleteView
-from .views.book import create_book, list_books, book_detail, update_book, BookDeleteView
+from .views.book import create_book, list_books, book_detail, update_book, delete_book
 from .views.issue import issue_book, list_issues, return_issued_book
 from .views.fine import list_fines
 from .views.book_request import request_book, list_book_requests
@@ -40,7 +40,7 @@ urlpatterns = [
     path('books/new/', create_book, name='create-book'),
     path('books/<int:pk>/', book_detail, name='book-detail'),
     path('books/<int:pk>/update/', update_book, name='update-book'),
-    path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='delete-book'),
+    path('books/<int:pk>/delete/', delete_book, name='delete-book'),
     # Issue
     path('issues/', list_issues, name='list-issues'),
     path('issues/new/', issue_book, name='create-issue'),

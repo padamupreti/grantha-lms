@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
+from django.db.models import ProtectedError
 
 from authentication.decorators import only_librarians
 
-from .general import LibrarianView
 from ..models import Author, Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
-from ..mixins import DeleteMixin
 from ..utils import has_pending_requests
 
 
@@ -57,7 +57,9 @@ def list_books(request):
     for book in qs:
         book_author_rels = BookAuthor.objects.filter(
             book=book).select_related('author')
-        book.author = book_author_rels.first().author
+        # TODO (and also all associated fixes for nullable fields for every model)
+        ba_rel = book_author_rels.first()
+        book.author = ba_rel.author if ba_rel is not None else None
         book.multi_authors = True if book_author_rels.count() > 1 else False
         book.is_requested = False
         if request.user.is_authenticated:
@@ -128,9 +130,29 @@ def update_book(request, pk):
     return render(request, 'dashboard/generic_edit.html', context)
 
 
-class BookDeleteView(DeleteMixin, LibrarianView):
-    model = Book
-    success_url = reverse_lazy('dashboard:list-books')
+@login_required
+@only_librarians
+def delete_book(request, pk):
+    # TODO for book creation min value for copies qty should be 1 but for updation
+    # it should be 0 so that book can actually be deleted without PROTECT
+    # constraint on BookCopy model preventing it
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data('Book', **kwargs)
+    book = get_object_or_404(Book, id=pk)
+    if request.method == 'POST':
+        try:
+            book.delete()
+            # TODO use messages framework to display message after successful actions
+            # creation, update and deletion of various items
+            messages.success(request, f'Book "{book}" deleted successfully!')
+            return redirect(reverse_lazy('dashboard:list-books'))
+        except ProtectedError:
+            messages.warning(
+                request, f'Book "{book}" still has copies on library.')
+            return redirect('dashboard:list-books')
+
+    context = {
+        'item_type': 'Book',
+        'object': book
+    }
+
+    return render(request, 'dashboard/generic_delete.html', context)
