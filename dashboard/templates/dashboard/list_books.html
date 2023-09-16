@@ -24,6 +24,9 @@
             <tr>
                 <th scope="col">S.N.</th>
                 <th scope="col">Title</th>
+                {% if user.is_authenticated and user.is_librarian %}
+                <th scope="col">Copies Qty</th>
+                {% endif %}
                 <th scope="col">Author(s)</th>
                 <th scope="col">ISBN</th>
                 <th scope="col">Publisher</th>
@@ -36,6 +39,9 @@
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ book.title }}</td>
+                {% if user.is_authenticated and user.is_librarian %}
+                <td>{{ book.all_copies }} <span class="text-success">({{ book.available_copies }})</span></td>
+                {% endif %}
                 <td>
                     {{ book.author }}
                     {% if book.multi_authors %} et al. {% endif %}
@@ -49,7 +55,7 @@
                     <span class="badge rounded-pill text-bg-warning"
                         >Requested</span
                     >
-                    {% elif book.is_available %}
+                    {% elif book.available_copies > 0 %}
                     <span class="badge rounded-pill text-bg-success"
                         >Available</span
                     >

@@ -62,8 +62,9 @@ def list_books(request):
         book.is_requested = False
         if request.user.is_authenticated:
             book.is_requested = has_pending_requests(request.user, book)
-        book.is_available = len(BookCopy.objects.filter(
-            book=book, is_available=True)) > 0
+        all_copies = BookCopy.objects.filter(book=book)
+        book.all_copies = all_copies.count()
+        book.available_copies = all_copies.filter(is_available=True).count()
         books.append(book)
 
     context = {
