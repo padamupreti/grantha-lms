@@ -19,7 +19,7 @@ class Author(models.Model):
 
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     contact_no = models.CharField(max_length=12, blank=True, null=True)
     address = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
@@ -32,7 +32,7 @@ class Publisher(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=80)
 
     def __str__(self):
@@ -44,6 +44,7 @@ class Category(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=50)
+    # TODO ISBN make unique (unique=True)
     isbn = models.CharField(max_length=20, blank=True, null=True)
     publisher = models.ForeignKey(
         Publisher, null=True, on_delete=models.SET_NULL)
@@ -69,7 +70,7 @@ class BookCategory(models.Model):
 
 
 class BookCopy(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.PROTECT)
     is_available = models.BooleanField()
 
     def __str__(self):
@@ -77,6 +78,8 @@ class BookCopy(models.Model):
 
 
 class Request(models.Model):
+    # TODO custom integrity to ensure only fulfilled requests can have
+    # null book or member
     book = models.ForeignKey(Book, null=True, on_delete=models.SET_NULL)
     member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
     request_date = models.DateField()
@@ -104,7 +107,7 @@ class Issue(models.Model):
 class LateFine(models.Model):
     book_copy = models.ForeignKey(
         BookCopy, null=True, on_delete=models.SET_NULL)
-    member = models.ForeignKey(LMSUser, on_delete=models.CASCADE)
+    member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
     late_days = models.IntegerField()
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     fined_date = models.DateField()
