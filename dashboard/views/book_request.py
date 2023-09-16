@@ -1,14 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.list import ListView
 
 from datetime import date
 
 from authentication.decorators import only_members, only_librarians
 
-from .general import LibrarianView
 from ..models import Book, Request, BookCopy
 from ..utils import has_pending_requests
 
@@ -41,10 +38,21 @@ def request_book(request, pk):
     return render(request, 'dashboard/request_book.html', context)
 
 
-class BookRequestList(LoginRequiredMixin, LibrarianView, ListView):
-    model = Request
-    template_name = 'dashboard/list_book_requests.html'
+@login_required
+@only_librarians
+def list_book_requests(request):
+    query_params = request.GET
+    p_title = query_params.get('query')
 
-    def get_queryset(self, **kwargs):
-        qs = Request.objects.order_by('is_fulfilled')
-        return qs
+    # TODO manage in module shared between member report and member home
+    book_requests = Request.objects.order_by('is_fulfilled')
+    if p_title:
+        book_requests = book_requests.filter(book__title__icontains=p_title)
+
+    context = {
+        'object_list': book_requests,
+        'search_placeholder': 'Search by book title',
+        'query_text': p_title
+    }
+
+    return render(request, 'dashboard/list_book_requests.html', context)

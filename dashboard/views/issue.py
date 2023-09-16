@@ -37,14 +37,26 @@ def issue_book(request):
 @login_required
 @only_librarians
 def list_issues(request):
+    query_params = request.GET
+    p_title = query_params.get('query')
+
     # TODO manage in module shared between member report and member home
     issues = Issue.objects.order_by('returned_date')
+    if p_title:
+        issues = issues.filter(book_copy__book__title__icontains=p_title)
+
     for issue in issues:
         issue.is_due = False
         if issue.due_date <= date.today() and issue.returned_date is None:
             issue.is_due = True
 
-    return render(request, 'dashboard/list_issues.html', {'issues': issues})
+    context = {
+        'issues': issues,
+        'search_placeholder': 'Search by book title',
+        'query_text': p_title
+    }
+
+    return render(request, 'dashboard/list_issues.html', context)
 
 
 @login_required

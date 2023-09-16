@@ -1,16 +1,26 @@
-# from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.list import ListView
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-from .general import LibrarianView
+from authentication.decorators import only_librarians
 
 from ..models import LateFine
 
 
-class FineListView(LoginRequiredMixin, LibrarianView, ListView):
-    model = LateFine
-    template_name = 'dashboard/list_fines.html'
+@login_required
+@only_librarians
+def list_fines(request):
+    query_params = request.GET
+    p_title = query_params.get('query')
 
-    def get_queryset(self, **kwargs):
-        qs = LateFine.objects.order_by('-fined_date')
-        return qs
+    # TODO manage in module shared between member report and member home
+    fines = LateFine.objects.order_by('-fined_date')
+    if p_title:
+        fines = fines.filter(book_copy__book__title__icontains=p_title)
+
+    context = {
+        'object_list': fines,
+        'search_placeholder': 'Search by book title',
+        'query_text': p_title
+    }
+
+    return render(request, 'dashboard/list_fines.html', context)
