@@ -29,6 +29,8 @@ class BookCreateForm(forms.Form):
 
 
 class BookUpdateForm(BookCreateForm):
+    quantity = forms.IntegerField(min_value=0)
+
     def __init__(self, *args, book=None, book_author_rels=None, book_category_rels=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.book = book
@@ -66,19 +68,16 @@ class BookUpdateForm(BookCreateForm):
         Book.objects.filter(id=self.book.id).update(title=data['title'], isbn=data['isbn'],
                                                     publisher=data['publisher'])
         # Change number of copies as necessary
-        total_book_copies = BookCopy.objects.filter(book=self.book)
-        total_copies_count = total_book_copies.count()
+        total_copies_count = BookCopy.objects.filter(book=self.book).count()
         updated_quantity = self.cleaned_data['quantity']
         if not updated_quantity == total_copies_count:
             if updated_quantity > total_copies_count:
-                additional_copies_count = updated_quantity - total_copies_count
+                additional_count = updated_quantity - total_copies_count
                 additional_copies = [
-                    BookCopy(book=self.book, is_available=True)] * additional_copies_count
+                    BookCopy(book=self.book, is_available=True)] * additional_count
                 BookCopy.objects.bulk_create(additional_copies)
             else:
-                required_copies_count = updated_quantity - self.issued_copies_count
-                available_copies = total_book_copies.filter(is_available=True)
-                copies_to_delete_count = available_copies.count() - required_copies_count
+                deletion_count = total_copies_count - updated_quantity
                 BookCopy.objects.filter(id__in=list(
-                    available_copies.values_list('id', flat=True)[:copies_to_delete_count])
+                    available_copies.values_list('id', flat=True)[:deletion_count])
                 ).delete()

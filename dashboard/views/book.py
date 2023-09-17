@@ -133,10 +133,6 @@ def update_book(request, pk):
 @login_required
 @only_librarians
 def delete_book(request, pk):
-    # TODO for book creation min value for copies qty should be 1 but for updation
-    # it should be 0 so that book can actually be deleted without PROTECT
-    # constraint on BookCopy model preventing it
-
     book = get_object_or_404(Book, id=pk)
     if request.method == 'POST':
         try:
@@ -147,7 +143,7 @@ def delete_book(request, pk):
             return redirect(reverse_lazy('dashboard:list-books'))
         except ProtectedError:
             messages.warning(
-                request, f'Book "{book}" still has copies on library.')
+                request, f'Book "{book}" cannot have any copies for successful deletion.')
             return redirect('dashboard:list-books')
 
     context = {
