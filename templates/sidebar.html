@@ -1,0 +1,56 @@
+{% if not request.path == '/' and 'auth/' not in request.path %}
+<div
+    class="offcanvas-lg offcanvas-start text-bg-dark sidebar"
+    tabindex="-1"
+    id="offcanvasResponsive"
+    aria-labelledby="offcanvasResponsiveLabel"
+>
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">
+            Quick Links
+        </h5>
+        <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+            data-bs-target="#offcanvasResponsive"
+            aria-label="Close"
+        ></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column h-100">
+        {% if not user.is_authenticated %}
+        <!-- Include general nav items -->
+        {% include 'member_navitems.html' %}
+        <ul class="nav nav-pills mt-auto">
+            <li class="nav-item">
+                <a
+                    href="{% url 'login-or-register' %}"
+                    class="nav-link text-white"
+                >
+                    <i class="fa fa-right-to-bracket"></i>
+                    Login/Register
+                </a>
+            </li>
+        </ul>
+        {% else %}
+        <!-- Include authenticated nav items -->
+        {% if user.is_librarian %}
+        <!-- Include librarian nav items -->
+        {% include 'librarian_navitems.html' %} {% else %}
+        <!-- Include member nav items -->
+        {% include 'member_navitems.html' %} {% endif %}
+        <ul class="nav nav-pills mt-auto">
+            <li class="nav-item">
+                <a
+                    href="{% url 'authentication:logout' %}"
+                    class="nav-link text-white"
+                >
+                    <i class="fa fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

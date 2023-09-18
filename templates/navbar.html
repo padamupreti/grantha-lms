@@ -1,43 +1,20 @@
 {% if not request.path == '/' %}
-<nav
-    class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
-    data-bs-theme="dark"
->
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'dashboard:home' %}"
-            >Grantha LMS</a
-        >
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container-fluid position-relative">
         <button
-            class="navbar-toggler"
+            class="navbar-toggler position-absolute d-lg-none"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasResponsive"
+            aria-controls="offcanvasResponsive"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if user.is_librarian %} 
-                    {% include 'librarian_navitems.html' %} 
-                {% else %}
-                    {% include 'member_navitems.html' %}
-                {% endif %}
-            </ul>
-            <span class="navbar-text text-white">
-                {% if user.is_authenticated %} Logged in as {{ user }} |
-                <a href="{% url 'authentication:logout' %}"
-                    ><i class="fa fa-right-from-bracket"></i> Logout</a
-                >
-                {% else %}
-                <a href="{% url 'login-or-register' %}"
-                    ><i class="fa fa-right-to-bracket"></i> Login/Register</a
-                >
-                {% endif %}
-            </span>
-        </div>
+        <a
+            class="navbar-brand w-100 text-center fs-4 me-0"
+            href="{% url 'dashboard:home' %}"
+            ><i class="fa fa-book-open"></i> Grantha LMS</a
+        >
     </div>
 </nav>
 {% endif %}

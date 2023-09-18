@@ -1,21 +1,44 @@
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard:list-authors' %}">Authors</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard:list-publishers' %}"
-        >Publishers</a
-    >
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard:list-categories' %}"
-        >Categories</a
-    >
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard:list-books' %}">Books</a>
-</li>
-{% if user.is_authenticated %}
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'qrmanager:download-qr' %}">QR Download</a>
-</li>
-{% endif %}
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+        <a href="{% url 'dashboard:home' %}" class="nav-link text-white">
+            <i class="fa fa-home"></i> Home
+        </a>
+    </li>
+    <hr />
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-authors' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-pen-nib"></i> Authors
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-publishers' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-print"></i> Publishers
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-categories' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-tag"></i> Categories
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'dashboard:list-books' %}" class="nav-link text-white">
+            <i class="fa fa-book"></i> Books
+        </a>
+    </li>
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+        <a href="{% url 'qrmanager:download-qr' %}" class="nav-link text-white">
+            <i class="fa fa-qrcode"></i> QR Download
+        </a>
+    </li>
+    {% endif %}
+</ul>

@@ -18,13 +18,21 @@
             rel="stylesheet"
             href="{% static 'fontawesomefree/css/solid.css' %}"
         />
+        <link rel="stylesheet" href="{% static 'custom/css/shared.css' %}" />
         <link rel="stylesheet" href="{% static 'custom/css/messages.css' %}" />
     </head>
     <body>
         {% if 'auth/' not in request.path %}
-        <!-- comment to ensure formatter does not mess this up -->
+        <!-- comment to ensure proper formatting -->
         {% include 'navbar.html' %} {% endif %}
-        <div class="container mb-4">{% block content %}{% endblock %}</div>
+        <div class="d-flex">
+            {% include 'sidebar.html' %}
+            <div id="content-div">
+                <div class="container mb-4 flex-fill">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
         {% if messages %}
         <div id="dj-messages">
             {% for message in messages %} {% if message.tags == 'error' %}

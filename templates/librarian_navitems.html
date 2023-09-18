@@ -1,135 +1,69 @@
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-        Authors
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:list-authors' %}"
-                >List Authors</a
-            >
-        </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:create-author' %}"
-                >Add Author</a
-            >
-        </li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-        Publishers
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <a
-                class="dropdown-item"
-                href="{% url 'dashboard:list-publishers' %}"
-                >List Publishers</a
-            >
-        </li>
-        <li>
-            <a
-                class="dropdown-item"
-                href="{% url 'dashboard:create-publisher' %}"
-                >Add Publisher</a
-            >
-        </li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-        Categories
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <a
-                class="dropdown-item"
-                href="{% url 'dashboard:list-categories' %}"
-                >List Categories</a
-            >
-        </li>
-        <li>
-            <a
-                class="dropdown-item"
-                href="{% url 'dashboard:create-category' %}"
-                >Add Category</a
-            >
-        </li>
-    </ul>
-</li>
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-    >
-        Books
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:list-books' %}"
-                >List Books</a
-            >
-        </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:create-book' %}"
-                >Add Book</a
-            >
-        </li>
-        <li>
-            <hr class="dropdown-divider" />
-        </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:list-issues' %}"
-                >List Issues</a
-            >
-        </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'dashboard:create-issue' %}"
-                >New Book Issue</a
-            >
-        </li>
-        <li>
-            <hr class="dropdown-divider" />
-        </li>
-        <li class="dropdown-item">
-            <a href="{% url 'dashboard:list-fines' %}" class="nav-link"
-                >Late Fines</a
-            >
-        </li>
-        <li>
-            <hr class="dropdown-divider" />
-        </li>
-        <li class="dropdown-item">
-            <a href="{% url 'dashboard:book-requests' %}" class="nav-link"
-                >Book Requests</a
-            >
-        </li>
-    </ul>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard:list-members' %}">Members</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'qrmanager:upload-qr' %}">QR Upload</a>
-</li>
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+        <a href="{% url 'dashboard:home' %}" class="nav-link text-white">
+            <i class="fa fa-home"></i> Home
+        </a>
+    </li>
+    <hr />
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-authors' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-pen-nib"></i> Authors
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-publishers' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-print"></i> Publishers
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-categories' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-tag"></i> Categories
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'dashboard:list-books' %}" class="nav-link text-white">
+            <i class="fa fa-book"></i> Books
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'dashboard:list-issues' %}" class="nav-link text-white">
+            <i class="fa fa-arrows-left-right"></i>
+            Issues
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'dashboard:list-fines' %}" class="nav-link text-white">
+            <i class="fa fa-rupee-sign"></i> Late Fines
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:book-requests' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-hand"></i> Book Requests
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            href="{% url 'dashboard:list-members' %}"
+            class="nav-link text-white"
+        >
+            <i class="fa fa-users"></i> Members
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'qrmanager:upload-qr' %}" class="nav-link text-white">
+            <i class="fa fa-qrcode"></i> QR Upload
+        </a>
+    </li>
+</ul>
