@@ -19,7 +19,7 @@ def request_book(request, pk):
     if request.method == 'POST':
         pending = has_pending_requests(request.user, book)
         if not is_available:
-            messages.danger(
+            messages.error(
                 request, f'Book "{book}" is not available in Library.')
         elif pending:
             messages.warning(
@@ -27,7 +27,6 @@ def request_book(request, pk):
         else:
             Request.objects.create(
                 book=book, member=request.user, request_date=date.today(), is_fulfilled=False)
-            messages.success(request, f'Book "{book}" requested successfully!')
         return redirect('dashboard:list-books')
 
     context = {

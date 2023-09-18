@@ -136,18 +136,15 @@ def delete_book(request, pk):
     book = get_object_or_404(Book, id=pk)
     if request.method == 'POST':
         if has_active_requests(book):
-            messages.warning(
-                request, f'Book "{book}" cannot have active requests for successful deletion.')
+            messages.error(
+                request, 'Only books with all requests fulfilled can be deleted.')
             return redirect('dashboard:list-books')
         try:
             book.delete()
-            # TODO use messages framework to display message after successful actions
-            # creation, update and deletion of various items
-            messages.success(request, f'Book "{book}" deleted successfully!')
             return redirect(reverse_lazy('dashboard:list-books'))
         except ProtectedError:
-            messages.warning(
-                request, f'Book "{book}" cannot have any copies for successful deletion.')
+            messages.error(
+                request, 'Only books with no copies can be deleted.')
             return redirect('dashboard:list-books')
 
     context = {

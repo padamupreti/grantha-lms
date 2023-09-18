@@ -18,24 +18,32 @@
             rel="stylesheet"
             href="{% static 'fontawesomefree/css/solid.css' %}"
         />
-        <link rel="stylesheet" href="{% static 'custom/css/messages.css' %}">
+        <link rel="stylesheet" href="{% static 'custom/css/messages.css' %}" />
     </head>
     <body>
         {% if 'auth/' not in request.path %}
-            {% include 'navbar.html' %}
-        {% endif %}
-        <div class="container mb-4">
-            {% block content %}{% endblock %}
-        </div>
+        <!-- comment to ensure formatter does not mess this up -->
+        {% include 'navbar.html' %} {% endif %}
+        <div class="container mb-4">{% block content %}{% endblock %}</div>
         {% if messages %}
-            <div id="dj-messages">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissable fade show" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+        <div id="dj-messages">
+            {% for message in messages %} {% if message.tags == 'error' %}
+            <div
+                class="alert alert-danger alert-dismissable fade show"
+                role="alert"
+            >
+                {{ message }}
             </div>
-        {% endif %} 
+            {% else %}
+            <div
+                class="alert alert-{{ messages.tags }} alert-dismissable fade show"
+                role="alert"
+            >
+                {{ message }}
+            </div>
+            {% endif %} {% endfor %}
+        </div>
+        {% endif %}
         <script src="{% static 'bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'custom/js/alertDismiss.js' %}"></script>
     </body>
