@@ -6,227 +6,129 @@
 <div class="row row-cols-2 row-cols-lg-4 g-3 mt-2">
     {% if user.is_authenticated %}
     <div class="col">
-        <div class="card border-dark h-100 position-relative">
+        <div class="card border-dark h-100">
             <div class="card-body text-center">
                 <h5 class="card-title fs-3 fw-bold">{{ all_titles }}</h5>
                 <p class="card-text fs-5">Titles</p>
             </div>
-            <span
-                class="position-absolute top-0 start-50 translate-middle badge text-bg-success rounded-pill"
-                >{{ available_titles }} available</span
-            >
         </div>
     </div>
     <div class="col">
         <div class="card border-dark h-100">
             <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">{{ issues|length }}</h5>
-                <p class="card-text fs-5">Issues</p>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card border-dark h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">{{ requests|length }}</h5>
-                <p class="card-text fs-5">Pending Requests</p>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card border-dark h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">{{ late_fines|length }}</h5>
-                <p class="card-text fs-5">Late Fines</p>
+                <h5 class="card-title fs-3 fw-bold">{{ available_titles }}</h5>
+                <p class="card-text fs-5">Titles Available</p>
             </div>
         </div>
     </div>
     {% endif %}
 </div>
 
-<!-- Quick actions -->
-<h3 class="mt-4">Quick Actions</h3>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-2">
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-authors' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Authors</h5>
-                <div class="card-text">
-                    View authors
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-publishers' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Publishers</h5>
-                <div class="card-text">
-                    View publishers
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-categories' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Categories</h5>
-                <div class="card-text">
-                    View categories
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-books' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Books</h5>
-                <div class="card-text">
-                    View books and request a book
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    {% if user.is_authenticated %}
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'qrmanager:download-qr' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title">
-                    <i class="fa fa-download"></i> QR download
-                </h5>
-                <div class="card-text">
-                    Download unique QR as Library ID
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    {% endif %}
-</div>
-
+{% if user.is_authenticated %}
 <!-- Taken books -->
+<h3 class="my-3">Issued Copies</h3>
 {% if issues %}
-<div class="mt-4">
-    <h3 class="mb-3">Issued Copies</h3>
-    <div class="table-responsive text-nowrap">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">S.N.</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Copy #</th>
-                    <th scope="col">Issue Date</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for issue in issues %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    {% if issue.book_copy %}
-                    <td>{{ issue.book_copy.book }}</td>
-                    <td>{{ issue.book_copy.id }}</td>
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Book</th>
+                <th scope="col">Copy #</th>
+                <th scope="col">Issue Date</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                {% if issue.book_copy %}
+                <td>{{ issue.book_copy.book }}</td>
+                <td>{{ issue.book_copy.id }}</td>
+                {% else %}
+                <td>N/A</td>
+                <td>N/A</td>
+                {% endif %}
+                <td>{{ issue.issue_date }}</td>
+                <td>{{ issue.due_date }}</td>
+                <td>
+                    {% if issue.is_due %}
+                    <span class="badge rounded-pill text-bg-danger"
+                        >Overdue</span
+                    >
                     {% else %}
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <span class="badge rounded-pill text-bg-primary"
+                        >Not due</span
+                    >
                     {% endif %}
-                    <td>{{ issue.issue_date }}</td>
-                    <td>{{ issue.due_date }}</td>
-                    <td>
-                        {% if issue.is_due %}
-                        <span class="badge rounded-pill text-bg-danger"
-                            >Overdue</span
-                        >
-                        {% else %}
-                        <span class="badge rounded-pill text-bg-primary"
-                            >Not due</span
-                        >
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+{% else %}
+<p>Sorry, no issues found.</p>
 {% endif %}
 
 <!-- Book Requests -->
+<h3 class="mb-3">Pending Requests</h3>
 {% if requests %}
-<div class="mt-4">
-    <h3 class="mb-3">Pending Requests</h3>
-    <div class="table-responsive text-nowrap">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">S.N.</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Requested On</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for book_request in requests %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ book_request.book }}</td>
-                    <td>{{ book_request.request_date }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Book</th>
+                <th scope="col">Requested On</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_request in requests %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ book_request.book }}</td>
+                <td>{{ book_request.request_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+{% else %}
+<p>Sorry, no book requests made.</p>
 {% endif %}
 
 <!-- Late fines -->
+<h3 class="mb-3">Late Fines</h3>
 {% if late_fines %}
-<div class="mt-4">
-    <h3 class="mb-3">Late Fines</h3>
-    <div class="table-responsive text-nowrap">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">S.N.</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Copy #</th>
-                    <th scope="col">Overdue Days</th>
-                    <th scope="col">Fined Amount</th>
-                    <th scope="col">Fined Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for fine in late_fines %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ fine.book_copy.book }}</td>
-                    <td>{{ fine.book_copy.id }}</td>
-                    <td>{{ fine.late_days }}</td>
-                    <td>Rupees {{ fine.amount }}</td>
-                    <td>{{ fine.fined_date }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Book</th>
+                <th scope="col">Copy #</th>
+                <th scope="col">Overdue Days</th>
+                <th scope="col">Fined Amount</th>
+                <th scope="col">Fined Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fine in late_fines %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ fine.book_copy.book }}</td>
+                <td>{{ fine.book_copy.id }}</td>
+                <td>{{ fine.late_days }}</td>
+                <td>Rupees {{ fine.amount }}</td>
+                <td>{{ fine.fined_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endif %} {% endblock %}
+{% else %}
+<p>Sorry, no late fines incurred.</p>
+{% endif %} {% endif %} {% endblock %}

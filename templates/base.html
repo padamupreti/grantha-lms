@@ -27,10 +27,8 @@
         {% include 'navbar.html' %} {% endif %}
         <div class="d-flex">
             {% include 'sidebar.html' %}
-            <div id="content-div">
-                <div class="container mb-4 flex-fill">
-                    {% block content %}{% endblock %}
-                </div>
+            <div class="container mb-4" id="content-div">
+                {% block content %}{% endblock %}
             </div>
         </div>
         {% if messages %}

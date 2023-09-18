@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
 
@@ -8,6 +8,10 @@ from ..models import Book, BookCopy, Issue, Request, LateFine
 
 
 def home(request):
+    # TODO manage shared logic in a module for member home and librarian home
+    if not request.user.is_authenticated:
+        return redirect('dashboard:list-books')
+
     template_name = 'dashboard/member_home.html'
 
     books = Book.objects.all()
@@ -26,9 +30,27 @@ def home(request):
 
     if not request.user.is_anonymous and request.user.is_librarian:
         template_name = 'dashboard/librarian_home.html'
-        pending_requests = Request.objects.filter(is_fulfilled=False).count()
+        pending_requests = Request.objects.filter(
+            is_fulfilled=False).order_by('request_date')
+        current_issues = Issue.objects.filter(
+            returned_date=None).order_by('returned_date')
 
-        context.update({'pending_requests': pending_requests})
+        for issue in current_issues:
+            issue.is_due = False
+            if issue.due_date <= date.today() and issue.returned_date is None:
+                issue.is_due = True
+
+        overdue_count = current_issues.filter(
+            due_date__lte=date.today()).count()
+
+        context.update({
+            'issues_count': current_issues.count(),
+            'overdue_count': overdue_count,
+            'issues': current_issues[:5],
+            'pending_requests_count': pending_requests.count(),
+            'pending_requests': pending_requests[:5]
+        })
+
     elif not request.user.is_anonymous and not request.user.is_librarian:
         issues = Issue.objects.filter(
             member=request.user, returned_date=None).order_by('returned_date')
@@ -37,6 +59,9 @@ def home(request):
             if issue.due_date <= date.today() and issue.returned_date is None:
                 issue.is_due = True
 
+        overdue_count = issues.filter(
+            due_date__lte=date.today()).count()
+
         requests = Request.objects.filter(
             member=request.user, is_fulfilled=False)
         late_fines = LateFine.objects.filter(
@@ -44,6 +69,7 @@ def home(request):
 
         context.update({
             'issues': issues,
+            'overdue_count': overdue_count,
             'requests': requests,
             'late_fines': late_fines
         })

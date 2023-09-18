@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h1 class="mt-3 display-6">Welcome, {{ user }}!</h1>
+
+<!-- Stats -->
 <div class="row row-cols-2 row-cols-lg-4 g-3 mt-2">
     <div class="col">
         <div class="card border-dark h-100 position-relative">
@@ -14,149 +16,122 @@
         </div>
     </div>
     <div class="col">
+        <div class="card border-dark h-100 position-relative">
+            <div class="card-body text-center">
+                <h5 class="card-title fs-3 fw-bold">{{ issues_count }}</h5>
+                <p class="card-text fs-5">Current Issues</p>
+            </div>
+            <span
+                class="position-absolute top-0 start-50 translate-middle badge text-bg-danger rounded-pill"
+                >{{ overdue_count }} overdue</span
+            >
+        </div>
+    </div>
+    <div class="col">
         <div class="card border-dark h-100">
             <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">{{ pending_requests }}</h5>
+                <h5 class="card-title fs-3 fw-bold">
+                    {{ pending_requests_count }}
+                </h5>
                 <p class="card-text fs-5">Pending Requests</p>
             </div>
         </div>
     </div>
 </div>
-<h3 class="mt-4">Quick Actions</h3>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-2">
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-authors' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-pen"></i> Authors</h5>
-                <div class="card-text">
-                    Create new author or edit from list of existing authors
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-publishers' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-pen"></i> Publishers</h5>
-                <div class="card-text">
-                    Create new publisher or edit from list of existing
-                    publishers
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-categories' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-pen"></i> Categories</h5>
-                <div class="card-text">
-                    Create new category or edit from list of existing categories
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-books' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-pen"></i> Books</h5>
-                <div class="card-text">
-                    Create new book or edit from list of existing books
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-issues' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title">
-                    <i class="fa fa-arrows-left-right"></i> Issues
-                </h5>
-                <div class="card-text">
-                    View past book issues and issue a book
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-fines' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-eye"></i> Late Fines</h5>
-                <div class="card-text">
-                    View late fines incurred for overdue issued books returned
-                    to library
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:book-requests' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title">
-                    <i class="fa fa-eye"></i> Book Requests
-                </h5>
-                <div class="card-text">
-                    View and respond to book requests
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'dashboard:list-members' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title"><i class="fa fa-users"></i> Members</h5>
-                <div class="card-text">
-                    View members with their transactions
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-dark h-100">
-            <a
-                href="{% url 'qrmanager:upload-qr' %}"
-                class="card-body link-underline link-underline-opacity-0"
-            >
-                <h5 class="card-title">
-                    <i class="fa fa-upload"></i> QR Upload
-                </h5>
-                <div class="card-text">
-                    Upload member QR to reach page
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
-        </div>
-    </div>
+
+<!-- Latest Issues -->
+<h2 class="my-3">Issued Copies</h2>
+{% if issues %}
+<p>Top book issues withheld by members sorted by return date:</p>
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Book</th>
+                <th scope="col">Copy #</th>
+                <th scope="col">Issued Member</th>
+                <th scope="col">Issue Date</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                {% if issue.book_copy %}
+                <td>{{ issue.book_copy.book }}</td>
+                <td>{{ issue.book_copy.id }}</td>
+                {% else %}
+                <td>N/A</td>
+                <td>N/A</td>
+                {% endif %}
+                <td>{{ issue.member }}</td>
+                <td>{{ issue.issue_date }}</td>
+                <td>{{ issue.due_date }}</td>
+                <td>
+                    {% if issue.is_due %}
+                    <span class="badge rounded-pill text-bg-danger"
+                        >Overdue</span
+                    >
+                    {% else %}
+                    <span class="badge rounded-pill text-bg-primary"
+                        >Issued</span
+                    >
+                    {% endif %}
+                </td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:return-issued' issue.id %}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        >Return to Library</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endblock %}
+{% else %}
+<p>Sorry, no issues found with books withheld by members.</p>
+{% endif %}
+
+<!-- Pending Requests -->
+<h2 class="my-3">Pending Requests</h2>
+{% if pending_requests %}
+<p>Top pending book requests sorted by request date:</p>
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Book</th>
+                <th scope="col">Member</th>
+                <th scope="col">Requested On</th>
+                <th class="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in pending_requests %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ req.book }}</td>
+                <td>{{ req.member }}</td>
+                <td>{{ req.request_date }}</td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:create-issue' %}?rid={{ req.id }}"
+                        class="link-underline link-underline-opacity-0 link-primary"
+                        >Fulfill request</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>Sorry, no requests seem to be pending.</p>
+{% endif %} {% endblock %}

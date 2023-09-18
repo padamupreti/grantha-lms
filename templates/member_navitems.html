@@ -1,10 +1,12 @@
 <ul class="nav nav-pills flex-column">
+    {% if user.is_authenticated %}
     <li class="nav-item">
         <a href="{% url 'dashboard:home' %}" class="nav-link text-white">
             <i class="fa fa-home"></i> Home
         </a>
     </li>
     <hr />
+    {% endif %}
     <li class="nav-item">
         <a
             href="{% url 'dashboard:list-authors' %}"
