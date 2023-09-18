@@ -12,7 +12,6 @@ def list_fines(request):
     query_params = request.GET
     p_title = query_params.get('query')
 
-    # TODO manage in module shared between member report and member home
     fines = LateFine.objects.order_by('-fined_date')
     if p_title:
         fines = fines.filter(book_copy__book__title__icontains=p_title)

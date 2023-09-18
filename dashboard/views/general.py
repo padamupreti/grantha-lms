@@ -30,8 +30,6 @@ def home(request):
 
         context.update({'pending_requests': pending_requests})
     elif not request.user.is_anonymous and not request.user.is_librarian:
-        # TODO shared between here and member report into a module or function
-
         issues = Issue.objects.filter(
             member=request.user, returned_date=None).order_by('returned_date')
         for issue in issues:

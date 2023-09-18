@@ -5,14 +5,12 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template.loader import get_template
 
-from datetime import date, datetime
+from datetime import datetime
 
 from authentication.decorators import only_librarians
 from authentication.models import LMSUser
 
-from qrmanager import get_encoded_member_qr
-
-from ..models import Issue, Request, LateFine
+from ..utils import get_member_context
 
 
 @login_required
@@ -39,25 +37,7 @@ def members_list(request):
 def member_info(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
-    encoded_qr = get_encoded_member_qr(request.get_host(), member)
-
-    issues = Issue.objects.filter(
-        member=member).order_by('returned_date')
-    for issue in issues:
-        issue.is_due = False
-        if issue.due_date <= date.today() and issue.returned_date is None:
-            issue.is_due = True
-
-    requests = Request.objects.filter(member=member).order_by('is_fulfilled')
-    late_fines = LateFine.objects.filter(member=member).order_by('-fined_date')
-
-    context = {
-        'encoded_qr': encoded_qr,
-        'member': member,
-        'issues': issues,
-        'requests': requests,
-        'late_fines': late_fines
-    }
+    context = get_member_context(request, member)
 
     return render(request, 'dashboard/member_detail.html', context)
 
@@ -67,27 +47,12 @@ def member_info(request, pk):
 def member_report(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
-    encoded_qr = get_encoded_member_qr(request.get_host(), member)
-
-    issues = Issue.objects.filter(
-        member=member).order_by('returned_date')
-    for issue in issues:
-        issue.is_due = False
-        if issue.due_date <= date.today() and issue.returned_date is None:
-            issue.is_due = True
-
-    requests = Request.objects.filter(member=member).order_by('is_fulfilled')
-    late_fines = LateFine.objects.filter(member=member).order_by('-fined_date')
+    context = get_member_context(request, member)
     datetime_now = datetime.now()
 
-    context = {
+    context.update({
         'now': datetime_now,
-        'encoded_qr': encoded_qr,
-        'member': member,
-        'issues': issues,
-        'requests': requests,
-        'late_fines': late_fines
-    }
+    })
 
     response = HttpResponse(content_type='application/pdf')
     file_title = f'LMS_Report_{member.username}#{member.id}_{datetime_now.isoformat()}'

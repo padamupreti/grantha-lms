@@ -44,7 +44,6 @@ def list_book_requests(request):
     query_params = request.GET
     p_title = query_params.get('query')
 
-    # TODO manage in module shared between member report and member home
     book_requests = Request.objects.order_by('is_fulfilled')
     if p_title:
         book_requests = book_requests.filter(book__title__icontains=p_title)
