@@ -8,7 +8,7 @@ from authentication.decorators import only_librarians
 
 from ..models import Author, Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
-from ..utils import has_pending_requests
+from ..utils import has_pending_requests, has_active_requests
 
 
 @login_required
@@ -135,6 +135,10 @@ def update_book(request, pk):
 def delete_book(request, pk):
     book = get_object_or_404(Book, id=pk)
     if request.method == 'POST':
+        if has_active_requests(book):
+            messages.warning(
+                request, f'Book "{book}" cannot have active requests for successful deletion.')
+            return redirect('dashboard:list-books')
         try:
             book.delete()
             # TODO use messages framework to display message after successful actions

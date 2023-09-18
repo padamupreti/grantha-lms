@@ -78,8 +78,6 @@ class BookCopy(models.Model):
 
 
 class Request(models.Model):
-    # TODO custom integrity to ensure only fulfilled requests can have
-    # null book or member
     book = models.ForeignKey(Book, null=True, on_delete=models.SET_NULL)
     member = models.ForeignKey(LMSUser, null=True, on_delete=models.SET_NULL)
     request_date = models.DateField()

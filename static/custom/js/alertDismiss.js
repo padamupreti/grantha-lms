@@ -3,4 +3,4 @@ setTimeout(() => {
     alertElems.forEach((element) => {
         bootstrap.Alert.getOrCreateInstance(element).close()
     })
-}, 3000)
+}, 5000)

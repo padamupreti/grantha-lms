@@ -13,6 +13,13 @@ def has_pending_requests(member, book):
     return False
 
 
+def has_active_requests(book):
+    book_requests = Request.objects.filter(book=book, is_fulfilled=False)
+    if book_requests:
+        return True
+    return False
+
+
 def get_member_context(request, member):
     encoded_qr = get_encoded_member_qr(request.get_host(), member)
 
