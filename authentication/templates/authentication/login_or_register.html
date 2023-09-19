@@ -10,17 +10,27 @@
             rel="stylesheet"
             href="{% static 'bootstrap-5.3.0-dist/css/bootstrap.min.css' %}"
         />
+        <link
+            rel="stylesheet"
+            href="{% static 'fontawesomefree/css/fontawesome.css' %}"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'fontawesomefree/css/solid.css' %}"
+        />
         <link rel="stylesheet" href="{% static 'custom/css/landing.css' %}" />
     </head>
     <body>
-        <div class="overlay text-white">
+        <!-- Hero Section -->
+        <section id="hero">
             <div
-                class="container d-flex flex-column justify-content-center vh-100"
+                class="container d-flex flex-column justify-content-center align-items-center text-center text-white"
+                id="hero-content"
             >
-                <h1 class="mb-4 display-1 fw-bold">Welcome to Grantha LMS!</h1>
-                <p class="mb-4 fs-5">
-                    You can register or login either as a Librarian or as a
-                    Member of the Library.
+                <h1 class="mb-4 display-1">Welcome to Grantha LMS!</h1>
+                <p>
+                    Get started by registering or logging in. Or, continue
+                    anonymously.
                 </p>
                 <div
                     class="d-flex flex-column align-items-md-baseline flex-md-row"
@@ -37,7 +47,6 @@
                         class="btn btn-dark mb-3 my-md-0 me-md-3"
                         >Register as Member</a
                     >
-                    <span class="text-center mb-3 my-md-0 me-md-3">Or</span>
                     <a
                         href="{% url 'authentication:login' %}"
                         role="button"
@@ -45,18 +54,114 @@
                         >Login</a
                     >
                 </div>
-                <p class="my-4 fs-5">
-                    Alternatively, you can continue browsing anonymously.
-                </p>
-                <div class="d-flex flex-column flex-md-row">
-                    <a
-                        href="{% url 'dashboard:home' %}"
-                        role="button"
-                        class="btn btn-success my-md-0 me-md-3"
-                        >Continue browsing</a
-                    >
+                <a
+                    href="{% url 'dashboard:home' %}"
+                    role="button"
+                    class="btn btn-success rounded-pill p-3 mt-4"
+                    >Continue to home <i class="fa fa-arrow-right"></i
+                ></a>
+                <a
+                    href="#features"
+                    class="link-light link-underline-opacity-0 position-absolute bottom-0 start-50 translate-middle my-4"
+                    id="features-link"
+                >
+                    <div class="d-flex flex-column align-items-center">
+                        <p class="mb-0">Features</p>
+                        <span><i class="fa fa-angles-down"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="curve-bottom">
+                <svg
+                    data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1200 120"
+                    preserveAspectRatio="none"
+                >
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                        class="shape-fill"
+                    ></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="container p-4" id="features">
+            <h1 class="display-4">Features</h1>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-4">
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-book-open"></i>
+                    </h3>
+                    <div>
+                        <h3>Book Records</h3>
+                        <p class="text-secondary">
+                            Author, Publisher and Category records associated
+                            with books maintained separately.
+                        </p>
+                    </div>
+                </div>
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-arrows-left-right"></i>
+                    </h3>
+                    <div>
+                        <h3>Issues Tracking</h3>
+                        <p class="text-secondary">
+                            Record of issues of individual copies with returned
+                            and overdue status is kept.
+                        </p>
+                    </div>
+                </div>
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-hand"></i>
+                    </h3>
+                    <div>
+                        <h3>Book Requests</h3>
+                        <p class="text-secondary">
+                            Ability to request books from selection of books
+                            currently available in library.
+                        </p>
+                    </div>
+                </div>
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-file-pdf"></i>
+                    </h3>
+                    <div>
+                        <h3>Report Generation</h3>
+                        <p class="text-secondary">
+                            Report on individual members with their issues, book
+                            requests and late fine history.
+                        </p>
+                    </div>
+                </div>
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-qrcode"></i>
+                    </h3>
+                    <div>
+                        <h3>QR Features</h3>
+                        <p class="text-secondary">
+                            Generation and processing of QR code as member ID.
+                        </p>
+                    </div>
+                </div>
+                <div class="col d-flex">
+                    <h3 class="me-3">
+                        <i class="fa fa-mobile"></i>
+                    </h3>
+                    <div>
+                        <h3>Mobile Friendly</h3>
+                        <p class="text-secondary">
+                            Completely responsive layout for comfortable usage
+                            on smaller screens.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </body>
 </html>

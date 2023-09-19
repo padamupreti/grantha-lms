@@ -1,8 +1,49 @@
-body {
+#hero {
     background: url('/static/custom/images/bookshelf.jpg') no-repeat
         center/cover;
+    position: relative;
+    z-index: 1;
 }
 
-.overlay {
-    background: rgba(0, 0, 0, 0.75);
+#hero::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+#hero-content {
+    position: relative;
+    height: calc(100vh - 1.5rem);
+}
+
+@media screen and (max-width: 380px) {
+    #features-link {
+        display: none;
+    }
+}
+
+.curve-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.curve-bottom svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 37px;
+}
+
+.curve-bottom .shape-fill {
+    fill: #ffffff;
 }
