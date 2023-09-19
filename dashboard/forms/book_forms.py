@@ -34,20 +34,21 @@ class BookUpdateForm(BookCreateForm):
     def __init__(self, *args, book=None, book_author_rels=None, book_category_rels=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.book = book
-        self.issued_copies_count = BookCopy.objects.filter(
-            book=book, is_available=False).count()
         self.book_author_rels = book_author_rels
         self.book_category_rels = book_category_rels
 
     def clean_quantity(self):
         updated_quantity = self.cleaned_data['quantity']
-        if updated_quantity < self.issued_copies_count:
+        issued_count = BookCopy.objects.filter(
+            book=self.book, is_available=False).count()
+        if updated_quantity < issued_count:
             raise ValidationError(
-                f'Quantity must be >= {self.issued_copies_count} copies issued currently.')
+                f'Quantity must be >= {issued_count} copies issued currently.')
         return updated_quantity
 
     def update(self):
         data = self.cleaned_data
+
         # Update Book-Author Relationships
         updated_authors = data['authors']
         for ba in self.book_author_rels:
@@ -56,6 +57,7 @@ class BookUpdateForm(BookCreateForm):
         for author in updated_authors:
             BookAuthor.objects.update_or_create(
                 book=self.book, author=author)
+
         # Update Book-Category Relationships
         updated_categories = data['categories']
         for bc in self.book_category_rels:
@@ -64,20 +66,24 @@ class BookUpdateForm(BookCreateForm):
         for category in updated_categories:
             BookCategory.objects.update_or_create(
                 book=self.book, category=category)
-        # Update Book data
+
+        # Update Book model data
         Book.objects.filter(id=self.book.id).update(title=data['title'], isbn=data['isbn'],
                                                     publisher=data['publisher'])
-        # Change number of copies as necessary
-        total_copies_count = BookCopy.objects.filter(book=self.book).count()
+
+        # Update number of copies as appropriate
+        current_copies = BookCopy.objects.filter(book=self.book)
+        copies_count = current_copies.count()
         updated_quantity = self.cleaned_data['quantity']
-        if not updated_quantity == total_copies_count:
-            if updated_quantity > total_copies_count:
-                additional_count = updated_quantity - total_copies_count
+        if not updated_quantity == copies_count:
+            if updated_quantity > copies_count:
+                additional_count = updated_quantity - copies_count
                 additional_copies = [
                     BookCopy(book=self.book, is_available=True)] * additional_count
                 BookCopy.objects.bulk_create(additional_copies)
             else:
-                deletion_count = total_copies_count - updated_quantity
+                deletion_count = copies_count - updated_quantity
+                available_copies = current_copies.filter(is_available=True)
                 BookCopy.objects.filter(id__in=list(
                     available_copies.values_list('id', flat=True)[:deletion_count])
                 ).delete()
