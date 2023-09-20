@@ -15,7 +15,8 @@ import environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    ADDED_HOSTS=(bool, False),
+    USE_POSTGRES=(bool, False)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,9 +31,10 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure--ew_&lwt!3sflwq*2etk-nigin&yd0((5fem))-=x^@n#cvl87'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = [env('HOST0'), env('HOST1'), env('HOST2')]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1'] + [h for h in env.list(
+    'HOSTS')] if env('ADDED_HOSTS') else ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -86,12 +88,24 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if env('USE_POSTGRES'):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env('DB_NAME'),
+            "USER": env('DB_USERNAME'),
+            "PASSWORD": env('DB_PASSWORD'),
+            "HOST": env('DB_HOST'),
+            "PORT": env('DB_PORT'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
