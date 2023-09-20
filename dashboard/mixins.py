@@ -10,7 +10,3 @@ class EditMixin(LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['item_type'] = item_type
         return context
-
-
-class DeleteMixin(EditMixin, DeleteView):
-    template_name = 'dashboard/generic_delete.html'

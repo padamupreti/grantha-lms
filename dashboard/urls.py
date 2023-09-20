@@ -1,9 +1,9 @@
 from django.urls import path
 
 from .views.general import home
-from .views.author import AuthorCreateView, list_authors, AuthorUpdateView, AuthorDeleteView
-from .views.publisher import PublisherCreateView, list_publishers, PublisherUpdateView, PublisherDeleteView
-from .views.category import CategoryCreateView, list_categories, CategoryUpdateView, CategoryDeleteView
+from .views.author import AuthorCreateView, list_authors, AuthorUpdateView, delete_author
+from .views.publisher import PublisherCreateView, list_publishers, PublisherUpdateView, delete_publisher
+from .views.category import CategoryCreateView, list_categories, CategoryUpdateView, delete_category
 from .views.book import create_book, list_books, book_detail, update_book, delete_book
 from .views.issue import issue_book, list_issues, return_issued_book
 from .views.fine import list_fines
@@ -20,21 +20,21 @@ urlpatterns = [
     path('authors/<int:pk>/update/',
          AuthorUpdateView.as_view(), name='update-author'),
     path('authors/<int:pk>/delete/',
-         AuthorDeleteView.as_view(), name='delete-author'),
+         delete_author, name='delete-author'),
     # Publishers
     path('publishers/', list_publishers, name='list-publishers'),
     path('publishers/new/', PublisherCreateView.as_view(), name='create-publisher'),
     path('publishers/<int:pk>/update/',
          PublisherUpdateView.as_view(), name='update-publisher'),
     path('publishers/<int:pk>/delete/',
-         PublisherDeleteView.as_view(), name='delete-publisher'),
+         delete_publisher, name='delete-publisher'),
     # Categories
     path('categories/', list_categories, name='list-categories'),
     path('categories/new/', CategoryCreateView.as_view(), name='create-category'),
     path('categories/<int:pk>/update/',
          CategoryUpdateView.as_view(), name='update-category'),
     path('categories/<int:pk>/delete/',
-         CategoryDeleteView.as_view(), name='delete-category'),
+         delete_category, name='delete-category'),
     # Books
     path('books/', list_books, name='list-books'),
     path('books/new/', create_book, name='create-book'),

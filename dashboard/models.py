@@ -44,10 +44,9 @@ class Category(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=50)
-    # TODO ISBN make unique (unique=True)
-    isbn = models.CharField(max_length=20, blank=True, null=True)
+    isbn = models.CharField(max_length=20, blank=True, null=True, unique=True)
     publisher = models.ForeignKey(
-        Publisher, null=True, on_delete=models.SET_NULL)
+        Publisher, null=True, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.title
@@ -55,7 +54,7 @@ class Book(models.Model):
 
 class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.book.title}'s Author - {self.author.name}"
@@ -63,7 +62,7 @@ class BookAuthor(models.Model):
 
 class BookCategory(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.book.title}'s Category - {self.category.name}"
