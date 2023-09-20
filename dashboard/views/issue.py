@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from datetime import date
@@ -64,24 +65,29 @@ def list_issues(request):
 def return_issued_book(request, pk):
     issue = get_object_or_404(Issue, id=pk)
 
-    due_days = None
+    if issue.returned_date:
+        messages.warning(request, 'Issue has already been returned prior.')
+        return redirect('dashboard:list-issues')
+
+    due_days = 0
+    fine_amount = 0
     due_date = issue.due_date
     today = date.today()
     if due_date > today:
-        message = 'Book is not due for submission'
+        status = 'Not due'
     else:
         due_days = abs(today - due_date).days
         if due_days == 0:
-            message = 'Book is due for submission today'
+            status = 'Due Today'
         else:
             fine_amount = due_days * issue.late_fine_rate
-            message = f'Book is late for submission by {due_days} day(s). Late fine amount: Rupees {fine_amount}'
+            status = 'Overdue'
 
     context = {
-        'book': issue.book_copy.book,
-        'member': issue.member,
-        'message': message,
-        'due_days': due_days
+        'issue': issue,
+        'status': status,
+        'due_days': due_days,
+        'fine_amount': fine_amount
     }
 
     if request.method == 'POST':
