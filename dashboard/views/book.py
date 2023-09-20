@@ -43,7 +43,7 @@ def list_books(request):
         if p_filter == 'publisher' and len(qs) > 0:
             qs = qs.filter(publisher__name__icontains=p_query)
         if p_filter == 'isbn' and len(qs) > 0:
-            qs = qs.filter(isbn__exact=p_query)
+            qs = qs.filter(isbn__exact=p_query.strip())
         if p_filter == 'author' and len(qs) > 0:
             book_author_rels = BookAuthor.objects.filter(
                 author__name__icontains=p_query)
