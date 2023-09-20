@@ -14,14 +14,15 @@ from ..utils import has_pending_requests
 @only_members
 def request_book(request, pk):
     book = get_object_or_404(Book, id=pk)
-    is_available = len(BookCopy.objects.filter(
-        book=book, is_available=True)) > 0
+
+    is_available = BookCopy.objects.filter(
+        book=book, is_available=True).count() > 0
+
     if request.method == 'POST':
-        pending = has_pending_requests(request.user, book)
         if not is_available:
             messages.error(
                 request, f'Book "{book}" is not available in Library.')
-        elif pending:
+        elif has_pending_requests(book, request.user):
             messages.warning(
                 request, f'Request for book "{book}" is already pending.')
         else:
@@ -29,12 +30,7 @@ def request_book(request, pk):
                 book=book, member=request.user, request_date=date.today(), is_fulfilled=False)
         return redirect('dashboard:list-books')
 
-    context = {
-        'book': book,
-        'is_available': is_available
-    }
-
-    return render(request, 'dashboard/request_book.html', context)
+    return render(request, 'dashboard/request_book.html', {'book': book})
 
 
 @login_required

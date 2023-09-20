@@ -22,4 +22,5 @@ def upload_qr(request):
             return redirect(form.redirect_path)
     else:
         form = UploadFileForm()
+
     return render(request, 'qrmanager/upload_qr.html', {'form': form})

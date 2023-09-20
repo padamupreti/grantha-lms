@@ -1,14 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <h2 class="my-3">Request Book</h2>
 <div>
-    {% if is_available %}
-    <p>Are you sure you want to request book "{{ book.title }}"?</p>
+    <p>Are you sure you want to request book "{{ book }}"?</p>
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-dark">Yes, request book</button>
     </form>
-    {% else %}
-    <p>Sorry, your requested book is not available in library.</p>
-    {% endif %}
 </div>
 {% endblock %}

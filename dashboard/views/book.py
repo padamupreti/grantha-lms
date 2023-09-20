@@ -6,33 +6,36 @@ from django.db.models import ProtectedError
 
 from authentication.decorators import only_librarians
 
-from ..models import Author, Book, BookAuthor, BookCategory, BookCopy
+from ..models import Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
-from ..utils import has_pending_requests, has_active_requests
+from ..utils import has_pending_requests
 
 
 @login_required
 @only_librarians
 def create_book(request):
     form = BookCreateForm(request.POST or None)
+
     context = {
         'form': form,
         'item_type': 'Book'
     }
+
     if request.method == 'POST':
         if form.is_valid():
             form.create()
             return redirect('dashboard:list-books')
+
     return render(request, 'dashboard/generic_edit.html', context)
 
 
 def list_books(request):
-    # Get various search parameters as query parameters
+    # Get search parameter and query text
     query_params = request.GET
     p_filter = query_params.get('filter')
     p_query = query_params.get('query')
 
-    # Filter results from queryset according to search parameters
+    # Filter results from queryset
     qs = Book.objects.all()
     if p_filter and p_query:
         if p_filter == 'title':
@@ -55,18 +58,20 @@ def list_books(request):
     # Add additional attributes to books in queryset
     books = []
     for book in qs:
-        book_author_rels = BookAuthor.objects.filter(
-            book=book).select_related('author')
-        # TODO (and also all associated fixes for nullable fields for every model)
-        ba_rel = book_author_rels.first()
-        book.author = ba_rel.author if ba_rel is not None else None
-        book.multi_authors = True if book_author_rels.count() > 1 else False
-        book.is_requested = False
-        if request.user.is_authenticated:
-            book.is_requested = has_pending_requests(request.user, book)
         all_copies = BookCopy.objects.filter(book=book)
         book.all_copies = all_copies.count()
         book.available_copies = all_copies.filter(is_available=True).count()
+
+        book_author_rels = BookAuthor.objects.filter(
+            book=book).select_related('author')
+        ba_rel = book_author_rels.first()
+        book.author = ba_rel.author if ba_rel is not None else None
+        book.multi_authors = True if book_author_rels.count() > 1 else False
+
+        book.is_requested = False
+        if request.user.is_authenticated:
+            book.is_requested = has_pending_requests(book, request.user)
+
         books.append(book)
 
     context = {
@@ -80,15 +85,18 @@ def list_books(request):
 
 def book_detail(request, pk):
     book = get_object_or_404(Book, id=pk)
+
+    is_requested = False
+    if request.user.is_authenticated:
+        is_requested = has_pending_requests(book, request.user)
+    is_available = BookCopy.objects.filter(
+        book=book, is_available=True).count() > 0
+
     book_author_rels = BookAuthor.objects.filter(
         book=book).select_related('author')
     book_category_rels = BookCategory.objects.filter(
         book=book).select_related('category')
-    is_requested = False
-    if request.user.is_authenticated:
-        is_requested = has_pending_requests(request.user, book)
-    is_available = len(BookCopy.objects.filter(
-        book=book, is_available=True)) > 0
+
     context = {
         'book': book,
         'is_requested': is_requested,
@@ -96,6 +104,7 @@ def book_detail(request, pk):
         'authors': [ba.author.name for ba in book_author_rels],
         'categories': [bc.category.name for bc in book_category_rels],
     }
+
     return render(request, 'dashboard/book_detail.html', context)
 
 
@@ -103,10 +112,12 @@ def book_detail(request, pk):
 @only_librarians
 def update_book(request, pk):
     book = get_object_or_404(Book, id=pk)
+
     book_author_rels = BookAuthor.objects.select_related(
         'author').filter(book=book)
     book_category_rels = BookCategory.objects.select_related(
         'category').filter(book=book)
+
     form = BookUpdateForm(
         request.POST or None, book=book,
         book_author_rels=book_author_rels, book_category_rels=book_category_rels,
@@ -118,15 +129,18 @@ def update_book(request, pk):
             'publisher': book.publisher,
             'categories': [bc.category for bc in book_category_rels]
         })
+
     context = {
         'form': form,
         'item_type': 'Book'
     }
+
     if request.method == 'POST':
         if form.is_valid():
             if form.has_changed():
                 form.update()
             return redirect('dashboard:list-books')
+
     return render(request, 'dashboard/generic_edit.html', context)
 
 
@@ -134,8 +148,9 @@ def update_book(request, pk):
 @only_librarians
 def delete_book(request, pk):
     book = get_object_or_404(Book, id=pk)
+
     if request.method == 'POST':
-        if has_active_requests(book):
+        if has_pending_requests(book):
             messages.error(
                 request, 'Only books with all requests fulfilled can be deleted.')
             return redirect('dashboard:list-books')

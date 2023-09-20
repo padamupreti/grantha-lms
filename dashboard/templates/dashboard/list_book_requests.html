@@ -17,7 +17,11 @@
             {% for book_request in object_list %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
+                {% if book_request.book %}
                 <td>{{ book_request.book }}</td>
+                {% else %}
+                <td>N/A</td>
+                {% endif %}
                 <td>{{ book_request.member }}</td>
                 <td>{{ book_request.request_date }}</td>
                 <td>

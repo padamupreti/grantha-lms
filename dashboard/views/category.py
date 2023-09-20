@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 
-from .general import LibrarianView
+from .general import list_card_items, LibrarianView
 from ..mixins import EditMixin, DeleteMixin
 from ..models import Category
 
@@ -15,24 +15,7 @@ class CategoryCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_categories(request):
-    query_params = request.GET
-    p_category_name = query_params.get('query')
-
-    qs = Category.objects.all()
-    if p_category_name:
-        qs = qs.filter(name__icontains=p_category_name)
-
-    template_name = 'dashboard/category_cards.html'
-    if not request.user.is_anonymous and request.user.is_librarian:
-        template_name = 'dashboard/list_categories.html'
-
-    context = {
-        'object_list': qs,
-        'search_placeholder': 'Search by category name',
-        'query_text': p_category_name
-    }
-
-    return render(request, template_name, context)
+    return list_card_items(request, Category, 'dashboard/category_cards.html', 'dashboard/list_categories.html')
 
 
 class CategoryUpdateView(EditMixin, LibrarianView, UpdateView):

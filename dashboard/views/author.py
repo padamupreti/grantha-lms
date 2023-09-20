@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 
-from .general import LibrarianView
+from .general import list_card_items, LibrarianView
 from ..mixins import EditMixin, DeleteMixin
 from ..models import Author
 
@@ -15,24 +15,7 @@ class AuthorCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_authors(request):
-    query_params = request.GET
-    p_author_name = query_params.get('query')
-
-    qs = Author.objects.all()
-    if p_author_name:
-        qs = qs.filter(name__icontains=p_author_name)
-
-    template_name = 'dashboard/author_cards.html'
-    if not request.user.is_anonymous and request.user.is_librarian:
-        template_name = 'dashboard/list_authors.html'
-
-    context = {
-        'object_list': qs,
-        'search_placeholder': 'Search by author name',
-        'query_text': p_author_name
-    }
-
-    return render(request, template_name, context)
+    return list_card_items(request, Author, 'dashboard/author_cards.html', 'dashboard/list_authors.html')
 
 
 class AuthorUpdateView(EditMixin, LibrarianView, UpdateView):

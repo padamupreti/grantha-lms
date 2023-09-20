@@ -13,10 +13,12 @@ def login_or_register(request):
 
 def register_user(request, is_librarian):
     form = LMSUserCreationForm(request.POST or None)
+
     context = {
         'form': form,
         'user_type': 'Librarian' if is_librarian else 'Member'
     }
+
     if request.method == 'POST':
         if form.is_valid():
             new_user = form.save(commit=False)
@@ -24,6 +26,7 @@ def register_user(request, is_librarian):
             new_user.save()
             login(request, new_user)
             return redirect('dashboard:home')
+
     return render(request, 'authentication/register.html', context)
 
 
@@ -41,6 +44,7 @@ def register_member(request):
 def login_user(request):
     form = AuthenticationForm(data=request.POST or None)
     redirect_url = request.GET.get('next') or 'dashboard:home'
+
     if request.method == 'POST':
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -49,6 +53,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 return redirect(redirect_url)
+
     return render(request, 'authentication/login.html', {'form': form})
 
 

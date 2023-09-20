@@ -7,7 +7,6 @@ from ..models import Author, Publisher, Category, Book, BookAuthor, BookCategory
 class BookCreateForm(forms.Form):
     title = forms.CharField()
     quantity = forms.IntegerField(min_value=1)
-    # TODO add ISBN number validation
     isbn = forms.CharField(label='ISBN', required=False)
     authors = forms.ModelMultipleChoiceField(queryset=Author.objects.all(
     ), label='Authors (Hold Ctrl or Command to select multiple)')

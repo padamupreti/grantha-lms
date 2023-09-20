@@ -222,8 +222,13 @@
                 {% for fine in late_fines %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
+                    {% if fine.book_copy %}
                     <td>{{ fine.book_copy.book }}</td>
                     <td>{{ fine.book_copy.id }}</td>
+                    {% else %}
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    {% endif %}
                     <td>{{ fine.late_days }}</td>
                     <td>Rupees {{ fine.amount }}</td>
                     <td>{{ fine.fined_date }}</td>

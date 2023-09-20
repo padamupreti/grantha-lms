@@ -50,7 +50,7 @@ urlpatterns = [
     # Book Requests
     path('books/requests/', list_book_requests, name='book-requests'),
     path('books/requests/<int:pk>/', request_book, name='request-book'),
-    # Member Information (Report)
+    # Members
     path('members/', members_list, name='list-members'),
     path('members/<int:pk>/', member_info, name='member-detail'),
     path('members/<int:pk>/report/', member_report, name='member-report')

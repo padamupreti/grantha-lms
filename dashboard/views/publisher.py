@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 
-from .general import LibrarianView
+from .general import list_card_items, LibrarianView
 from ..mixins import EditMixin, DeleteMixin
 from ..models import Publisher
 
@@ -15,24 +15,7 @@ class PublisherCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_publishers(request):
-    query_params = request.GET
-    p_publisher_name = query_params.get('query')
-
-    qs = Publisher.objects.all()
-    if p_publisher_name:
-        qs = qs.filter(name__icontains=p_publisher_name)
-
-    template_name = 'dashboard/publisher_cards.html'
-    if not request.user.is_anonymous and request.user.is_librarian:
-        template_name = 'dashboard/list_publishers.html'
-
-    context = {
-        'object_list': qs,
-        'search_placeholder': 'Search by publisher name',
-        'query_text': p_publisher_name
-    }
-
-    return render(request, template_name, context)
+    return list_card_items(request, Publisher, 'dashboard/publisher_cards.html', 'dashboard/list_publishers.html')
 
 
 class PublisherUpdateView(EditMixin, LibrarianView, UpdateView):

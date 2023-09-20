@@ -5,8 +5,9 @@ from datetime import date
 
 from authentication.decorators import only_librarians
 
-from ..models import BookCopy, Issue, LateFine, Request
+from ..models import Issue, LateFine, Request
 from ..forms.issue_forms import IssueCreateForm
+from ..utils import add_is_due
 
 
 @login_required
@@ -47,10 +48,7 @@ def list_issues(request):
     if p_title:
         issues = issues.filter(book_copy__book__title__icontains=p_title)
 
-    for issue in issues:
-        issue.is_due = False
-        if issue.due_date <= date.today() and issue.returned_date is None:
-            issue.is_due = True
+    add_is_due(issues)
 
     context = {
         'issues': issues,
@@ -65,6 +63,7 @@ def list_issues(request):
 @only_librarians
 def return_issued_book(request, pk):
     issue = get_object_or_404(Issue, id=pk)
+
     due_days = None
     due_date = issue.due_date
     today = date.today()
@@ -94,6 +93,7 @@ def return_issued_book(request, pk):
                 amount=fine_amount,
                 fined_date=today
             )
+
         issue.book_copy.is_available = True
         issue.book_copy.save()
         issue.returned_date = today

@@ -37,6 +37,7 @@ def members_list(request):
 def member_info(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
+
     context = get_member_context(request, member)
 
     return render(request, 'dashboard/member_detail.html', context)
@@ -47,9 +48,9 @@ def member_info(request, pk):
 def member_report(request, pk):
     qs = LMSUser.objects.filter(is_superuser=False, is_librarian=False)
     member = get_object_or_404(qs, id=pk)
+
     context = get_member_context(request, member)
     datetime_now = datetime.now()
-
     context.update({
         'now': datetime_now,
     })

@@ -8,7 +8,7 @@ class EditMixin(LoginRequiredMixin):
 
     def get_context_data(self, item_type, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["item_type"] = item_type
+        context['item_type'] = item_type
         return context
 
 

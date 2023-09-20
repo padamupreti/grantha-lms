@@ -6,12 +6,12 @@
     <div class="col">
         <div class="card border-dark h-100 position-relative">
             <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">{{ all_titles }}</h5>
+                <h5 class="card-title fs-3 fw-bold">{{ total_books_count }}</h5>
                 <p class="card-text fs-5">Titles</p>
             </div>
             <span
                 class="position-absolute top-0 start-50 translate-middle badge text-bg-success rounded-pill"
-                >{{ available_titles }} available</span
+                >{{ available_books_count }} available</span
             >
         </div>
     </div>
@@ -30,9 +30,7 @@
     <div class="col">
         <div class="card border-dark h-100">
             <div class="card-body text-center">
-                <h5 class="card-title fs-3 fw-bold">
-                    {{ pending_requests_count }}
-                </h5>
+                <h5 class="card-title fs-3 fw-bold">{{ requests_count }}</h5>
                 <p class="card-text fs-5">Pending Requests</p>
             </div>
         </div>
@@ -100,7 +98,7 @@
 
 <!-- Pending Requests -->
 <h2 class="my-3">Pending Requests</h2>
-{% if pending_requests %}
+{% if requests %}
 <p>Top pending book requests sorted by request date:</p>
 <div class="table-responsive text-nowrap">
     <table class="table table-striped">
@@ -114,7 +112,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for req in pending_requests %}
+            {% for req in requests %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ req.book }}</td>
