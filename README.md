@@ -4,7 +4,7 @@
 
 Library Management System built with [Django](https://www.djangoproject.com/ 'Django Website'). Uses
 [Bootstrap](https://getbootstrap.com/ 'Bootstrap Website') and
-[Font Awesome Icons](fontawesome.com/ 'Font Awesome Website').
+[Font Awesome Icons](https://fontawesome.com/icons 'Font Awesome Website').
 
 ## Requirements
 
