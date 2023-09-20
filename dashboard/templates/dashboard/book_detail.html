@@ -22,12 +22,12 @@
         </div>
         <hr />
         <div class="row">
-            <div class="col-sm-3 fw-bold">Authors</div>
+            <div class="col-sm-3 fw-bold">Author(s)</div>
             <div class="col-sm-9 text-secondary">
                 {% if authors %}
-                <!-- display authors joined by comma -->
+                <!-- Display authors joined by comma -->
                 {{ authors|join:', ' }} {% else %}
-                <!-- display not available -->
+                <!-- Display not available -->
                 None {% endif %}
             </div>
         </div>
@@ -36,16 +36,25 @@
             <div class="col-sm-3 fw-bold">Categories</div>
             <div class="col-sm-9 text-secondary">
                 {% if categories %}
-                <!-- display categories joined by comma -->
+                <!-- Display categories joined by comma -->
                 {{ categories|join:', ' }} {% else %}
-                <!-- display not available -->
+                <!-- Display not available -->
                 None {% endif %}
             </div>
         </div>
     </div>
 </div>
-{% if not user.is_librarian and not is_requested and is_available %}
+{% if user.is_authenticated %} {% if user.is_librarian %}
+<a
+    href="{% url 'dashboard:update-book' book.id %}"
+    class="btn btn-success mt-3 me-3"
+    ><i class="fa fa-pen-to-square"></i> Edit</a
+>
+<a href="{% url 'dashboard:delete-book' book.id %}" class="btn btn-danger mt-3"
+    ><i class="fa fa-trash"></i> Delete</a
+>
+{% elif not is_requested and is_available %}
 <a href="{% url 'dashboard:request-book' book.id %}" class="btn btn-dark mt-3"
     >Request book</a
 >
-{% endif %} {% endblock %}
+{% endif %} {% endif %} {% endblock %}
