@@ -20,7 +20,7 @@ class PublisherCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_publishers(request):
-    return list_card_items(request, Publisher, 'dashboard/publisher_cards.html', 'dashboard/list_publishers.html')
+    return list_card_items(request, Publisher, 'dashboard/publisher_cards.html', 'dashboard/list_publishers.html', 'publisher')
 
 
 class PublisherUpdateView(EditMixin, LibrarianView, UpdateView):

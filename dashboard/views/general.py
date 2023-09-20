@@ -74,7 +74,7 @@ def home(request):
     return member_home(request, context)
 
 
-def list_card_items(request, model, cards_template, list_template):
+def list_card_items(request, model, cards_template, list_template, model_name):
     query_params = request.GET
     p_name = query_params.get('query')
 
@@ -88,7 +88,7 @@ def list_card_items(request, model, cards_template, list_template):
 
     context = {
         'object_list': qs,
-        'search_placeholder': 'Search by category name',
+        'search_placeholder': f'Search by {model_name} name',
         'query_text': p_name
     }
 

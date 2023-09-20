@@ -20,7 +20,7 @@ class CategoryCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_categories(request):
-    return list_card_items(request, Category, 'dashboard/category_cards.html', 'dashboard/list_categories.html')
+    return list_card_items(request, Category, 'dashboard/category_cards.html', 'dashboard/list_categories.html', 'category')
 
 
 class CategoryUpdateView(EditMixin, LibrarianView, UpdateView):

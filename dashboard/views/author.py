@@ -20,7 +20,7 @@ class AuthorCreateView(EditMixin, LibrarianView, CreateView):
 
 
 def list_authors(request):
-    return list_card_items(request, Author, 'dashboard/author_cards.html', 'dashboard/list_authors.html')
+    return list_card_items(request, Author, 'dashboard/author_cards.html', 'dashboard/list_authors.html', 'author')
 
 
 class AuthorUpdateView(EditMixin, LibrarianView, UpdateView):
