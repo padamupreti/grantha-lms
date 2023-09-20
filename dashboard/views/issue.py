@@ -17,7 +17,12 @@ def issue_book(request):
     book_request = None
     book_request_id = request.GET.get('rid', None)
     if book_request_id:
-        book_request = Request.objects.get(id=book_request_id)
+        qs = Request.objects.filter(is_fulfilled=False)
+        try:
+            book_request = get_object_or_404(qs, id=book_request_id)
+        except ValueError:
+            messages.error(request, f'Invalid rid {book_request_id}.')
+            return redirect('dashboard:list-issues')
 
     if request.method == 'GET':
         form = IssueCreateForm(
