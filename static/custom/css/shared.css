@@ -2,6 +2,11 @@ nav {
     height: 4rem;
 }
 
+#grantha-logo {
+    height: 50px;
+    width: auto;
+}
+
 .sidebar {
     position: fixed;
 }

@@ -1,4 +1,4 @@
-{% if not request.path == '/' %}
+{% load static %} {% if not request.path == '/' %}
 <nav class="navbar navbar-dark bg-dark sticky-top">
     <div class="container-fluid position-relative">
         <button
@@ -13,8 +13,11 @@
         <a
             class="navbar-brand w-100 text-center fs-4 me-0"
             href="{% url 'dashboard:home' %}"
-            ><i class="fa fa-book-open"></i> Grantha LMS</a
-        >
+            ><img
+                src="{% static 'custom/images/grantha.svg' %}"
+                alt="grantha-logo"
+                id="grantha-logo"
+        /></a>
     </div>
 </nav>
 {% endif %}
