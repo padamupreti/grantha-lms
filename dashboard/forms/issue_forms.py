@@ -16,7 +16,7 @@ def get_unique_book_choices():
 
 
 class IssueCreateForm(forms.Form):
-    book = forms.ChoiceField(choices=get_unique_book_choices())
+    book = forms.ChoiceField(choices=get_unique_book_choices)
     author = forms.ModelChoiceField(queryset=Author.objects.all())
     member = forms.ModelChoiceField(
         queryset=LMSUser.objects.filter(is_superuser=False, is_librarian=False))
