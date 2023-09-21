@@ -21,7 +21,8 @@ class IssueCreateForm(forms.Form):
     member = forms.ModelChoiceField(
         queryset=LMSUser.objects.filter(is_superuser=False, is_librarian=False))
     issue_date = forms.DateField(initial=date.today(), disabled=True)
-    due_date = forms.DateField(initial=date.today() + timedelta(days=5))
+    due_date = forms.DateField(initial=date.today(
+    ) + timedelta(days=5), label='Due date (YYYY-MM-DD)')
     late_fine_rate = forms.DecimalField(
         initial=1.0, min_value=1.0, label='Late fine rate (Rupees per due day)')
 

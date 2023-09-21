@@ -9,7 +9,8 @@ class Author(models.Model):
     contact_no = models.CharField(max_length=12, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
-    date_of_birth = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(
+        blank=True, null=True, verbose_name='Date of birth (YYYY-MM-DD)')
 
     def __str__(self):
         return self.name
