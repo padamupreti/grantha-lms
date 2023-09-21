@@ -24,7 +24,7 @@ class IssueCreateForm(forms.Form):
     due_date = forms.DateField(initial=date.today(
     ) + timedelta(days=5), label='Due date (YYYY-MM-DD)')
     late_fine_rate = forms.DecimalField(
-        initial=1.0, min_value=1.0, label='Late fine rate (Rupees per due day)')
+        initial=1.0, min_value=1.0, label='Late fine rate (Rs. per due day)')
 
     def clean_member(self):
         member = self.cleaned_data['member']
