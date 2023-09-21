@@ -25,7 +25,7 @@ def get_member_context(request, member):
     encoded_qr = get_encoded_member_qr(request.get_host(), member)
 
     issues = Issue.objects.filter(
-        member=member).order_by('returned_date')
+        member=member).order_by('due_date')
     add_is_due(issues)
     requests = Request.objects.filter(member=member).order_by('is_fulfilled')
     late_fines = LateFine.objects.filter(member=member).order_by('-fined_date')

@@ -12,7 +12,7 @@ def member_home(request, shared_context):
     context = shared_context
 
     issues = Issue.objects.filter(
-        member=request.user, returned_date=None).order_by('returned_date')
+        member=request.user, returned_date=None).order_by('due_date')
     add_is_due(issues)
     requests = Request.objects.filter(
         member=request.user, is_fulfilled=False)
@@ -32,7 +32,7 @@ def librarian_home(request, shared_context):
     context = shared_context
 
     issues = Issue.objects.filter(
-        returned_date=None).order_by('returned_date')
+        returned_date=None).order_by('due_date')
     add_is_due(issues)
     overdue_count = issues.filter(
         due_date__lte=date.today()).count()

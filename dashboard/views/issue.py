@@ -50,7 +50,7 @@ def list_issues(request):
     query_params = request.GET
     p_title = query_params.get('query')
 
-    issues = Issue.objects.order_by('returned_date')
+    issues = Issue.objects.order_by('due_date')
     if p_title:
         issues = issues.filter(book_copy__book__title__icontains=p_title)
 
