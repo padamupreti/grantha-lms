@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
 
-from datetime import date
+from datetime import date, timedelta
+from secrets import choice
 
-from ..models import Book, BookCopy, Issue, Request, LateFine
-from ..utils import add_is_due
+from authentication.decorators import exclude_librarians
+
+from ..models import Book, BookCopy, Issue, Request, LateFine, Category, BookCategory
+from ..utils import add_is_due, add_book_attributes
 
 
 def member_home(request, shared_context):
@@ -50,9 +53,39 @@ def librarian_home(request, shared_context):
     return render(request, 'dashboard/librarian_home.html', context)
 
 
+@exclude_librarians
+def browse_books(request):
+    seven_d_before = date.today() - timedelta(days=7)
+    latest_issues = Issue.objects.filter(issue_date__gte=seven_d_before)
+    books = [i.book_copy.book for i in latest_issues if i.book_copy]
+    unique_books = list(set(books))
+    for b in unique_books:
+        add_book_attributes(b, request)
+        b.issues_count = latest_issues.filter(book_copy__book__id=b.id).count()
+    unique_books.sort(key=lambda b: b.issues_count, reverse=True)
+
+    categories = Category.objects.all()
+    random_category = choice(categories)
+    categories = categories.exclude(id=random_category.id)
+
+    book_category_rels = BookCategory.objects.filter(category=random_category)
+    category_books = [bc.book for bc in book_category_rels]
+    for b in category_books:
+        add_book_attributes(b, request)
+
+    context = {
+        'popular_books': unique_books[:5],
+        'random_category': random_category,
+        'category_books': category_books[:5],
+        'categories': categories[:5]
+    }
+
+    return render(request, 'dashboard/browse.html', context)
+
+
 def home(request):
     if not request.user.is_authenticated:
-        return redirect('dashboard:list-books')
+        return redirect('dashboard:browse')
 
     books = Book.objects.all()
     total_books_count = books.count()

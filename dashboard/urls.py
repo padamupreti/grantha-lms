@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.general import home
+from .views.general import home, browse_books
 from .views.author import AuthorCreateView, list_authors, AuthorUpdateView, delete_author
 from .views.publisher import PublisherCreateView, list_publishers, PublisherUpdateView, delete_publisher
 from .views.category import CategoryCreateView, list_categories, CategoryUpdateView, delete_category
@@ -14,6 +14,7 @@ app_name = 'dashboard'
 urlpatterns = [
     # Dashboard home
     path('home/', home, name='home'),
+    path('browse/', browse_books, name='browse'),
     # Authors
     path('authors/', list_authors, name='list-authors'),
     path('authors/new/', AuthorCreateView.as_view(), name='create-author'),

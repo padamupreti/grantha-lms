@@ -8,7 +8,7 @@ from authentication.decorators import only_librarians
 
 from ..models import Book, BookAuthor, BookCategory, BookCopy
 from ..forms.book_forms import BookCreateForm, BookUpdateForm
-from ..utils import has_pending_requests
+from ..utils import has_pending_requests, add_book_attributes
 
 
 @login_required
@@ -58,20 +58,7 @@ def list_books(request):
     # Add additional attributes to books in queryset
     books = []
     for book in qs:
-        all_copies = BookCopy.objects.filter(book=book)
-        book.all_copies = all_copies.count()
-        book.available_copies = all_copies.filter(is_available=True).count()
-
-        book_author_rels = BookAuthor.objects.filter(
-            book=book).select_related('author')
-        ba_rel = book_author_rels.first()
-        book.author = ba_rel.author if ba_rel is not None else None
-        book.multi_authors = True if book_author_rels.count() > 1 else False
-
-        book.is_requested = False
-        if request.user.is_authenticated:
-            book.is_requested = has_pending_requests(book, request.user)
-
+        add_book_attributes(book, request)
         books.append(book)
 
     context = {

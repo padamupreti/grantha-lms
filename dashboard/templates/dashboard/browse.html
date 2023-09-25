@@ -1,0 +1,145 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Popular books -->
+<h2 class="my-3">Popular books</h2>
+<div class="table-responsive text-nowrap">
+    <p>Most popular books ranked by issues made in the last 7 days:</p>
+    {% if popular_books %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author(s)</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in popular_books %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ book.title }}</td>
+                <td>
+                    {{ book.author }} {% if book.multi_a %} et al. {% endif %}
+                </td>
+                <td>
+                    {% if book.isbn %} {{ book.isbn }} {% else %} 0 {% endif %}
+                </td>
+                <td>{{ book.publisher }}</td>
+                <td>
+                    {% if book.is_requested %}
+                    <span class="badge rounded-pill text-bg-warning"
+                        >Requested</span
+                    >
+                    {% elif book.available_copies > 0 %}
+                    <span class="badge rounded-pill text-bg-success"
+                        >Available</span
+                    >
+                    {% else %}
+                    <span class="badge rounded-pill text-bg-danger"
+                        >Not Available</span
+                    >
+                    {% endif %}
+                </td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:book-detail' book.id %}"
+                        class="btn btn-primary btn-sm"
+                        ><i class="fa fa-circle-info"></i> Info</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a
+        class="btn btn-dark"
+        href="{% url 'dashboard:list-books' %}"
+        role="button"
+        >More books <i class="fa fa-arrow-right"></i
+    ></a>
+    {% else %}
+    <p>Sorry, no books found.</p>
+    {% endif %}
+</div>
+
+<!-- Books on a random category -->
+<h2 class="my-3">Books on {{ random_category }}</h2>
+<div class="table-responsive text-nowrap">
+    {% if category_books %}
+    <p>Some books on topic of {{ random_category }}:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author(s)</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in category_books %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ book.title }}</td>
+                <td>
+                    {{ book.author }} {% if book.multi_a %} et al. {% endif %}
+                </td>
+                <td>
+                    {% if book.isbn %} {{ book.isbn }} {% else %} 0 {% endif %}
+                </td>
+                <td>{{ book.publisher }}</td>
+                <td>
+                    {% if book.is_requested %}
+                    <span class="badge rounded-pill text-bg-warning"
+                        >Requested</span
+                    >
+                    {% elif book.available_copies > 0 %}
+                    <span class="badge rounded-pill text-bg-success"
+                        >Available</span
+                    >
+                    {% else %}
+                    <span class="badge rounded-pill text-bg-danger"
+                        >Not Available</span
+                    >
+                    {% endif %}
+                </td>
+                <td>
+                    <a
+                        href="{% url 'dashboard:book-detail' book.id %}"
+                        class="btn btn-primary btn-sm"
+                        ><i class="fa fa-circle-info"></i> Info</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a
+        class="btn btn-dark"
+        href="{% url 'dashboard:list-books' %}?filter=category&query={{ random_category }}"
+        role="button"
+        >More books <i class="fa fa-arrow-right"></i
+    ></a>
+    {% else %}
+    <p>Sorry, no books found.</p>
+    {% endif %}
+</div>
+
+<!-- Additional Categories -->
+<h2 class="my-3">More Categories</h2>
+{% if categories %} {% for category in categories %}
+<a
+    href="{% url 'dashboard:list-books' %}?filter=category&query={{ category }}"
+    class="btn btn-dark me-2"
+>
+    <i class="fa fa-tag"></i> {{ category }}
+</a>
+{% endfor %} {% else %}
+<p>Sorry, no categories found.</p>
+{% endif %} {% endblock %}
