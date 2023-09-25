@@ -65,13 +65,17 @@ def browse_books(request):
     unique_books.sort(key=lambda b: b.issues_count, reverse=True)
 
     categories = Category.objects.all()
-    random_category = choice(categories)
-    categories = categories.exclude(id=random_category.id)
+    random_category = None
+    category_books = []
+    if categories:
+        random_category = choice(categories)
+        categories = categories.exclude(id=random_category.id)
 
-    book_category_rels = BookCategory.objects.filter(category=random_category)
-    category_books = [bc.book for bc in book_category_rels]
-    for b in category_books:
-        add_book_attributes(b, request)
+        book_category_rels = BookCategory.objects.filter(
+            category=random_category)
+        category_books = [bc.book for bc in book_category_rels]
+        for b in category_books:
+            add_book_attributes(b, request)
 
     context = {
         'popular_books': unique_books[:5],

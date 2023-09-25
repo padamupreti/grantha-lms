@@ -2,8 +2,8 @@
 <!-- Popular books -->
 <h2 class="my-3">Popular books</h2>
 <div class="table-responsive text-nowrap">
-    <p>Most popular books ranked by issues made in the last 7 days:</p>
     {% if popular_books %}
+    <p>Most popular books ranked by issues made in the last 7 days:</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -65,6 +65,7 @@
     {% endif %}
 </div>
 
+{% if random_category %}
 <!-- Books on a random category -->
 <h2 class="my-3">Books on {{ random_category }}</h2>
 <div class="table-responsive text-nowrap">
@@ -142,4 +143,4 @@
 </a>
 {% endfor %} {% else %}
 <p>Sorry, no categories found.</p>
-{% endif %} {% endblock %}
+{% endif %} {% endif %} {% endblock %}
