@@ -27,9 +27,7 @@
         <link rel="stylesheet" href="{% static 'custom/css/messages.css' %}" />
     </head>
     <body>
-        {% if 'auth/' not in request.path %}
-        <!-- comment to ensure proper formatting -->
-        {% include 'navbar.html' %} {% endif %}
+        {% include 'navbar.html' %}
         <div class="d-flex">
             {% include 'sidebar.html' %}
             <div class="container mb-4" id="content-div">

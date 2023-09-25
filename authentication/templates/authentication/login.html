@@ -1,32 +1,68 @@
-{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
-<div class="row my-5">
-    <div class="col col-md-8">
-        <div class="border border-dark rounded">
-            <h2 class="text-white bg-dark px-3 py-4 mb-3">User Login</h2>
-            <div class="px-4">
-                <form method="post" class="mb-3">
-                    {% csrf_token %} {{ form|crispy }}
-                    <button type="submit" class="btn btn-dark mx-auto">
-                        Login
-                    </button>
-                </form>
-                <p>
-                    No account? You can
-                    <a
-                        href="{% url 'authentication:register-librarian' %}"
-                        class="link-dark"
-                        >Register as Librarian</a
-                    >
-                    or
-                    <a
-                        href="{% url 'authentication:register-member' %}"
-                        class="link-dark"
-                        >Register as Member</a
-                    >
-                    of the library.
-                </p>
+{% load static %} {% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grantha LMS | Login</title>
+        <link
+            rel="icon"
+            type="image/png"
+            href="{% static 'custom/images/favicon.ico' %}"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'bootstrap-5.3.0-dist/css/bootstrap.min.css' %}"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'fontawesomefree/css/fontawesome.css' %}"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'fontawesomefree/css/solid.css' %}"
+        />
+        <link rel="stylesheet" href="{% static 'custom/css/shared.css' %}" />
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="container mb-4">
+            <div class="row my-5">
+                <div class="col col-md-8 mx-auto">
+                    <div class="border border-dark rounded">
+                        <h2 class="text-white bg-dark px-3 py-4 mb-3">
+                            <i class="fa fa-user"></i> User Login
+                        </h2>
+                        <div class="px-4">
+                            <form method="post" class="mb-3">
+                                {% csrf_token %} {{ form|crispy }}
+                                <button
+                                    type="submit"
+                                    class="btn btn-dark mx-auto"
+                                >
+                                    Login
+                                </button>
+                            </form>
+                            <p>
+                                No account? You can
+                                <a
+                                    href="{% url 'authentication:register-librarian' %}"
+                                    class="link-dark"
+                                    >Register as Librarian</a
+                                >
+                                or
+                                <a
+                                    href="{% url 'authentication:register-member' %}"
+                                    class="link-dark"
+                                    >Register as Member</a
+                                >
+                                of the library.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-{% endblock %}
+    </body>
+</html>
