@@ -21,11 +21,12 @@
         {% if not user.is_authenticated %}
         <!-- Include general nav items -->
         {% include 'member_navitems.html' %}
-        <ul class="nav nav-pills mt-auto">
+        <hr class="mt-auto mb-0" />
+        <ul class="nav nav-pills py-2">
             <li class="nav-item">
                 <a
                     href="{% url 'login-or-register' %}"
-                    class="nav-link text-white"
+                    class="nav-link text-light"
                 >
                     <i class="fa fa-right-to-bracket"></i>
                     Login/Register
@@ -39,11 +40,12 @@
         {% include 'librarian_navitems.html' %} {% else %}
         <!-- Include member nav items -->
         {% include 'member_navitems.html' %} {% endif %}
-        <ul class="nav nav-pills mt-auto">
+        <hr class="mt-auto mb-0" />
+        <ul class="nav nav-pills py-2">
             <li class="nav-item">
                 <a
                     href="{% url 'authentication:logout' %}"
-                    class="nav-link text-white"
+                    class="nav-link text-light"
                 >
                     <i class="fa fa-right-from-bracket"></i>
                     Logout
